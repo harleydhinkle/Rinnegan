@@ -1,0 +1,20 @@
+{
+  "_fv": 18,
+  "_type": "overlay",
+  "definition": {
+    "priority": "NORMAL",
+    "components": [
+      {
+        "type": "image",
+        "data": {
+          "image": "player_card_final.png",
+          "use1Xscale": true,
+          "name": "player_card_final.png",
+          "x": 109,
+          "y": -17
+        }
+      }
+    ],
+    "baseTexture": "black_trans.png"
+  }
+}
