@@ -21,7 +21,7 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
     public static final Item block = null;
 
     public ItemBloodRelease(ElementsNarutomodMod instance) {
-        super(instance, 999); // OK for now
+        super(instance, 999); // ID for Blood Release
     }
 
     /*
@@ -87,20 +87,22 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
 
     public static class ItemCustom extends ItemJutsu.Base {
 
+        private final ItemJutsu.JutsuEnum[] myJutsuList;
+
         public ItemCustom(ItemJutsu.JutsuEnum... list) {
             super(ItemJutsu.JutsuEnum.Type.BLOOD, list);
             this.setUnlocalizedName("blood_release");
+            this.myJutsuList = list; // store locally for access
         }
 
         /**
          * Unlock jutsu permanently when the item is obtained
          */
         @Override
-        public boolean onCreated(ItemStack stack, World world, EntityPlayer player) {
-            for (ItemJutsu.JutsuEnum j : jutsuList) {
-                ItemJutsu.unlockJutsu(player, j); // Unlock permanently
+        public void onCreated(ItemStack stack, World world, EntityPlayer player) {
+            for (ItemJutsu.JutsuEnum j : myJutsuList) {
+                ItemJutsu.unlockJutsu(player, j); // unlocks permanently
             }
-            return super.onCreated(stack, world, player);
         }
 
         /**
@@ -109,7 +111,7 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
         @Override
         public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean held) {
             super.onUpdate(stack, world, entity, slot, held);
-            // Locking logic removed
+            // locking logic removed
         }
     }
 }
