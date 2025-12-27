@@ -81,7 +81,7 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
     /*
      * ======================
      * BLOOD RELEASE ITEM
-     * (Grants jutsu automatically - C-2 mode)
+     * (Grants jutsu automatically and permanently)
      * ======================
      */
 
@@ -93,36 +93,23 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
         }
 
         /**
-         * When crafted / obtained -> unlock jutsu
+         * Unlock jutsu permanently when the item is obtained
          */
         @Override
         public boolean onCreated(ItemStack stack, World world, EntityPlayer player) {
             for (ItemJutsu.JutsuEnum j : jutsuList) {
-                ItemJutsu.unlockJutsu(player, j);
+                ItemJutsu.unlockJutsu(player, j); // Unlock permanently
             }
             return super.onCreated(stack, world, player);
         }
 
         /**
-         * Jutsu remains unlocked ONLY while item is in inventory
-         * (C-2 requirement)
+         * No need for onUpdate lock/unlock
          */
         @Override
         public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean held) {
             super.onUpdate(stack, world, entity, slot, held);
-
-            if (!world.isRemote && entity instanceof EntityPlayer) {
-                EntityPlayer player = (EntityPlayer) entity;
-                boolean hasItem = player.inventory.hasItemStack(stack);
-
-                for (ItemJutsu.JutsuEnum j : jutsuList) {
-                    if (hasItem) {
-                        ItemJutsu.unlockJutsu(player, j);
-                    } else {
-                        ItemJutsu.lockJutsu(player, j);
-                    }
-                }
-            }
+            // Locking logic removed
         }
     }
 }
