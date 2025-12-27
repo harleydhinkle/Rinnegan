@@ -175,7 +175,7 @@ public class EntityBloodSiphonChains extends ElementsNarutomodMod.ModElement {
 		@SideOnly(Side.CLIENT)
 		public class CustomRender extends EntityBeamBase.Renderer<EC> {
 			private final ResourceLocation texture =
-				new ResourceLocation("narutomod:textures/chainlink_gold.png"); // swap to red png later
+				new ResourceLocation("narutomod:textures/chainlink_blood.png"); // swap to red png later
 
 			public CustomRender(RenderManager renderManager) {
 				super(renderManager);
