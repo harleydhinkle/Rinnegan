@@ -28,8 +28,7 @@ import javax.annotation.Nullable;
 
 @ElementsNarutomodMod.ModElement.Tag
 public class EntityBloodSiphonChains extends ElementsNarutomodMod.ModElement {
-
-	// ===== SAFE UNIQUE IDS =====
+	// === SAFE UNIQUE IDS ===
 	public static final int ENTITYID = 940;
 	public static final int ENTITYID_RANGED = 941;
 
@@ -50,20 +49,15 @@ public class EntityBloodSiphonChains extends ElementsNarutomodMod.ModElement {
 	}
 
 	public static class EC extends EntityBeamBase.Base implements ItemJutsu.IJutsu {
-
-		private static final DataParameter<Integer> TARGET_ID =
-			EntityDataManager.createKey(EC.class, DataSerializers.VARINT);
-		private static final DataParameter<Float> TARGET_OFFX =
-			EntityDataManager.createKey(EC.class, DataSerializers.FLOAT);
-		private static final DataParameter<Float> TARGET_OFFY =
-			EntityDataManager.createKey(EC.class, DataSerializers.FLOAT);
-		private static final DataParameter<Float> TARGET_OFFZ =
-			EntityDataManager.createKey(EC.class, DataSerializers.FLOAT);
+		private static final DataParameter<Integer> TARGET_ID = EntityDataManager.createKey(EC.class, DataSerializers.VARINT);
+		private static final DataParameter<Float> TARGET_OFFX = EntityDataManager.createKey(EC.class, DataSerializers.FLOAT);
+		private static final DataParameter<Float> TARGET_OFFY = EntityDataManager.createKey(EC.class, DataSerializers.FLOAT);
+		private static final DataParameter<Float> TARGET_OFFZ = EntityDataManager.createKey(EC.class, DataSerializers.FLOAT);
 
 		private double initialDistance;
 		private int slowAmplifier;
-		private int retractTime = -1;
-		private final double baseChakraDrainOnTarget = 10.0d;
+		private final double chakraDrainPerTick = 10.0d;
+		private int expireTime = 400; // 20 seconds (400 ticks)
 
 		public EC(World worldIn) {
 			super(worldIn);
@@ -118,34 +112,32 @@ public class EntityBloodSiphonChains extends ElementsNarutomodMod.ModElement {
 			super.onUpdate();
 			EntityLivingBase target = this.getTarget();
 
-			// === TERMINATION CHECK ===
+			// Kill instantly if shooter or target invalid
 			if (this.shootingEntity == null || target == null || !target.isEntityAlive()) {
 				if (!this.world.isRemote) this.setDead();
 				return;
 			}
 
-			// === CHAIN EFFECTS ===
+			// Expire after 20 seconds (400 ticks)
+			if (this.ticksExisted > expireTime && !this.world.isRemote) {
+				this.setDead();
+				return;
+			}
+
+			// Every second (20 ticks)
 			if (this.ticksExisted % 20 == 0) {
+				// Slow effect
+				target.addPotionEffect(new PotionEffect(PotionHeaviness.potion, 22, this.slowAmplifier));
+				// Chakra drain
+				Chakra.pathway(target).consume(this.chakraDrainPerTick);
 
-				// Slow target
-				target.addPotionEffect(
-					new PotionEffect(PotionHeaviness.potion, 22, this.slowAmplifier)
-				);
+				// Damage & heal
+				float damage = 4.0f;      // === 2 hearts per sec ===
+				float healAmount = 2.0f;  // === heal user 1 heart per sec ===
 
-				// Chakra drain over time
-				Chakra.pathway(target).consume(this.baseChakraDrainOnTarget);
+				target.attackEntityFrom(net.minecraft.util.DamageSource.causeIndirectDamage(this, this.getShooter()), damage);
 
-				// BLOOD DAMAGE + HEAL USER
-				float damage = 2.0f; // 1 heart
-				float healPercent = 0.50f; // 50%
-				float healAmount = damage * healPercent;
-
-				boolean damaged = target.attackEntityFrom(
-					net.minecraft.util.DamageSource.causeIndirectDamage(this, this.getShooter()),
-					damage
-				);
-
-				if (damaged && this.getShooter() instanceof EntityLivingBase) {
+				if (this.getShooter() instanceof EntityLivingBase) {
 					((EntityLivingBase)this.getShooter()).heal(healAmount);
 				}
 			}
@@ -183,7 +175,7 @@ public class EntityBloodSiphonChains extends ElementsNarutomodMod.ModElement {
 		@SideOnly(Side.CLIENT)
 		public class CustomRender extends EntityBeamBase.Renderer<EC> {
 			private final ResourceLocation texture =
-				new ResourceLocation("narutomod:textures/chainlink_gold.png");
+				new ResourceLocation("narutomod:textures/chainlink_gold.png"); // swap to red png later
 
 			public CustomRender(RenderManager renderManager) {
 				super(renderManager);
