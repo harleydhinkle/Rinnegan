@@ -101,7 +101,7 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
         @Override
         public void onCreated(ItemStack stack, World world, EntityPlayer player) {
             for (ItemJutsu.JutsuEnum j : myJutsuList) {
-                ItemJutsu.unlockJutsu(player, j); // unlocks permanently
+                this.unlockJutsu(player, j); // use Base instance method
             }
         }
 
