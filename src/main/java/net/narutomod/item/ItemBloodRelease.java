@@ -3,23 +3,13 @@ package net.narutomod.item;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
 import net.minecraft.item.Item;
-import net.narutomod.creativetab.TabModTab;
+
 import net.narutomod.ElementsNarutomodMod;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 
 import net.narutomod.entity.EntityBloodDragon;
 import net.narutomod.entity.EntityBloodPrison;
 import net.narutomod.entity.EntityHidingInBloodMist;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-
-
+import net.narutomod.entity.EntityBloodSiphonChains; 
 
 @ElementsNarutomodMod.ModElement.Tag
 public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
@@ -28,7 +18,7 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
     public static final Item block = null;
 
     public ItemBloodRelease(ElementsNarutomodMod instance) {
-        super(instance, 999); // change ID later if needed
+        super(instance, 999); // OK for now
     }
 
     /*
@@ -36,12 +26,6 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
      * BLOOD RELEASE JUTSU
      * ======================
      */
-     @Override
-	@SideOnly(Side.CLIENT)
-	public void registerModels(ModelRegistryEvent event) {
-		ModelLoader.setCustomModelResourceLocation(block, 0, new ModelResourceLocation("narutomod:blood_release", "inventory"));
-	}
-
 
     public static final ItemJutsu.JutsuEnum BLOODDRAGON =
         new ItemJutsu.JutsuEnum(
@@ -70,13 +54,24 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
             new EntityHidingInBloodMist.EC.Jutsu()
         );
 
+    
+    public static final ItemJutsu.JutsuEnum BLOODSIPHONCHAINS =
+        new ItemJutsu.JutsuEnum(
+            3, 
+            "blood_siphon_chains",
+            'A',
+            100d,
+            new EntityBloodSiphonChains.EC.Jutsu()
+        );
+
     @Override
     public void initElements() {
         this.elements.items.add(() ->
             new ItemCustom(
                 BLOODDRAGON,
                 BLOODPRISON,
-                HIDINGINBLOODMIST
+                HIDINGINBLOODMIST,
+                BLOODSIPHONCHAINS 
             ).setRegistryName("blood_release")
         );
     }
@@ -92,8 +87,6 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
         public ItemCustom(ItemJutsu.JutsuEnum... list) {
             super(ItemJutsu.JutsuEnum.Type.BLOOD, list);
             this.setUnlocalizedName("blood_release");
-            this.setCreativeTab(TabModTab.tab);
-            // Removed TabModTab reference
         }
     }
 }
