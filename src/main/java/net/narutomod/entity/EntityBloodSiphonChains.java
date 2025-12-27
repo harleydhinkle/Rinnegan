@@ -10,20 +10,13 @@ import net.minecraft.world.World;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.item.ItemStack;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.potion.PotionEffect;
 
 import net.narutomod.potion.PotionHeaviness;
 import net.narutomod.procedure.ProcedureUtils;
@@ -36,12 +29,12 @@ import javax.annotation.Nullable;
 @ElementsNarutomodMod.ModElement.Tag
 public class EntityBloodSiphonChains extends ElementsNarutomodMod.ModElement {
 
-	// ✅ SAFE UNIQUE IDS
+	// ===== SAFE UNIQUE IDS =====
 	public static final int ENTITYID = 940;
 	public static final int ENTITYID_RANGED = 941;
 
 	public EntityBloodSiphonChains(ElementsNarutomodMod instance) {
-		super(instance, 940); // ✅ ModElement ID (safe + unique)
+		super(instance, 940);
 	}
 
 	@Override
@@ -125,15 +118,36 @@ public class EntityBloodSiphonChains extends ElementsNarutomodMod.ModElement {
 			super.onUpdate();
 			EntityLivingBase target = this.getTarget();
 
-			if (this.shootingEntity != null && target != null && target.isEntityAlive()) {
-				if (this.ticksExisted % 20 == 0) {
-					target.addPotionEffect(
-						new PotionEffect(PotionHeaviness.potion, 22, this.slowAmplifier)
-					);
-					Chakra.pathway(target).consume(this.baseChakraDrainOnTarget);
+			// === TERMINATION CHECK ===
+			if (this.shootingEntity == null || target == null || !target.isEntityAlive()) {
+				if (!this.world.isRemote) this.setDead();
+				return;
+			}
+
+			// === CHAIN EFFECTS ===
+			if (this.ticksExisted % 20 == 0) {
+
+				// Slow target
+				target.addPotionEffect(
+					new PotionEffect(PotionHeaviness.potion, 22, this.slowAmplifier)
+				);
+
+				// Chakra drain over time
+				Chakra.pathway(target).consume(this.baseChakraDrainOnTarget);
+
+				// BLOOD DAMAGE + HEAL USER
+				float damage = 2.0f; // 1 heart
+				float healPercent = 0.50f; // 50%
+				float healAmount = damage * healPercent;
+
+				boolean damaged = target.attackEntityFrom(
+					net.minecraft.util.DamageSource.causeIndirectDamage(this, this.getShooter()),
+					damage
+				);
+
+				if (damaged && this.getShooter() instanceof EntityLivingBase) {
+					((EntityLivingBase)this.getShooter()).heal(healAmount);
 				}
-			} else if (!this.world.isRemote) {
-				this.setDead();
 			}
 		}
 
@@ -157,7 +171,6 @@ public class EntityBloodSiphonChains extends ElementsNarutomodMod.ModElement {
 	}
 
 	public static class Renderer extends EntityRendererRegister {
-
 		@Override
 		@SideOnly(Side.CLIENT)
 		public void register() {
