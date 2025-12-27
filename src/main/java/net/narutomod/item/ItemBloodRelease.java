@@ -1,15 +1,18 @@
 package net.narutomod.item;
 
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
-
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 
 import net.narutomod.ElementsNarutomodMod;
-
+import net.narutomod.item.ItemJutsu;
 import net.narutomod.entity.EntityBloodDragon;
 import net.narutomod.entity.EntityBloodPrison;
 import net.narutomod.entity.EntityHidingInBloodMist;
-import net.narutomod.entity.EntityBloodSiphonChains; 
+import net.narutomod.entity.EntityBloodSiphonChains;
 
 @ElementsNarutomodMod.ModElement.Tag
 public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
@@ -54,10 +57,9 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
             new EntityHidingInBloodMist.EC.Jutsu()
         );
 
-    
     public static final ItemJutsu.JutsuEnum BLOODSIPHONCHAINS =
         new ItemJutsu.JutsuEnum(
-            3, 
+            3,
             "blood_siphon_chains",
             'A',
             100d,
@@ -71,7 +73,7 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
                 BLOODDRAGON,
                 BLOODPRISON,
                 HIDINGINBLOODMIST,
-                BLOODSIPHONCHAINS 
+                BLOODSIPHONCHAINS
             ).setRegistryName("blood_release")
         );
     }
@@ -79,6 +81,7 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
     /*
      * ======================
      * BLOOD RELEASE ITEM
+     * (Grants jutsu automatically - C-2 mode)
      * ======================
      */
 
@@ -87,6 +90,39 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
         public ItemCustom(ItemJutsu.JutsuEnum... list) {
             super(ItemJutsu.JutsuEnum.Type.BLOOD, list);
             this.setUnlocalizedName("blood_release");
+        }
+
+        /**
+         * When crafted / obtained -> unlock jutsu
+         */
+        @Override
+        public boolean onCreated(ItemStack stack, World world, EntityPlayer player) {
+            for (ItemJutsu.JutsuEnum j : jutsuList) {
+                ItemJutsu.unlockJutsu(player, j);
+            }
+            return super.onCreated(stack, world, player);
+        }
+
+        /**
+         * Jutsu remains unlocked ONLY while item is in inventory
+         * (C-2 requirement)
+         */
+        @Override
+        public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean held) {
+            super.onUpdate(stack, world, entity, slot, held);
+
+            if (!world.isRemote && entity instanceof EntityPlayer) {
+                EntityPlayer player = (EntityPlayer) entity;
+                boolean hasItem = player.inventory.hasItemStack(stack);
+
+                for (ItemJutsu.JutsuEnum j : jutsuList) {
+                    if (hasItem) {
+                        ItemJutsu.unlockJutsu(player, j);
+                    } else {
+                        ItemJutsu.lockJutsu(player, j);
+                    }
+                }
+            }
         }
     }
 }
