@@ -52,6 +52,8 @@ public class EntityHidingInBloodMist extends ElementsNarutomodMod.ModElement {
             this.setUser(userIn);
             this.setRange((float) rangeIn);
             this.setIdlePosition();
+
+            // User invisibility
             userIn.addPotionEffect(new PotionEffect(MobEffects.INVISIBILITY, this.maxLife, 0, false, false));
         }
 
@@ -93,9 +95,10 @@ public class EntityHidingInBloodMist extends ElementsNarutomodMod.ModElement {
 
         @Override
         public void onUpdate() {
-            // Update position to follow the user
+            // follow player
             this.setIdlePosition();
 
+            // client-side particles
             if (this.world.isRemote) {
                 EntityLivingBase user = this.getUser();
                 float range = this.getRange();
@@ -103,11 +106,27 @@ public class EntityHidingInBloodMist extends ElementsNarutomodMod.ModElement {
                     double offsetX = range * (this.rand.nextDouble() - 0.5d) * 0.1d;
                     double offsetY = (this.rand.nextDouble() - 0.5d) * range * 0.1d;
                     double offsetZ = (this.rand.nextDouble() - 0.5d) * 0.1d;
-
-                    // Spawn redstone particle to simulate blood mist
                     this.world.spawnParticle(EnumParticleTypes.REDSTONE,
                             this.posX + offsetX, this.posY + offsetY, this.posZ + offsetZ,
-                            1.0d, 0.0d, 0.0d); // RGB as motion vector for red
+                            1.0d, 0.0d, 0.0d);
+                }
+            }
+
+            // server logic
+            if (!this.world.isRemote) {
+                EntityLivingBase user = this.getUser();
+                float range = this.getRange();
+
+                // === 🔴 NEW: APPLY WITHER EFFECT TO ENEMIES INSIDE MIST ===
+                if (this.ticksExisted % 20 == 0) {
+                    for (EntityLivingBase entity : this.world.getEntitiesWithinAABB(EntityLivingBase.class,
+                        this.getEntityBoundingBox().grow(range))) {
+
+                        if (entity == user) continue; // don't hurt caster
+
+                        // Wither I (amplifier 0) — change to 1 if you want Wither II
+                        entity.addPotionEffect(new PotionEffect(MobEffects.WITHER, 40, 0));
+                    }
                 }
             }
 
@@ -117,14 +136,9 @@ public class EntityHidingInBloodMist extends ElementsNarutomodMod.ModElement {
         }
 
         @Override
-        protected void readEntityFromNBT(NBTTagCompound compound) {
-            // Optional: load data if needed
-        }
-
+        protected void readEntityFromNBT(NBTTagCompound compound) {}
         @Override
-        protected void writeEntityToNBT(NBTTagCompound compound) {
-            // Optional: save data if needed
-        }
+        protected void writeEntityToNBT(NBTTagCompound compound) {}
 
         public static class Jutsu implements ItemJutsu.IJutsuCallback {
             @Override
