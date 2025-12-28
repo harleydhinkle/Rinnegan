@@ -1,8 +1,5 @@
 package net.narutomod.item;
 
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
-
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraft.entity.Entity;
@@ -18,44 +15,46 @@ import net.narutomod.entity.EntityBloodSiphonChains;
 @ElementsNarutomodMod.ModElement.Tag
 public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
 
+    public static final ItemJutsu.JutsuEnum BLOODDRAGON = new ItemJutsu.JutsuEnum(902, 3, "blood_dragon", 'A', 100d, EntityBloodDragon.EC.Jutsu.INSTANCE);
+    public static final ItemJutsu.JutsuEnum BLOODPRISON = new ItemJutsu.JutsuEnum(903, 3, "blood_prison", 'A', 100d, EntityBloodPrison.EC.Jutsu.INSTANCE);
+    public static final ItemJutsu.JutsuEnum HIDINGINBLOODMIST = new ItemJutsu.JutsuEnum(904, 3, "hiding_in_blood_mist", 'A', 100d, EntityHidingInBloodMist.EC.Jutsu.INSTANCE);
+    public static final ItemJutsu.JutsuEnum BLOODSIPHONCHAINS = new ItemJutsu.JutsuEnum(905, 3, "blood_siphon_chains", 'A', 100d, EntityBloodSiphonChains.EC.Jutsu.INSTANCE);
+
     public ItemBloodRelease(ElementsNarutomodMod instance) {
-        super(instance, 902); // unique ID in the 900s
+        super(instance, 902);
     }
 
     @Override
     public void initElements() {
-        this.elements.items.add(() -> new ItemCustom(
-                EntityBloodDragon.EC.Jutsu.INSTANCE,
-                EntityBloodPrison.EC.Jutsu.INSTANCE,
-                EntityHidingInBloodMist.EC.Jutsu.INSTANCE,
-                EntityBloodSiphonChains.EC.Jutsu.INSTANCE
-        ).setRegistryName("blood_release"));
+        elements.items.add(() -> new ItemCustom(
+                BLOODDRAGON,
+                BLOODPRISON,
+                HIDINGINBLOODMIST,
+                BLOODSIPHONCHAINS
+        ));
     }
 
     public static class ItemCustom extends ItemJutsu {
 
-        public ItemCustom(ItemJutsu.IJutsuCallback... list) {
+        public ItemCustom(ItemJutsu.JutsuEnum... list) {
             super(ItemJutsu.JutsuEnum.Type.BLOOD, list);
-            this.setUnlocalizedName("blood_release");
+            setUnlocalizedName("blood_release");
+            setRegistryName("blood_release");
         }
 
         /**
-         * When crafted / obtained -> preloads jutsu on the item
+         * When crafted / obtained -> preload jutsu
          */
-        @Override
         public boolean onCreated(ItemStack stack, World world, EntityPlayer player) {
-            // Preload jutsu into the item; player still needs XP to unlock
-            for (ItemJutsu.IJutsuCallback jutsu : jutsuList) {
-                ItemJutsu.preloadJutsu(player, jutsu);
+            for (ItemJutsu.JutsuEnum j : jutsuList) {
+                ItemJutsu.unlockJutsu(player, j); // keeps XP requirement intact
             }
-            return super.onCreated(stack, world, player);
+            return true;
         }
 
         /**
-         * Keep jutsu preloaded while item is in inventory.
-         * Player still must satisfy XP requirements to unlock.
+         * Jutsu remains preloaded only while item is in inventory
          */
-        @Override
         public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean held) {
             super.onUpdate(stack, world, entity, slot, held);
 
@@ -63,13 +62,11 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
                 EntityPlayer player = (EntityPlayer) entity;
                 boolean hasItem = player.inventory.hasItemStack(stack);
 
-                for (ItemJutsu.IJutsuCallback jutsu : jutsuList) {
+                for (ItemJutsu.JutsuEnum j : jutsuList) {
                     if (hasItem) {
-                        // Preload the jutsu so player can see it, but do not auto-unlock
-                        ItemJutsu.preloadJutsu(player, jutsu);
+                        ItemJutsu.unlockJutsu(player, j);
                     } else {
-                        // Optional: remove preloaded jutsu if item is removed
-                        ItemJutsu.removePreloadedJutsu(player, jutsu);
+                        ItemJutsu.lockJutsu(player, j);
                     }
                 }
             }
