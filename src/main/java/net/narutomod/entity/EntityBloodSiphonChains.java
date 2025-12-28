@@ -3,20 +3,16 @@ package net.narutomod.entity;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
-
 import net.minecraft.world.World;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.util.EnumParticleTypes;
 
 import net.narutomod.potion.PotionHeaviness;
 import net.narutomod.procedure.ProcedureUtils;
@@ -30,7 +26,6 @@ import javax.annotation.Nullable;
 public class EntityBloodSiphonChains extends ElementsNarutomodMod.ModElement {
     // === SAFE UNIQUE IDS ===
     public static final int ENTITYID = 940;
-    public static final int ENTITYID_RANGED = 941;
 
     public EntityBloodSiphonChains(ElementsNarutomodMod instance) {
         super(instance, 940);
@@ -41,7 +36,7 @@ public class EntityBloodSiphonChains extends ElementsNarutomodMod.ModElement {
         elements.entities.add(() ->
             EntityEntryBuilder.create()
                 .entity(EC.class)
-                .id(new ResourceLocation("narutomod", "blood_siphon_chains"), ENTITYID)
+                .id(new net.minecraft.util.ResourceLocation("narutomod", "blood_siphon_chains"), ENTITYID)
                 .name("blood_siphon_chains")
                 .tracker(64, 3, true)
                 .build()
@@ -124,16 +119,18 @@ public class EntityBloodSiphonChains extends ElementsNarutomodMod.ModElement {
                 return;
             }
 
-            // Spawn particles on the target (client side)
+            // Spawn red particles on the target (client side)
             if (this.world.isRemote && target != null) {
-                double px = target.posX + (this.rand.nextDouble() - 0.5) * target.width;
-                double py = target.posY + this.rand.nextDouble() * target.height;
-                double pz = target.posZ + (this.rand.nextDouble() - 0.5) * target.width;
-                this.world.spawnParticle(
-                    net.minecraft.init.Blocks.REDSTONE.getDefaultState().getBlock().getParticleType(),
-                    px, py, pz,
-                    0.0D, 0.05D, 0.0D
-                );
+                for (int i = 0; i < 5; i++) {
+                    double px = target.posX + (this.rand.nextDouble() - 0.5) * target.width;
+                    double py = target.posY + this.rand.nextDouble() * target.height;
+                    double pz = target.posZ + (this.rand.nextDouble() - 0.5) * target.width;
+                    this.world.spawnParticle(
+                        EnumParticleTypes.REDSTONE,
+                        px, py, pz,
+                        0.0D, 0.05D, 0.0D
+                    );
+                }
             }
 
             // Every second (20 ticks): apply effects & damage
@@ -164,38 +161,6 @@ public class EntityBloodSiphonChains extends ElementsNarutomodMod.ModElement {
                     return true;
                 }
                 return false;
-            }
-        }
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void preInit(FMLPreInitializationEvent event) {
-        new Renderer().register();
-    }
-
-    public static class Renderer extends EntityRendererRegister {
-        @Override
-        @SideOnly(Side.CLIENT)
-        public void register() {
-            RenderingRegistry.registerEntityRenderingHandler(
-                EC.class,
-                rm -> new CustomRender(rm)
-            );
-        }
-
-        @SideOnly(Side.CLIENT)
-        public class CustomRender extends EntityBeamBase.Renderer<EC> {
-            private final ResourceLocation texture =
-                new ResourceLocation("narutomod:textures/chainlink_blood.png"); // swap to red png later
-
-            public CustomRender(RenderManager renderManager) {
-                super(renderManager);
-            }
-
-            @Override
-            protected ResourceLocation getEntityTexture(EC entity) {
-                return texture;
             }
         }
     }
