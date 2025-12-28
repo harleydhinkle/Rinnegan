@@ -5,24 +5,28 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.narutomod.ElementsNarutomodMod;
-import net.narutomod.item.ItemJutsu;
 import net.narutomod.entity.EntityBloodDragon;
 import net.narutomod.entity.EntityBloodPrison;
 import net.narutomod.entity.EntityHidingInBloodMist;
 import net.narutomod.entity.EntityBloodSiphonChains;
 
+import java.util.Arrays;
+import java.util.List;
+
 @ElementsNarutomodMod.ModElement.Tag
 public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
 
+    // Define your jutsus
     public static final ItemJutsu.JutsuEnum BLOODDRAGON =
-            new ItemJutsu.JutsuEnum(902, 3, "blood_dragon", 'A', 100d, EntityBloodDragon.EC.Jutsu.INSTANCE);
+            new ItemJutsu.JutsuEnum(902, 3, "blood_dragon", 'A', 100d, new EntityBloodDragon.EC.Jutsu());
     public static final ItemJutsu.JutsuEnum BLOODPRISON =
-            new ItemJutsu.JutsuEnum(903, 3, "blood_prison", 'A', 100d, EntityBloodPrison.EC.Jutsu.INSTANCE);
+            new ItemJutsu.JutsuEnum(903, 3, "blood_prison", 'A', 100d, new EntityBloodPrison.EC.Jutsu());
     public static final ItemJutsu.JutsuEnum HIDINGINBLOODMIST =
-            new ItemJutsu.JutsuEnum(904, 3, "hiding_in_blood_mist", 'A', 100d, EntityHidingInBloodMist.EC.Jutsu.INSTANCE);
+            new ItemJutsu.JutsuEnum(904, 3, "hiding_in_blood_mist", 'A', 100d, new EntityHidingInBloodMist.EC.Jutsu());
     public static final ItemJutsu.JutsuEnum BLOODSIPHONCHAINS =
-            new ItemJutsu.JutsuEnum(905, 3, "blood_siphon_chains", 'A', 100d, EntityBloodSiphonChains.EC.Jutsu.INSTANCE);
+            new ItemJutsu.JutsuEnum(905, 3, "blood_siphon_chains", 'A', 100d, new EntityBloodSiphonChains.EC.Jutsu());
 
     public ItemBloodRelease(ElementsNarutomodMod instance) {
         super(instance, 902);
@@ -34,28 +38,33 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
     }
 
     public static class ItemCustom extends ItemJutsu {
+
+        private final List<ItemJutsu.JutsuEnum> jutsuList;
+
         public ItemCustom() {
             super(ElementsNarutomodMod.instance, ItemJutsu.JutsuEnum.Type.BLOOD,
                     BLOODDRAGON, BLOODPRISON, HIDINGINBLOODMIST, BLOODSIPHONCHAINS);
 
-            setRegistryName("narutomod", "blood_release");
-            setTranslationKey("blood_release");
+            this.jutsuList = Arrays.asList(BLOODDRAGON, BLOODPRISON, HIDINGINBLOODMIST, BLOODSIPHONCHAINS);
+
+            // Registry and translation key for 1.12
+            setUnlocalizedName("blood_release");
+            setRegistryName("blood_release");
         }
 
         @Override
-        public void onCreated(ItemStack stack, World world, EntityPlayer player) {
+        public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
             for (ItemJutsu.JutsuEnum j : jutsuList) {
-                ItemJutsu.preloadJutsu(player, j);
+                ItemJutsu.preloadJutsu(playerIn, j);
             }
-            super.onCreated(stack, world, player);
+            super.onCreated(stack, worldIn, playerIn);
         }
 
         @Override
-        public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean held) {
-            super.onUpdate(stack, world, entity, slot, held);
-
-            if (!world.isRemote && entity instanceof EntityPlayer) {
-                EntityPlayer player = (EntityPlayer) entity;
+        public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+            super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
+            if (!worldIn.isRemote && entityIn instanceof EntityPlayer) {
+                EntityPlayer player = (EntityPlayer) entityIn;
                 boolean hasItem = false;
 
                 for (ItemStack invStack : player.inventory.mainInventory) {
