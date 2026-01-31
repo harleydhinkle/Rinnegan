@@ -39,6 +39,7 @@ import net.narutomod.procedure.ProcedureUpdateworldtick;
 import net.narutomod.Chakra;
 import net.narutomod.Particles;
 import net.narutomod.PlayerTracker;
+import net.narutomod.ElementsNarutomodMod.ModElement.Tag;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -46,7 +47,7 @@ import java.util.List;
 import java.util.UUID;
 import javax.annotation.Nullable;
 
-@ElementsNarutomodMod.ModElement.Tag
+@Tag
 public class ItemJutsu extends ElementsNarutomodMod.ModElement {
 	public static final String NINJUTSU_TYPE = "ninjutsu";
 	public static final String SENJUTSU_TYPE = "senjutsu";
@@ -147,7 +148,7 @@ public class ItemJutsu extends ElementsNarutomodMod.ModElement {
 	}
 
 	public static double getMaxPower(EntityLivingBase entity, double jutsuCkakraUsage) {
-		return Chakra.pathway(entity).getAmount() / jutsuCkakraUsage * 0.9999d;
+		return Chakra.pathway(entity).getAmount() / jutsuCkakraUsage * 0.9999;
 	}
 	
 	public abstract static class Base extends Item {
@@ -169,7 +170,7 @@ public class ItemJutsu extends ElementsNarutomodMod.ModElement {
 				this.defaultCooldownMap = new long[jutsuListIn.length];
 				this.jutsuXpMap = new int[jutsuListIn.length];
 				for (int i = 0; i < jutsuListIn.length; i++) {
-					this.defaultCooldownMap[i] = -1;
+					this.defaultCooldownMap[i] = -1L;
 					this.jutsuXpMap[i] = 0;
 					jutsuListIn[i].setType(typeIn);
 				}
@@ -182,8 +183,8 @@ public class ItemJutsu extends ElementsNarutomodMod.ModElement {
 		protected boolean executeJutsu(ItemStack stack, EntityLivingBase entity, float power) {
 			JutsuEnum jutsuEnum = this.getCurrentJutsu(stack);
 			Chakra.Pathway pw = Chakra.pathway(entity);
-			double d = jutsuEnum.chakraUsage * power;
-			if (power <= 0f || pw.getAmount() < d) {
+			double d = jutsuEnum.chakraUsage * (double)power;
+			if (power <= 0.0f || pw.getAmount() < d) {
 				return false;
 			}
 			if (jutsuEnum.jutsu.createJutsu(stack, entity, power)) {
@@ -194,11 +195,10 @@ public class ItemJutsu extends ElementsNarutomodMod.ModElement {
 		}
 
 		public float getPower(ItemStack stack, EntityLivingBase entity, int timeLeft) {
-			JutsuEnum jutsuEnum = this.getCurrentJutsu(stack);
-			if (jutsuEnum.jutsu.getPowerupDelay() > 0.0f) {
-				return this.getPower(stack, entity, timeLeft, jutsuEnum.jutsu.getBasePower(), jutsuEnum.jutsu.getPowerupDelay());
-			}
-			return jutsuEnum.jutsu.getBasePower();
+            JutsuEnum jutsuEnum = this.getCurrentJutsu(stack);
+            float base = jutsuEnum.jutsu.getBasePower();
+            float delay = jutsuEnum.jutsu.getPowerupDelay(stack, entity);
+            return delay > 0.0F ? this.getPower(stack, entity, timeLeft, base, delay) : base;
 		}
 
 		protected float getPower(ItemStack stack, EntityLivingBase entity, int timeLeft, float basePower, float powerupDelay) {
@@ -539,7 +539,8 @@ public class ItemJutsu extends ElementsNarutomodMod.ModElement {
 			public void onEquipmentChange(LivingEquipmentChangeEvent event) {
 				EntityLivingBase entity = event.getEntityLiving();
 				ItemStack stack = event.getTo();
-				if (entity instanceof EntityPlayer && !entity.world.isRemote && stack.getItem() instanceof Base
+				if (entity instanceof EntityPlayer && !entity.world.isRemote
+ && stack.getItem() instanceof Base
 				 && event.getSlot().getSlotType() == EntityEquipmentSlot.Type.HAND && stack.getItem() != event.getFrom().getItem()) {
 					if (event.getSlot() == EntityEquipmentSlot.MAINHAND || !(entity.getHeldItemMainhand().getItem() instanceof Base)) {
 						ProcedureUtils.sendStatusMessage((EntityPlayer)entity, ItemJutsu.getCurrentJutsu(stack).getName(), true);
@@ -642,9 +643,14 @@ public class ItemJutsu extends ElementsNarutomodMod.ModElement {
 			return 1.0f;
 		}
 
+        @Deprecated
 		default float getPowerupDelay() {
 			return 0.0f;
 		}
+
+        default float getPowerupDelay(ItemStack stack, EntityLivingBase entity) {
+            return this.getPowerupDelay();
+        }
 		
 		@Deprecated // use entity sensitive version below
 		default float getMaxPower() {

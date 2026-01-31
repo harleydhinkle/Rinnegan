@@ -18,6 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.narutomod.entity.EntityBloodSiphonChains;
 
 
 
@@ -69,6 +70,14 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
             80d,
             new EntityHidingInBloodMist.EC.Jutsu()
         );
+    public static final ItemJutsu.JutsuEnum BLOODSIPHONCHAINS =
+            new ItemJutsu.JutsuEnum(
+                    3,
+                    "blood_siphon_chains",
+                    'A',
+                    100d,
+                    new EntityBloodSiphonChains.EC.Jutsu()
+            );
 
     @Override
     public void initElements() {
@@ -76,9 +85,11 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
             new ItemCustom(
                 BLOODDRAGON,
                 BLOODPRISON,
-                HIDINGINBLOODMIST
-            ).setRegistryName("blood_release")
+                HIDINGINBLOODMIST,
+                    BLOODSIPHONCHAINS
+            )
         );
+
     }
 
     /*
@@ -92,8 +103,12 @@ public class ItemBloodRelease extends ElementsNarutomodMod.ModElement {
         public ItemCustom(ItemJutsu.JutsuEnum... list) {
             super(ItemJutsu.JutsuEnum.Type.BLOOD, list);
             this.setUnlocalizedName("blood_release");
+            this.setRegistryName("blood_release");
             this.setCreativeTab(TabModTab.tab);
-            // Removed TabModTab reference
+            this.defaultCooldownMap[BLOODDRAGON.index]= 0;
+            this.defaultCooldownMap[BLOODPRISON.index]= 0;
+            this.defaultCooldownMap[HIDINGINBLOODMIST.index]= 0;
+            this.defaultCooldownMap[BLOODSIPHONCHAINS.index]= 0;
         }
     }
 }

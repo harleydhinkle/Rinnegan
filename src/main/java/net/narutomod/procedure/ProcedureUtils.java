@@ -50,7 +50,8 @@ import net.minecraft.block.Block;
 import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.init.Items;
-import net.minecraft.potion.Potion;
+
+import net.minecraft.potion.Potion;
 
 import net.narutomod.entity.EntityNinjaMob;
 import net.narutomod.item.ItemJutsu;
@@ -530,14 +531,15 @@ public class ProcedureUtils extends ElementsNarutomodMod.ModElement {
 		}
 	}
 
-	public static boolean purgeHarmfulEffects(EntityLivingBase entity) {
-		List<PotionEffect> list = Lists.newArrayList();
-		for (PotionEffect effect : entity.getActivePotionEffects()) {
-			if (effect.getPotion().isBadEffect())
-				list.add(effect);
+	public static boolean purgeHarmfulEffects(EntityLivingBase entityLivingBase) {
+        ArrayList<PotionEffect> list = Lists.newArrayList();
+		for (PotionEffect effect : entityLivingBase.getActivePotionEffects()) {
+			if (effect.getPotion().isBadEffect()) {
+                list.add(effect);
+            }
 		}
 		for (PotionEffect effect : list) {
-			entity.removePotionEffect(effect.getPotion());
+            entityLivingBase.removePotionEffect(effect.getPotion());
 		}
 		return list.isEmpty();
 	}

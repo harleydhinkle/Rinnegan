@@ -61,7 +61,7 @@ public class ItemBakuton extends ElementsNarutomodMod.ModElement {
 	// 20 ticks = 1 second
 	private static final int CD_JIRAIKEN = 700; // 35s
 	private static final int CD_CLAY     = 700; // 35s
-	private static final int CD_CLONE    = 700; // 35s
+	private static final int CD_CLONE    = 0; // 35s
 
 	public static final ItemJutsu.JutsuEnum JIRAIKEN = new ItemJutsu.JutsuEnum(0, "tooltip.bakuton.jiraiken", 'S', 150, 30d, new Jiraiken());
 	public static final ItemJutsu.JutsuEnum CLAY     = new ItemJutsu.JutsuEnum(1, "c_1", 'S', 200, 75d, new ExplosiveClay.Jutsu());

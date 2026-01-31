@@ -255,28 +255,6 @@ public class Chakra extends ElementsNarutomodMod.ModElement {
 				this.sendToClient();
 			}
 
-			// --- FIX: don't show armor bar when player is naked ---
-			if (!this.user.world.isRemote) {
-				boolean hasArmor = false;
-				for (ItemStack stack : this.user.getArmorInventoryList()) {
-					if (!stack.isEmpty()) {
-						hasArmor = true;
-						break;
-					}
-				}
-				if (!hasArmor) {
-					if (this.user.getEntityAttribute(SharedMonsterAttributes.ARMOR) != null) {
-						this.user.getEntityAttribute(SharedMonsterAttributes.ARMOR)
-							.setBaseValue(0.0D);
-					}
-					if (this.user.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS) != null) {
-						this.user.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS)
-							.setBaseValue(0.0D);
-					}
-				}
-			}
-			// ------------------------------------------------------
-
 			this.prevX = this.user.posX;
 			this.prevZ = this.user.posZ;
 		}
@@ -353,14 +331,12 @@ public class Chakra extends ElementsNarutomodMod.ModElement {
 		}
 
 		public static class ServerMessage implements IMessage {
-			//int id;
 			double amount;
 			double max;
 	
 			public ServerMessage() { }
 	
 			public ServerMessage(double amountIn, double maxIn) {
-				//this.id = pathway.player.getEntityId();
 				this.amount = amountIn;
 				this.max = maxIn;
 			}
@@ -371,7 +347,6 @@ public class Chakra extends ElementsNarutomodMod.ModElement {
 	
 			public static class Handler implements IMessageHandler<ServerMessage, IMessage> {
 				@SideOnly(Side.CLIENT)
-				@Override
 				public IMessage onMessage(ServerMessage message, MessageContext context) {
 					Minecraft.getMinecraft().addScheduledTask(() -> {
 						EntityPlayer player = Minecraft.getMinecraft().player;
@@ -411,7 +386,6 @@ public class Chakra extends ElementsNarutomodMod.ModElement {
 			}
 	
 			public static class Handler implements IMessageHandler<ConsumeMessage, IMessage> {
-				@Override
 				public IMessage onMessage(ConsumeMessage message, MessageContext context) {
 					EntityPlayerMP entity = context.getServerHandler().player;
 					entity.getServerWorld().addScheduledTask(() -> {
@@ -433,8 +407,8 @@ public class Chakra extends ElementsNarutomodMod.ModElement {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		elements.addNetworkMessage(PathwayPlayer.ServerMessage.Handler.class, PathwayPlayer.ServerMessage.class, Side.CLIENT);
-		elements.addNetworkMessage(PathwayPlayer.ConsumeMessage.Handler.class, PathwayPlayer.ConsumeMessage.class, Side.SERVER);
+        this.elements.addNetworkMessage(PathwayPlayer.ServerMessage.Handler.class, PathwayPlayer.ServerMessage.class, new Side[]{Side.CLIENT});
+        this.elements.addNetworkMessage(PathwayPlayer.ConsumeMessage.Handler.class, PathwayPlayer.ConsumeMessage.class, new Side[]{Side.SERVER});
 	}
 
 	@Override

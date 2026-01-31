@@ -1,12 +1,6 @@
 {
-  "parent": "block/cube",
+  "parent": "block/cube_all",
   "textures": {
-    "down": "narutomod:blocks/blank",
-    "up": "narutomod:blocks/blank",
-    "north": "narutomod:blocks/blank",
-    "east": "narutomod:blocks/blank",
-    "south": "narutomod:blocks/blank",
-    "west": "narutomod:blocks/blank",
-    "particle": "narutomod:blocks/blank"
+    "all": "narutomod:blocks/water_still_red"
   }
 }

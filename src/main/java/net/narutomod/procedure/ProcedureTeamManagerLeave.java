@@ -16,17 +16,24 @@ public class ProcedureTeamManagerLeave extends ElementsNarutomodMod.ModElement {
 		super(instance, 556);
 	}
 
-	public static void executeProcedure(Map<String, Object> dependencies) {
-		if (dependencies.get("entity") == null) {
-			System.err.println("Failed to load dependency entity for procedure TeamManagerLeave!");
-			return;
-		}
-		Entity entity = (Entity) dependencies.get("entity");
-		ItemStack helditem = ItemStack.EMPTY;
-		helditem = ((entity instanceof EntityLivingBase) ? ((EntityLivingBase) entity).getHeldItemMainhand() : ItemStack.EMPTY);
-		if (((helditem).getItem() == new ItemStack(ItemTeamScroll.block, (int) (1)).getItem())) {
-			ItemTeamScroll.ItemCustom.removeTeamMember(helditem, (EntityPlayer) entity);
-			System.out.println(((">>> remove team member ") + "" + ((entity.getDisplayName().getUnformattedText()))));
-		}
-	}
+    public static void executeProcedure(Map<String, Object> dependencies) {
+        if (dependencies.get("entity") == null) {
+            System.err.println("Failed to load dependency entity for procedure TeamManagerLeave!");
+            return;
+        }
+        Entity entity = (Entity) dependencies.get("entity");
+        if (!(entity instanceof EntityPlayer) || !(entity instanceof EntityLivingBase)) return;
+
+        EntityPlayer player = (EntityPlayer) entity;
+
+        ItemStack helditem = ((EntityLivingBase)entity).getHeldItemMainhand();
+        if (helditem.isEmpty() || helditem.getItem() != ItemTeamScroll.block) {
+            helditem = ((EntityLivingBase)entity).getHeldItemOffhand();
+        }
+        if (helditem.isEmpty() || helditem.getItem() != ItemTeamScroll.block) return;
+
+        ItemTeamScroll.ItemCustom.removeTeamMember(helditem, player);
+        System.out.println(">>> remove team member " + player.getName());
+    }
+
 }

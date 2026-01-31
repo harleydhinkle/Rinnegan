@@ -34,7 +34,7 @@ public class ProcedureAddXP2JutsuCommandExecuted extends ElementsNarutomodMod.Mo
 		}
 		Entity entity = (Entity) dependencies.get("entity");
 		HashMap cmdparams = (HashMap) dependencies.get("cmdparams");
-		double xp2add = 0;
+		double xp2add = (double)0.0F;
 		ItemStack itemmainhand = ItemStack.EMPTY;
 		ItemStack itemoffhand = ItemStack.EMPTY;
 		String playerName = "";

@@ -253,6 +253,7 @@ public class ItemShakuton extends ElementsNarutomodMod.ModElement {
 
 		@Override
 		public void onUpdate() {
+            float touchDmg = 6.0f;
 			super.onUpdate();
 			if (!this.isLaunched()) {
 				if (this.maxScale != this.getEntityScale()) {
@@ -272,7 +273,7 @@ public class ItemShakuton extends ElementsNarutomodMod.ModElement {
 						if (!entity.equals(this.shootingEntity) && !entity.equals(this)) {
 							entity.hurtResistantTime = 10;
 							entity.getEntityData().setBoolean("TempData_disableKnockback", true);
-							entity.attackEntityFrom(ItemJutsu.causeJutsuDamage(this, this.shootingEntity), 1.5f);
+							entity.attackEntityFrom(ItemJutsu.causeJutsuDamage(this, this.shootingEntity), touchDmg);
 							this.scorchEffects(entity.posX, entity.posY+entity.height/2, entity.posZ, entity.width/2, entity.height/2);
 						}
 					}

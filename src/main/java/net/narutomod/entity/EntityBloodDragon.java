@@ -193,7 +193,7 @@ public class EntityBloodDragon extends ElementsNarutomodMod.ModElement {
 				return;
 			if (!this.world.isRemote) {
 				float size = this.getEntityScale();
-				this.world.newExplosion(this.shootingEntity, this.posX, this.posY, this.posZ, 5.0F * size, false,
+				this.world.newExplosion(this.shootingEntity, this.posX, this.posY, this.posZ, 10.0F * size, false,
 				  net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this.shootingEntity));
 				ProcedureAoeCommand.set(this, 0.0D, 3.0D).exclude(this.shootingEntity)
 				  .damageEntities(ItemJutsu.causeJutsuDamage(this, this.shootingEntity), 20f * size);

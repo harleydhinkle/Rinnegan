@@ -42,7 +42,8 @@ public class EntityC2 extends ElementsNarutomodMod.ModElement {
 	@Override
 	public void initElements() {
 		elements.entities.add(() -> EntityEntryBuilder.create().entity(EC.class)
-		 .id(new ResourceLocation("narutomod", "c_2"), ENTITYID).name("c_2").tracker(64, 3, true).build());
+		 .id(new ResourceLocation("narutomod", "c_2"), ENTITYID)
+.name("c_2").tracker(64, 3, true).build());
 	}
 
 	public static class EC extends ItemBakuton.ExplosiveClay {

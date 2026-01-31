@@ -201,7 +201,7 @@ public class EntityChidori extends ElementsNarutomodMod.ModElement {
 						this.launchAtTarget((EntityLivingBase)this.target);
 					}
 					if (this.target.getDistanceSq(this.summoner) < 25d) {
-						float damage = flag ? (float)ProcedureUtils.getMainhandItemDamage(this.summoner) * 1.2f : 25f;
+						float damage = flag ? (float)ProcedureUtils.getMainhandItemDamage(this.summoner) * 1.2f : 50f;
 						EntityLightningArc.onStruck(this.target,
 						 ItemJutsu.causeJutsuDamage(this, this.summoner), damage * this.damageMultiplier());
 						this.target = null;

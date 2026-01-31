@@ -163,7 +163,8 @@
           "type": "item",
           "name": "narutomod:scroll_water_shockwave",
           "weight": 10
-        },
+        }
+,
         {
           "type": "item",
           "name": "narutomod:scroll_shikigami",

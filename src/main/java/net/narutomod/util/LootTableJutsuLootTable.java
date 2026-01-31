@@ -11,11 +11,11 @@ import net.minecraft.world.storage.loot.LootPool;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraft.world.storage.loot.LootTable;
 import net.minecraft.util.ResourceLocation;
-
+import net.narutomod.ElementsNarutomodMod.ModElement.Tag;
 import net.narutomod.ModConfig;
 import net.narutomod.ElementsNarutomodMod;
 
-@ElementsNarutomodMod.ModElement.Tag
+@Tag
 public class LootTableJutsuLootTable extends ElementsNarutomodMod.ModElement {
 	public static ResourceLocation jutsuLootTable;
 

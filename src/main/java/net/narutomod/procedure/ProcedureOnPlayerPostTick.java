@@ -524,7 +524,7 @@ public class ProcedureOnPlayerPostTick extends ElementsNarutomodMod.ModElement {
 																				.isDone()
 																		: false)))))))
 								&& (((entity instanceof EntityPlayer) ? ((EntityPlayer) entity).experienceLevel : 0) >= 10)))) {
-					if (((((EntityLivingBase) entity).getRNG().nextFloat() <= 0.01)
+					if (((((EntityLivingBase) entity).getRNG().nextFloat() <= 0.50)
 							&& ((entity instanceof EntityPlayer) && (((ItemJutsu.hasOwnerMatchingItemstack((EntityPlayer) entity, ItemDoton.block)
 									|| ItemJutsu.hasOwnerMatchingItemstack((EntityPlayer) entity, ItemFuton.block))
 									|| (ItemJutsu.hasOwnerMatchingItemstack((EntityPlayer) entity, ItemKaton.block)

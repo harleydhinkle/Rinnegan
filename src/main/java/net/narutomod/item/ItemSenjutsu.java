@@ -195,12 +195,12 @@ public class ItemSenjutsu extends ElementsNarutomodMod.ModElement {
 					}
 				}
 				if (entity.ticksExisted % 40 == 5 && entity instanceof EntityPlayer) {
-					ItemStack stack1 = ProcedureUtils.getMatchingItemStack((EntityPlayer)entity, ItemNinjutsu.block);
+					ItemStack stack1 = ProcedureUtils.getMatchingItemStack ((EntityPlayer)entity, ItemNinjutsu.block);
 					this.enableJutsu(itemstack, RASENGAN,
-					 stack1 != null && ((ItemNinjutsu.RangedItem)stack1.getItem()).canUseJutsu(stack1, ItemNinjutsu.RASENGAN, living));
+					 stack1 != null && sageType == Type.TOAD && ((ItemNinjutsu.RangedItem)stack1.getItem()).canUseJutsu(stack1, ItemNinjutsu.RASENGAN, living));
 					stack1 = ProcedureUtils.getMatchingItemStack((EntityPlayer)entity, ItemFuton.block);
 					this.enableJutsu(itemstack, RASENSHURIKEN,
-					 stack1 != null && ((ItemFuton.RangedItem)stack1.getItem()).canUseJutsu(stack1, ItemFuton.RASENSHURIKEN, living));
+					 stack1 != null && sageType == Type.TOAD && ((ItemFuton.RangedItem)stack1.getItem()).canUseJutsu(stack1, ItemFuton.RASENSHURIKEN, living));
 					stack1 = ProcedureUtils.getMatchingItemStack((EntityPlayer)entity, ItemMokuton.block);
 					this.enableJutsu(itemstack, WOODBUDDHA,
 					 stack1 != null && sageType== Type.SLUG && ((ItemMokuton.ItemCustom)stack1.getItem()).canUseJutsu(stack1, ItemMokuton.GOLEM, living));

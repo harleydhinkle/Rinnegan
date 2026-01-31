@@ -75,7 +75,8 @@ public class EntityPuppetHiruko extends ElementsNarutomodMod.ModElement {
 		elements.entities.add(() -> EntityEntryBuilder.create().entity(EntityCustom.class)
 				.id(new ResourceLocation("narutomod", "puppet_hiruko"), ENTITYID).name("puppet_hiruko").tracker(64, 3, true).build());
 	}
-
+
+
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		new Renderer().register();
@@ -92,7 +93,7 @@ public class EntityPuppetHiruko extends ElementsNarutomodMod.ModElement {
 		private static final DataParameter<Integer> POSE = EntityDataManager.<Integer>createKey(EntityCustom.class, DataSerializers.VARINT);
 		private static final DataParameter<Boolean> ROBE_OFF = EntityDataManager.<Boolean>createKey(EntityCustom.class, DataSerializers.BOOLEAN);
 		private static final DataParameter<Boolean> AKATSUKI = EntityDataManager.<Boolean>createKey(EntityCustom.class, DataSerializers.BOOLEAN);
-		public static final float MAXHEALTH = 240.0f;
+		public static final float MAXHEALTH = 24000.0f;
 		private int poseProgressEnd = 14;
 		private int poseProgress = -1;
 		private Object model;

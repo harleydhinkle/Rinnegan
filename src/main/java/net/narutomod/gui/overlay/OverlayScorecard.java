@@ -13,14 +13,35 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
+
+import org.lwjgl.input.Mouse;
 
 @ElementsNarutomodMod.ModElement.Tag
 public class OverlayScorecard extends ElementsNarutomodMod.ModElement {
 
     public static boolean isMenuOpen = false;
+
+    // ===== DEBUG: set true to show mouse coords + guides =====
+    private static final boolean DEBUG = false;
+
+    // === CARD SIZE ===
+    private static final int TEX_W = 288;
+    private static final int TEX_H = 401;
+
+    // Draw 1:1
+    private static final int CARD_W = 288;
+    private static final int CARD_H = 401;
+
+    // Put PNG here:
+    // assets/narutomod/textures/gui/player_card_288x401.png
+    private static final ResourceLocation CARD_TEX =
+            new ResourceLocation("narutomod", "textures/gui/player_card_288x401.png");
 
     public OverlayScorecard(ElementsNarutomodMod instance) {
         super(instance, 931);
@@ -39,97 +60,150 @@ public class OverlayScorecard extends ElementsNarutomodMod.ModElement {
         @SideOnly(Side.CLIENT)
         public void eventHandler(RenderGameOverlayEvent event) {
 
-            if (!event.isCancelable() && event.getType() == RenderGameOverlayEvent.ElementType.HELMET) {
+            if (event.isCancelable() || event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
+            if (!OverlayScorecard.isMenuOpen) return;
 
-                if (!OverlayScorecard.isMenuOpen)
-                    return;
+            Minecraft mc = Minecraft.getMinecraft();
+            EntityPlayer entity = mc.player;
+            if (entity == null) return;
 
-                Minecraft mc = Minecraft.getMinecraft();
-                EntityPlayer entity = mc.player;
-                if (entity == null)
-                    return;
+            int screenW = event.getResolution().getScaledWidth();
+            int screenH = event.getResolution().getScaledHeight();
+            int centerX = screenW / 2;
+            int centerY = screenH / 2;
 
-                int screenW = event.getResolution().getScaledWidth();
-                int screenH = event.getResolution().getScaledHeight();
-                int centerX = screenW / 2;
-                int centerY = screenH / 2;
+            // ===== dim background =====
+            GlStateManager.disableDepth();
+            GlStateManager.enableBlend();
+            Gui.drawRect(0, 0, screenW, screenH, 0xAA000000);
 
-                // ===== dark background overlay =====
-                GlStateManager.disableDepth();
-                GlStateManager.enableBlend();
-                Gui.drawRect(0, 0, screenW, screenH, 0xAA000000);
+            // ===== center card =====
+            int cardX = centerX - CARD_W / 2;
+            int cardY = centerY - CARD_H / 2;
 
-                // ===== draw the card PNG =====
-                int cardWidth = 220;
-                int cardHeight = 283;
-                int cardX = centerX - cardWidth / 2;
-                int cardY = centerY - cardHeight / 2;
+            // ===== draw card =====
+            GlStateManager.color(1F, 1F, 1F, 1F);
+            mc.renderEngine.bindTexture(CARD_TEX);
 
-                GlStateManager.color(1F, 1F, 1F, 1F); // IMPORTANT: reset to white
-                mc.renderEngine.bindTexture(new ResourceLocation("narutomod:textures/player_card_final.png"));
-                mc.ingameGUI.drawModalRectWithCustomSizedTexture(
-                        cardX, cardY,
-                        0, 0,
-                        cardWidth, cardHeight,
-                        cardWidth, cardHeight
-                );
+            float oldZ = mc.ingameGUI.prevVignetteBrightness;
+            mc.ingameGUI.prevVignetteBrightness = 500.0F;
 
-                // ===== draw player values (no labels) =====
-                int color = 0xFF000000; // black text
-                GlStateManager.disableDepth();
+            mc.ingameGUI.drawModalRectWithCustomSizedTexture(
+                    cardX, cardY,
+                    0, 0,
+                    CARD_W, CARD_H,
+                    TEX_W, TEX_H
+            );
 
-                // X position for all values (pulled left from last screenshot)
-                int valueX = cardX + 90;
-                // move everything slightly up
-                int shiftY = -12;
+            // ===== TEXT POSITIONS tuned to your latest screenshot =====
+            int color = 0xFF000000;
 
-                // Name
-                mc.fontRenderer.drawString(
-                        entity.getDisplayNameString(),
-                        valueX, cardY + 83 + shiftY, color
-                );
+            // Default X for most values
+            int valueX = cardX + 115;
 
-                // Clan
-                mc.fontRenderer.drawString(
-                        entity.getEntityData().getString("playerClan"),
-                        valueX, cardY + 118 + shiftY, color
-                );
+            // Experience label is long, so push its value farther right
+            int valueXExp = cardX + 165;
 
-                // Kekkei Genkai
-                mc.fontRenderer.drawString(
-                        entity.getEntityData().getString("playerGenkai"),
-                        valueX, cardY + 150 + shiftY, color
-                );
+            // Y positions for each row (288x401 space)
+            int yName   = cardY +  78;
+            int yClan   = cardY + 118;
+            int yGenkai = cardY + 150;  // moved UP so it stays in Genkai bar
+            int yRank   = cardY + 190;
 
-                // Ninja Experience
-                double battleXp = PlayerTracker.getBattleXp(entity);
-                mc.fontRenderer.drawString(
-                        String.valueOf((int) battleXp),
-                        valueX, cardY + 185 + shiftY, color
-                );
+            // These were too low before; moved UP so they land in correct bars
+            int yXP     = cardY + 232;
+            int yLevel  = cardY + 272;
+            int yHealth = cardY + 312;
 
-                // Ninja Level
-                int ninjaLevel = (int) (battleXp / 500.0);
-                mc.fontRenderer.drawString(
-                        String.valueOf(ninjaLevel),
-                        valueX, cardY + 215 + shiftY, color
-                );
+            // Name
+            mc.fontRenderer.drawString(
+                    safe(entity.getDisplayNameString(), "Unknown"),
+                    valueX, yName, color
+            );
 
-                // Health
-                mc.fontRenderer.drawString(
-                        String.format("%.0f / %.0f", entity.getHealth(), entity.getMaxHealth()),
-                        valueX, cardY + 247 + shiftY, color
-                );
+            // Clan
+            mc.fontRenderer.drawString(
+                    safe(entity.getEntityData().getString("playerClan"), "None"),
+                    valueX, yClan, color
+            );
 
-                // Dojutsu
-                mc.fontRenderer.drawString(
-                        entity.getEntityData().getString("playerDojutsu"),
-                        valueX, cardY + 280 + shiftY, color
-                );
+            // Kekkei Genkai
+            mc.fontRenderer.drawString(
+                    safe(entity.getEntityData().getString("playerGenkai"), "None"),
+                    valueX, yGenkai, color
+            );
 
-                GlStateManager.enableDepth();
-                GlStateManager.disableBlend();
+            // Ninja Rank
+            mc.fontRenderer.drawString(
+                    safe(entity.getEntityData().getString("playerRank"), "None"),
+                    valueX, yRank, color
+            );
+
+            // Ninja Experience
+            double battleXp = PlayerTracker.getBattleXp(entity);
+            mc.fontRenderer.drawString(
+                    String.valueOf((int) battleXp),
+                    valueXExp, yXP, color
+            );
+
+            // Ninja Level
+            int ninjaLevel = (int) (battleXp / 500.0);
+            mc.fontRenderer.drawString(
+                    String.valueOf(ninjaLevel),
+                    valueX, yLevel, color
+            );
+
+            // Health
+            mc.fontRenderer.drawString(
+                    String.format("%.0f / %.0f", entity.getHealth(), entity.getMaxHealth()),
+                    valueX, yHealth, color
+            );
+
+            // ===== Dojutsu text (bottom area) =====
+            int dojutsuTextX = cardX + 140;
+            int dojutsuTextY = cardY + 360;
+            mc.fontRenderer.drawString(
+                    safe(entity.getEntityData().getString("playerDojutsu"), "None"),
+                    dojutsuTextX, dojutsuTextY, color
+            );
+
+            // ===== Head-slot icon in red square =====
+            ItemStack head = entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
+            if (!head.isEmpty()) {
+                int iconX = cardX + 34;
+                int iconY = cardY + 334;
+
+                RenderHelper.enableGUIStandardItemLighting();
+                mc.getRenderItem().renderItemAndEffectIntoGUI(head, iconX, iconY);
+                mc.getRenderItem().renderItemOverlayIntoGUI(mc.fontRenderer, head, iconX, iconY, null);
+                RenderHelper.disableStandardItemLighting();
             }
+
+            // ===== DEBUG overlay (mouse coords relative to card) =====
+            if (DEBUG && Mouse.isInsideWindow()) {
+                int mouseX = Mouse.getX() * screenW / mc.displayWidth;
+                int mouseY = screenH - (Mouse.getY() * screenH / mc.displayHeight) - 1;
+
+                int relX = mouseX - cardX;
+                int relY = mouseY - cardY;
+
+                mc.fontRenderer.drawString("Card XY: " + cardX + "," + cardY, 6, 6, 0xFFFFFF00);
+                mc.fontRenderer.drawString("Mouse rel: " + relX + "," + relY, 6, 18, 0xFFFFFF00);
+
+                Gui.drawRect(mouseX - 10, mouseY, mouseX + 10, mouseY + 1, 0x80FFFF00);
+                Gui.drawRect(mouseX, mouseY - 10, mouseX + 1, mouseY + 10, 0x80FFFF00);
+            }
+
+            mc.ingameGUI.prevVignetteBrightness = oldZ;
+
+            GlStateManager.enableDepth();
+            GlStateManager.disableBlend();
+        }
+
+        private static String safe(String s, String fallback) {
+            if (s == null) return fallback;
+            s = s.trim();
+            return s.isEmpty() ? fallback : s;
         }
     }
 }

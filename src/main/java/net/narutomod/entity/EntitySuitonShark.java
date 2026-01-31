@@ -210,7 +210,7 @@ public class EntitySuitonShark extends ElementsNarutomodMod.ModElement {
 					float size = this.getEntityScale();
 					ProcedureAoeCommand.set(this, 0.0D, size).exclude(this.shootingEntity)
 					  .damageEntities(ItemJutsu.causeJutsuDamage(this, this.shootingEntity), size * (this.isInWater() ? 24f : 16f));
-					this.world.newExplosion(this.shootingEntity, this.posX, this.posY, this.posZ, size * 2.0F, false,
+					this.world.newExplosion(this.shootingEntity, this.posX, this.posY, this.posZ, size * 6.0F, false,
 					  net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this.shootingEntity));
 					
 					this.setDead();

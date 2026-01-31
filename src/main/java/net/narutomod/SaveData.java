@@ -26,14 +26,14 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.common.MinecraftForge;
-
+import net.narutomod.ElementsNarutomodMod.ModElement.Tag;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldSavedData;
 
 import java.util.List;
 import java.util.Arrays;
 
-@ElementsNarutomodMod.ModElement.Tag
+@Tag
 public class SaveData extends ElementsNarutomodMod.ModElement {
 	private static final List<ISaveData> savedataList = Arrays.asList(
 		new net.narutomod.event.SpecialEvent.Save(), 
