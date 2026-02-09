@@ -1,4 +1,3 @@
-
 package net.narutomod.item;
 
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -21,6 +20,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 
 import net.narutomod.gui.GuiTeamManager;
 import net.narutomod.creativetab.TabModTab;
@@ -36,6 +37,10 @@ import java.util.Collection;
 public class ItemTeamScroll extends ElementsNarutomodMod.ModElement {
 	@GameRegistry.ObjectHolder("narutomod:team_scroll")
 	public static final Item block = null;
+
+	/** Maximum members allowed on a team */
+	public static final int MAX_TEAM_SIZE = 5;
+
 	public ItemTeamScroll(ElementsNarutomodMod instance) {
 		super(instance, 555);
 	}
@@ -106,8 +111,6 @@ public class ItemTeamScroll extends ElementsNarutomodMod.ModElement {
 					}
 					if (compound.hasKey("teamMembers", 9)) {
 						NBTTagList taglist = compound.getTagList("teamMembers", 10);
-						int[] shouldRemove = new int[taglist.tagCount()];
-						int i = 0;
 						for (int j = 0; j < taglist.tagCount(); ++j) {
 							NBTTagCompound compound2 = taglist.getCompoundTagAt(j);
 							if (compound2.hasUniqueId("memberUUID")) {
@@ -116,17 +119,22 @@ public class ItemTeamScroll extends ElementsNarutomodMod.ModElement {
 									ScorePlayerTeam memberTeam = scoreboard.getPlayersTeam(member.getName());
 									if (memberTeam == null && !team.getMembershipCollection().contains(member.getName())) {
 										scoreboard.addPlayerToTeam(member.getName(), team.getName());
-									} else if (memberTeam != null && !team.isSameTeam(memberTeam)) {
-										shouldRemove[i++] = j;
+									}
+									// ========================================
+									// FIX: If the member is on a different scoreboard
+									// team, re-add them to THIS team instead of
+									// removing them from the NBT. The old code would
+									// strip members here, causing the "reroll" bug
+									// where opening another scroll would silently
+									// wipe this team's roster.
+									// ========================================
+									else if (memberTeam != null && !team.isSameTeam(memberTeam)) {
+										if (!world.isRemote) {
+											scoreboard.addPlayerToTeam(member.getName(), team.getName());
+										}
 									}
 								}
 							}
-						}
-						if (i > 0) {
-							for (int j = i - 1; j >= 0; j--) {
-								taglist.removeTag(shouldRemove[j]);
-							}
-							compound.setTag("teamMembers", taglist);
 						}
 					}
 				}
@@ -160,7 +168,21 @@ public class ItemTeamScroll extends ElementsNarutomodMod.ModElement {
 			if (team == null) {
 				team = getOrCreateTeam(player.world, stack, player.getName());
 			}
-			if (team != null && !team.getMembershipCollection().contains(player.getName())) {
+			if (team == null) return;
+
+			// ========================================
+			// CHECK: Max team size (5)
+			// ========================================
+			Collection<String> currentMembers = team.getMembershipCollection();
+			if (currentMembers.size() >= MAX_TEAM_SIZE) {
+				if (!player.world.isRemote) {
+					player.sendMessage(new TextComponentString(
+							TextFormatting.RED + "This team is full! (Max " + MAX_TEAM_SIZE + " members)"));
+				}
+				return;
+			}
+
+			if (!team.getMembershipCollection().contains(player.getName())) {
 				if (!player.world.isRemote) {
 					player.world.getScoreboard().addPlayerToTeam(player.getName(), team.getName());
 				}
@@ -207,7 +229,7 @@ public class ItemTeamScroll extends ElementsNarutomodMod.ModElement {
 			}
 		}
 
-		public static Collection<String> getTeamMembers(World world, ItemStack stack) {
+		public static Collection<String> getTeamMembers(World world, ItemStack stack) {
 			ScorePlayerTeam team = getTeamFromItem(world, stack);
 			return team != null ? team.getMembershipCollection() : Collections.EMPTY_LIST;
 		}
