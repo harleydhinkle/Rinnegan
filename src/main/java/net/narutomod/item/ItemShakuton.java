@@ -46,6 +46,7 @@ import net.narutomod.entity.EntityScalableProjectile;
 import net.narutomod.Particles;
 import net.narutomod.creativetab.TabModTab;
 import net.narutomod.ElementsNarutomodMod;
+import net.narutomod.justuconfig;
 
 import java.util.List;
 import javax.annotation.Nullable;
@@ -253,7 +254,7 @@ public class ItemShakuton extends ElementsNarutomodMod.ModElement {
 
 		@Override
 		public void onUpdate() {
-            float touchDmg = 6.0f;
+            float touchDmg = justuconfig.scorch_damage;
 			super.onUpdate();
 			if (!this.isLaunched()) {
 				if (this.maxScale != this.getEntityScale()) {

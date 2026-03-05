@@ -61,7 +61,7 @@ import net.narutomod.procedure.ProcedureAirPunch;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.procedure.ProcedureAoeCommand;
 import net.narutomod.procedure.ProcedureSync;
-import net.narutomod.ModConfig;
+import net.narutomod.justuconfig;
 
 import java.util.List;
 
@@ -217,7 +217,7 @@ public class ItemJinton extends ElementsNarutomodMod.ModElement {
 			}
 
 			// multiplier
-			double mult = ModConfig.JINTON_DAMAGE_MULT;
+			double mult = justuconfig.JINTON_DAMAGE_MULT;
 			if (mult <= 0.0D) {
 				mult = 0.0D;
 			}
@@ -227,7 +227,7 @@ public class ItemJinton extends ElementsNarutomodMod.ModElement {
 			}
 
 			// total cap per BEAM (0 or negative = unlimited)
-			double totalCapD = ModConfig.JINTON_MAX_TOTAL_DAMAGE;
+			double totalCapD = justuconfig.JINTON_MAX_TOTAL_DAMAGE;
 			if (totalCapD > 0.0D) {
 				float totalCap = (float)totalCapD;
 				float remaining = totalCap - this.totalDamageDealt;
@@ -338,7 +338,7 @@ public class ItemJinton extends ElementsNarutomodMod.ModElement {
 		}
 
 		// multiplier (cube also benefits)
-		double mult = ModConfig.JINTON_DAMAGE_MULT;
+		double mult = justuconfig.JINTON_DAMAGE_MULT;
 		if (mult <= 0.0D) {
 			mult = 0.0D;
 		}
@@ -348,7 +348,7 @@ public class ItemJinton extends ElementsNarutomodMod.ModElement {
 		}
 
 		// Clamp to config max-per-HIT (if > 0)
-		double max = ModConfig.JINTON_MAX_DAMAGE;
+		double max = justuconfig.JINTON_MAX_DAMAGE;
 		if (max > 0.0D && amount > (float)max) {
 			amount = (float)max;
 		}

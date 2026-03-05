@@ -61,7 +61,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
-import net.narutomod.ModConfig;
+import net.narutomod.justuconfig;
 
 import java.util.Map;
 import java.util.UUID;
@@ -564,7 +564,7 @@ public class EntityHiraishin extends ElementsNarutomodMod.ModElement {
 						double d = vec.subtract(vec1).lengthVector();
 						Vec3d vec2 = vec1.add(player.getLookVec().scale(d + 10d));
 						AxisAlignedBB aabb = new AxisAlignedBB(vec.x-0.5d, vec.y, vec.z-0.5d, vec.x+0.5d, vec.y+1.0d, vec.z+0.5d);
-						if (d >= ModConfig.Flying_Thunder_God_distents) {
+						if (d >= justuconfig.Flying_Thunder_God_distents) {
 							continue;
 							}
 						if (aabb.grow(d * 0.05d).calculateIntercept(vec1, vec2) != null) {
