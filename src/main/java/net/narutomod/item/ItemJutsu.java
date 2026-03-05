@@ -800,6 +800,7 @@ public class ItemJutsu extends ElementsNarutomodMod.ModElement {
 			KEKKEIMORA,
 			BLOOD,
 			SHOTON,
+            SENNINKA,
 			OTHER;
 		}
 	}

@@ -61,6 +61,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
+import net.narutomod.ModConfig;
 
 import java.util.Map;
 import java.util.UUID;
@@ -219,12 +220,7 @@ public class EntityHiraishin extends ElementsNarutomodMod.ModElement {
 		@Override
 		public void onUpdate() {
 			super.onUpdate();
-			  // Lifetime control (example: 1200 ticks = 60 seconds)
-			  if (!this.world.isRemote && this.ticksExisted > 1200) {
-			  	this.setDead();
-			  	return;
-			  	}
-			  	
+
 			if (!this.world.isRemote && this.userUuid != null) {
 				if (((WorldServer)this.world).getEntityFromUuid(this.userUuid) != null) {
 					boolean update = false;
@@ -568,8 +564,8 @@ public class EntityHiraishin extends ElementsNarutomodMod.ModElement {
 						double d = vec.subtract(vec1).lengthVector();
 						Vec3d vec2 = vec1.add(player.getLookVec().scale(d + 10d));
 						AxisAlignedBB aabb = new AxisAlignedBB(vec.x-0.5d, vec.y, vec.z-0.5d, vec.x+0.5d, vec.y+1.0d, vec.z+0.5d);
-						if (d > 100.0D) {
-							continue; // skip marks farther than 100 blocks
+						if (d >= ModConfig.Flying_Thunder_God_distents) {
+							continue;
 							}
 						if (aabb.grow(d * 0.05d).calculateIntercept(vec1, vec2) != null) {
 							Chakra.Pathway chakra = Chakra.pathway(player);

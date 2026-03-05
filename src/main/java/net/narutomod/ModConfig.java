@@ -72,6 +72,9 @@ public class ModConfig extends ElementsNarutomodMod.ModElement {
     @Config.Comment("Overall multiplier for Jinton damage (beam & cube). 1.0 = normal, 0.5 = half, 2.0 = double.")
     public static double JINTON_DAMAGE_MULT = 1.0D;
 
+    @Config.Comment("how many you want the player to teleport with Flying Thunder God Jutsu.")
+    public static double Flying_Thunder_God_distents = 200.0D;
+
     public ModConfig(ElementsNarutomodMod instance) {
         super(instance, 837);
     }
