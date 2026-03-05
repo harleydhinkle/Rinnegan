@@ -1,6 +1,6 @@
 package net.narutomod;
 import net.minecraftforge.common.config.Config;
-@Config(modid = NarutomodMod.MODID)
+@Config(modid = NarutomodMod.MODID,name = "justuconfig")
 @ElementsNarutomodMod.ModElement.Tag
 public class justuconfig extends ElementsNarutomodMod.ModElement {
 
