@@ -141,8 +141,8 @@ public class EntityBloodSiphonChains extends ElementsNarutomodMod.ModElement {
                 Chakra.pathway(target).consume(this.chakraDrainPerTick);
 
                 // Damage & heal
-                float damage = 4.0f;      // === 2 hearts per sec ===
-                float healAmount = 2.0f;  // === heal user 1 heart per sec ===
+                float damage = 20.0f;      // === 10 hearts per sec ===
+                float healAmount = 10.0f;  // === heal user 5 heart per sec ===
 
                 target.attackEntityFrom(net.minecraft.util.DamageSource.causeIndirectDamage(this, this.getShooter()), damage);
 
