@@ -117,14 +117,13 @@ public class EntityHidingInBloodMist extends ElementsNarutomodMod.ModElement {
                 EntityLivingBase user = this.getUser();
                 float range = this.getRange();
 
-                // === 🔴 NEW: APPLY WITHER EFFECT TO ENEMIES INSIDE MIST ===
+                // Apply wither effect to enemies in mist
                 if (this.ticksExisted % 20 == 0) {
                     for (EntityLivingBase entity : this.world.getEntitiesWithinAABB(EntityLivingBase.class,
                         this.getEntityBoundingBox().grow(range))) {
 
-                        if (entity == user) continue; // don't hurt caster
+                        if (entity == user) continue;
 
-                        // Wither I (amplifier 0) — change to 1 if you want Wither II
                         entity.addPotionEffect(new PotionEffect(MobEffects.WITHER, 40, 0));
                     }
                 }
@@ -137,6 +136,7 @@ public class EntityHidingInBloodMist extends ElementsNarutomodMod.ModElement {
 
         @Override
         protected void readEntityFromNBT(NBTTagCompound compound) {}
+
         @Override
         protected void writeEntityToNBT(NBTTagCompound compound) {}
 
@@ -145,7 +145,12 @@ public class EntityHidingInBloodMist extends ElementsNarutomodMod.ModElement {
             public boolean createJutsu(ItemStack stack, EntityLivingBase entity, float power) {
                 SoundEvent sound = net.minecraft.util.SoundEvent.REGISTRY.getObject(new ResourceLocation("narutomod:hiding_in_ash"));
                 entity.world.playSound(null, entity.posX, entity.posY, entity.posZ, sound, SoundCategory.NEUTRAL, 5, 1f);
-                entity.world.spawnEntity(new EC(entity, power));
+
+                // 🔴 POWER CAP ADDED HERE
+                float MAX_POWER = 10f;
+                float cappedPower = Math.min(power, MAX_POWER);
+
+                entity.world.spawnEntity(new EC(entity, cappedPower));
                 return true;
             }
 
