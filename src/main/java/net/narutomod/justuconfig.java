@@ -22,8 +22,23 @@ public class justuconfig extends ElementsNarutomodMod.ModElement {
     @Config.Comment("how much damage blood chains do ")
     public static float bloodchainsdamage = 6.0F;
 
-    @Config.Comment("how much heal from blood chains  ")
-    public static float bloodchainsheal = 3.0F;
+    @Config.Comment("how much heal from blood chains it will all ways deviode by 2 inless you want it to hell the same damage as the damage you can all so rase or lower how much it devids by  ")
+    public static float bloodchainsheal = bloodchainsdamage/2;
+
+    @Config.Comment("RESISTANCE_strangth what strangth does the RESISTANCE lighting chacra mode give")
+    public static int lighting_RESISTANCE_strangth = 2;
+
+    @Config.Comment("SPEED_strangth what strangth does the SPEEDlighting chacra mode give")
+    public static int lighting_SPEED_strangth = 10;
+
+    @Config.Comment("JUMP_BOOST what strangth does the JUMP_BOOST lighting chacra mode give")
+    public static int lighting_JUMP_BOOST_strangth = 5;
+
+    @Config.Comment("Damage C3 (Base is 200)")
+    public static float damage_c3 = 200.0f;
+
+    @Config.Comment("Damage C4 [Damage is base on tick](Base is 2) ")
+    public static int damage_c4 = 2;
 
     public justuconfig(ElementsNarutomodMod instance) {super(instance, 998);}
 

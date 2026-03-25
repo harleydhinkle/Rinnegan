@@ -29,6 +29,7 @@ import net.narutomod.item.ItemJutsu;
 import net.narutomod.procedure.ProcedureAoeCommand;
 import net.narutomod.event.EventSphericalExplosion;
 import net.narutomod.ElementsNarutomodMod;
+import net.narutomod.justuconfig;
 
 @ElementsNarutomodMod.ModElement.Tag
 public class EntityC3 extends ElementsNarutomodMod.ModElement {
@@ -42,14 +43,15 @@ public class EntityC3 extends ElementsNarutomodMod.ModElement {
 	@Override
 	public void initElements() {
 		elements.entities.add(() -> EntityEntryBuilder.create().entity(EC.class)
-		 .id(new ResourceLocation("narutomod", "c_3"), ENTITYID).name("c_3").tracker(64, 3, true).build());
+		 .id(new ResourceLocation("narutomod", "c_3"), ENTITYID)
+.name("c_3").tracker(64, 3, true).build());
 	}
 
 	public static class EC extends EntityLiving implements ItemJutsu.IJutsu {
 		private final int growTime = 30;
 		private final int fuseTime = 100;
 		private final int explosionRange = 32;
-		private final float explosionDamage = 200.0f;
+		private final float explosionDamage = justuconfig.damage_c3;
 		private EntitySpecialEffect.EntityCustom effectEntity;
 		private EntityLivingBase user;
 
