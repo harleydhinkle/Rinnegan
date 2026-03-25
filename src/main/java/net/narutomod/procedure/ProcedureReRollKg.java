@@ -2,55 +2,53 @@ package net.narutomod.procedure;
 
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementProgress;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.World;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.Entity;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.narutomod.ElementsNarutomodMod;
 import net.narutomod.entity.EntityBijuManager;
 import net.narutomod.item.*;
 import net.narutomod.justuconfig;
-
-
-import java.util.Map;
+import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 @ElementsNarutomodMod.ModElement.Tag
-public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
-    public ProcedureKGDistribution(ElementsNarutomodMod instance) {
-        super(instance, 847);
+public class ProcedureReRollKg extends ElementsNarutomodMod.ModElement {
+    public ProcedureReRollKg(ElementsNarutomodMod instance) {
+        super(instance, 0);
     }
-    public static void executeProcedure(Map<String, Object> dependencies) {
+
+    public static void executeProcedure(HashMap<String, Object> dependencies) {
         if (dependencies.get("entity") == null) {
-            System.err.println("Failed to load dependency entity for procedure KGDistribution!");
-            return;
-        }
-        if (dependencies.get("x") == null) {
-            System.err.println("Failed to load dependency x for procedure KGDistribution!");
-            return;
-        }
-        if (dependencies.get("y") == null) {
-            System.err.println("Failed to load dependency y for procedure KGDistribution!");
-            return;
-        }
-        if (dependencies.get("z") == null) {
-            System.err.println("Failed to load dependency z for procedure KGDistribution!");
-            return;
-        }
-        if (dependencies.get("world") == null) {
-            System.err.println("Failed to load dependency world for procedure KGDistribution!");
-            return;
+            throw new NullPointerException("Entity cannot be null.");
         }
         Entity entity = (Entity) dependencies.get("entity");
+        HashMap cmdparams = (HashMap) dependencies.get("cmdparams");
         ItemStack stack = ItemStack.EMPTY;
+        String username = "";
+        if (cmdparams.values().size() < 1) {
+            ((EntityPlayer) entity).sendStatusMessage(new TextComponentString("/reroll <target>"), false);
+        }
+
+        username = (String) (new Object() {
+            public String getText() {
+                String param = (String) cmdparams.get("0");
+                if (param != null) {
+                    return param;
+                }
+                return "";
+            }
+        }.getText());
+
+        EntityPlayerMP player = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUsername(username);
+
         int sharingan_weight = 0;
         int byakugan_weight = 0;
         int bone_weight = 0;
@@ -85,8 +83,8 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
         blood_weight = justuconfig.blood_weight_config;
         jinchuriki_weight = justuconfig.jinchuriki_weight_config;
         rngbase = ThreadLocalRandom.current().nextInt(1, ((eightgates_weight+dust_weight+crystal_weight+(blood_weight)+(sharingan_weight)+(byakugan_weight)+(bone_weight)+(lava_weight)+(scorch_weight)+(ice_weight)+(magnet_weight)+(explosion_weight)+(storm_weight)+(boil_weight) + (wood_weight) + (jinchuriki_weight))));
-        entity.getEntityData().setBoolean("firstkg", true);
-        if ((entity.getEntityData().getBoolean("firstkg"))) {
+
+        if (player != null) {
             if (rngbase <= rngbase - (rngbase - sharingan_weight) && ! (sharingan_weight == 0)) {
                 //Sharingan
                 stack = new ItemStack(ItemSharingan.helmet, (int) (1));

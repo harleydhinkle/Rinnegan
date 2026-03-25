@@ -69,7 +69,7 @@ public class EntityShadowImitation extends ElementsNarutomodMod.ModElement {
 				EntityDataManager.<Integer>createKey(EC.class, DataSerializers.VARINT);
 
 		// >>> ADDED FOR TIME LIMIT <<<
-		// Fixed hold duration (ticks) — 200 ticks = 10 seconds.
+		// Fixed hold duration (ticks)  200 ticks = 10 seconds.
 		private static final int MAX_HOLD_TICKS = 600;
 		// >>> END <<<
 
@@ -320,7 +320,7 @@ public class EntityShadowImitation extends ElementsNarutomodMod.ModElement {
 				EntityLivingBase user = entity.getUser();
 				EntityLivingBase target = entity.getTarget();
 				if (user != null && target != null) {
-					// (Rendering code unchanged — omitted here for length)
+					// (Rendering code unchanged  omitted here for length)
 				}
 			}
 

@@ -357,7 +357,7 @@ public abstract class EntitySusanooBase extends EntityCreature implements IRange
 		if (this.ticksExisted % 20 == 0 && !this.world.isRemote) {
 			EntityLivingBase owner = this.getSummoner();
 			if (owner == null) {
-				// No owner yet – don't kill here. Let onLivingUpdate handle lifetime.
+				// No owner yet  don't kill here. Let onLivingUpdate handle lifetime.
 				return;
 			}
 			if (!Chakra.pathway(owner).consume(this.chakraUsage * this.chakraUsageModifier)) {

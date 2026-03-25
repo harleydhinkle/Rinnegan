@@ -80,7 +80,7 @@ public class EntityHiraishin extends ElementsNarutomodMod.ModElement {
 	public static final int ENTITYID_RANGED = 420;
 	private static final Map<UUID, Map<UUID, Vector4d>> serverMarkerMap = Maps.newHashMap();
 	private static final Map<UUID, Vector4d> clientMarkerList = Maps.newHashMap();
-
+    public static  double distents = justuconfig.Flying_Thunder_God_distents;
 	public EntityHiraishin(ElementsNarutomodMod instance) {
 		super(instance, 841);
 	}
@@ -564,7 +564,7 @@ public class EntityHiraishin extends ElementsNarutomodMod.ModElement {
 						double d = vec.subtract(vec1).lengthVector();
 						Vec3d vec2 = vec1.add(player.getLookVec().scale(d + 10d));
 						AxisAlignedBB aabb = new AxisAlignedBB(vec.x-0.5d, vec.y, vec.z-0.5d, vec.x+0.5d, vec.y+1.0d, vec.z+0.5d);
-						if (d >= justuconfig.Flying_Thunder_God_distents) {
+						if (d >= distents) {
 							continue;
 							}
 						if (aabb.grow(d * 0.05d).calculateIntercept(vec1, vec2) != null) {

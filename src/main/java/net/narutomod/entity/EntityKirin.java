@@ -326,7 +326,7 @@ public class EntityKirin extends ElementsNarutomodMod.ModElement {
 		 SoundEvents.ENTITY_LIGHTNING_THUNDER, SoundCategory.WEATHER, 1000.0F, 0.8F + entity.world.rand.nextFloat() * 0.2F);
 	}*/
 	public static void startWeatherThunder(Entity entity, int ticks) {
-		// Weather change disabled for  Kirin – only play thunder sound if you still want the effect
+		// Weather change disabled for  Kirin  only play thunder sound if you still want the effect
 		entity.world.playSound(
 			null,
 			entity.posX,
