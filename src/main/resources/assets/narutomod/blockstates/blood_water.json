@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "level=0":  { "model": "narutomod:blood_water" },
+    "level=1":  { "model": "narutomod:blood_water" },
+    "level=2":  { "model": "narutomod:blood_water" },
+    "level=3":  { "model": "narutomod:blood_water" },
+    "level=4":  { "model": "narutomod:blood_water" },
+    "level=5":  { "model": "narutomod:blood_water" },
+    "level=6":  { "model": "narutomod:blood_water" },
+    "level=7":  { "model": "narutomod:blood_water" },
+    "level=8":  { "model": "narutomod:blood_water" },
+    "level=9":  { "model": "narutomod:blood_water" },
+    "level=10": { "model": "narutomod:blood_water" },
+    "level=11": { "model": "narutomod:blood_water" },
+    "level=12": { "model": "narutomod:blood_water" },
+    "level=13": { "model": "narutomod:blood_water" },
+    "level=14": { "model": "narutomod:blood_water" },
+    "level=15": { "model": "narutomod:blood_water" }
+  }
+}
