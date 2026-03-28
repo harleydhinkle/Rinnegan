@@ -76,7 +76,7 @@ public class EntitySwampPit extends ElementsNarutomodMod.ModElement {
 
 		@Override
 		public ItemJutsu.JutsuEnum.Type getJutsuType() {
-			return ItemJutsu.JutsuEnum.Type.DOTON;
+			return ItemJutsu.JutsuEnum.Type.SwampRelease;
 		}
 
 		@Override
