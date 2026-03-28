@@ -33,8 +33,8 @@ public class EntitySwampTar extends ElementsNarutomodMod.ModElement {
 	public static final int ENTITYID = 950;
 	public static final int ENTITYID_RANGED = 951;
 
-	public EntityQuicklime(ElementsNarutomodMod instance) {
-		super(instance, 861);
+	public EntitySwampTar(ElementsNarutomodMod instance) {
+		super(instance, 981);
 	}
 
 	@Override
@@ -139,7 +139,7 @@ public class EntitySwampTar extends ElementsNarutomodMod.ModElement {
 
 			@Override
 			public boolean createJutsu(ItemStack stack, EntityLivingBase entityIn, float power) {
-				if (stack.getItem() instanceof ItemYooton.RangedItem) {
+				if (stack.getItem() instanceof ItemSwampRelease.RangedItem) {
 					power = 1.0f / ((ItemSwampRelease.RangedItem)stack.getItem()).getCurrentJutsuXpModifier(stack, entityIn);
 					return this.createJutsu(entityIn, 2.0d, power) != null;
 				}
