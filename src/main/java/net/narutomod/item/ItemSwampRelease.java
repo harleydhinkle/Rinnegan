@@ -33,7 +33,7 @@ public class ItemSwampRelease extends ElementsNarutomodMod.ModElement {
 
     /*
      * ======================
-     * BLOOD RELEASE JUTSU
+     * Swamp RELEASE JUTSU
      * ======================
      */
      @Override
@@ -48,7 +48,7 @@ public class ItemSwampRelease extends ElementsNarutomodMod.ModElement {
             0,
             "swamp_pit",
             'S',
-            200d,
+            80d,
             new EntitySwampPit.EC.Jutsu()
         );
 
@@ -61,37 +61,45 @@ public class ItemSwampRelease extends ElementsNarutomodMod.ModElement {
             new EntitySwampTar.EC.Jutsu()
         );
 
-    public static final ItemJutsu.JutsuEnum HIDINGINBLOODMIST =
+    public static final ItemJutsu.JutsuEnum VINETRAP =
         new ItemJutsu.JutsuEnum(
             2,
-            "hiding_in_blood_mist",
-            'A',
-            80d,
-            new EntityHidingInBloodMist.EC.Jutsu()
+            "vine_trap",
+            'S',
+            200d,
+            new EntityVineTrap.EC.Jutsu()
         );
-
+ public static final ItemJutsu.JutsuEnum SUMMON =
+        new ItemJutsu.JutsuEnum(
+            2,
+            "summon",
+            'S',
+            200d,
+            new EntitySwampCreature.EC.Jutsu()
+        );
     @Override
     public void initElements() {
         this.elements.items.add(() ->
             new ItemCustom(
-                BLOODDRAGON,
-                BLOODPRISON,
-                HIDINGINBLOODMIST
-            ).setRegistryName("blood_release")
+                SWAMPPIT,
+                SWAMPTAR,
+                VINETRAP,
+				SUMMON
+            ).setRegistryName("swamp_release")
         );
     }
 
     /*
      * ======================
-     * BLOOD RELEASE ITEM
+     * SWAMP RELEASE ITEM
      * ======================
      */
 
     public static class ItemCustom extends ItemJutsu.Base {
 
         public ItemCustom(ItemJutsu.JutsuEnum... list) {
-            super(ItemJutsu.JutsuEnum.Type.BLOOD, list);
-            this.setUnlocalizedName("blood_release");
+            super(ItemJutsu.JutsuEnum.Type.SWAMP, list);
+            this.setUnlocalizedName("swamp_release");
             this.setCreativeTab(TabModTab.tab);
             // Removed TabModTab reference
         }
