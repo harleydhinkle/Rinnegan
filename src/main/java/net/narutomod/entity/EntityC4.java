@@ -34,6 +34,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.nbt.NBTTagCompound;
+import net.narutomod.justuconfig;
 
 @ElementsNarutomodMod.ModElement.Tag
 public class EntityC4 extends ElementsNarutomodMod.ModElement {
@@ -59,7 +60,7 @@ public class EntityC4 extends ElementsNarutomodMod.ModElement {
 		private final int fuse = 50;
 		private final float blastRadius = 56.0f;
 		private int damageTicks = 100;
-		private int damagePerTick = 2;
+		private int damagePerTick = justuconfig.damage_c4;
 		private int ignitionTime;
 		private float nextStepDistance = this.finalSize;
 		private int deathTicks;

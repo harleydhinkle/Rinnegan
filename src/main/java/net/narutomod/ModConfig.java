@@ -63,14 +63,7 @@ public class ModConfig extends ElementsNarutomodMod.ModElement {
     @Config.Comment("Ninja XP gain multiplier (higher = faster NinjaXp gain). Default = 0.5")
     public static double NINJAXP_MULTIPLIER = 0.5D;
 
-    @Config.Comment("Maximum damage Jinton (beam & cube) can deal per hit. Set to 0 or negative to disable this per-hit cap.")
-    public static double JINTON_MAX_DAMAGE = 0.0D;
 
-    @Config.Comment("Maximum TOTAL damage Jinton BEAM can deal across its entire lifetime (overall cap). Set to 0 or negative to disable the total cap.")
-    public static double JINTON_MAX_TOTAL_DAMAGE = 10000.0D;
-
-    @Config.Comment("Overall multiplier for Jinton damage (beam & cube). 1.0 = normal, 0.5 = half, 2.0 = double.")
-    public static double JINTON_DAMAGE_MULT = 1.0D;
 
     public ModConfig(ElementsNarutomodMod instance) {
         super(instance, 837);

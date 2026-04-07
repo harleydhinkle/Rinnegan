@@ -36,7 +36,7 @@ import net.narutomod.creativetab.TabModTab;
 import net.narutomod.Particles;
 import net.narutomod.Chakra;
 import net.narutomod.ElementsNarutomodMod;
-
+import net.narutomod.justuconfig;
 import javax.annotation.Nullable;
 
 @ElementsNarutomodMod.ModElement.Tag
@@ -76,7 +76,8 @@ public class ItemRaiton extends ElementsNarutomodMod.ModElement {
 			this.setRegistryName("raiton");
 			this.setCreativeTab(TabModTab.tab);
 		}
-	}
+
+	}
 
 	public static class EntityChakraMode extends Entity implements ItemJutsu.IJutsu {
 		private final double CHAKRA_BURN = CHAKRAMODE.chakraUsage; // per second
@@ -84,7 +85,6 @@ public class ItemRaiton extends ElementsNarutomodMod.ModElement {
 		private ItemStack usingItemstack;
 		private int strengthAmplifier = 12;
 		private float modifier;
-
 		public EntityChakraMode(World a) {
 			super(a);
 			this.setSize(0.01f, 0.01f);
@@ -129,10 +129,11 @@ public class ItemRaiton extends ElementsNarutomodMod.ModElement {
 						this.setDead();
 					}
 					int i = Math.max((int)(MathHelper.sqrt(chakra.getAmount()) / (2.5d * 3d)), 9) - 9;
-					this.summoner.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 22, 2, false, false));
-					this.summoner.addPotionEffect(new PotionEffect(MobEffects.SPEED, 22, 10, false, false));
+
+					this.summoner.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 22, justuconfig.lighting_RESISTANCE_strangth, false, false));
+					this.summoner.addPotionEffect(new PotionEffect(MobEffects.SPEED, 22, justuconfig.lighting_SPEED_strangth, false, false));
 					this.summoner.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 22, this.strengthAmplifier + i, false, false));
-					this.summoner.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 22, 5, false, false));
+					this.summoner.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 22, justuconfig.lighting_JUMP_BOOST_strangth, false, false));
 				}
 				if (this.modifier > 0.0f) {
 					ProcedureWhenPlayerAttcked.setExtraDamageReduction(this.summoner, 1.0f - this.modifier);

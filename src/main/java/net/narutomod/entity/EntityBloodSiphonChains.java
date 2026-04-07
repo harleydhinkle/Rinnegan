@@ -32,6 +32,7 @@ import net.narutomod.Chakra;
 import net.narutomod.ElementsNarutomodMod;
 
 import javax.annotation.Nullable;
+import net.narutomod.justuconfig;
 
 @ElementsNarutomodMod.ModElement.Tag
 public class EntityBloodSiphonChains extends ElementsNarutomodMod.ModElement {
@@ -190,8 +191,8 @@ public class EntityBloodSiphonChains extends ElementsNarutomodMod.ModElement {
                 Chakra.pathway(target).consume(this.chakraDrainPerSecond);
 
                 // Damage & heal
-                float damage = 4.0f;      // 2 hearts/sec
-                float healAmount = 2.0f;  // 1 heart/sec
+                float damage = justuconfig.bloodchainsdamage;
+                float healAmount = justuconfig.bloodchainsheal;
 
                 target.attackEntityFrom(net.minecraft.util.DamageSource.causeIndirectDamage(this, this.getShooter()), damage);
 
