@@ -79,7 +79,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
 		futton_weight = justuconfig.futton_weight_config;
 		kekkeitota_weight = justuconfig.kekkeitota_weight_config;
 		jinchuriki_weight = justuconfig.jinchuriki_weight_config;
-		rngbase = ThreadLocalRandom.current().nextInt(1, (((sharingan_weight)+(byakugan_weight)+(shikotsumyaku_weight)+(yooton_weight)+(shakuton_weight)+(hyoton_weight)+(jiton_weight)+(bakuton_weight)+(ranton_weight)+(futton_weight))));
+		rngbase = ThreadLocalRandom.current().nextInt(1, (((sharingan_weight)+(byakugan_weight)+(shikotsumyaku_weight)+(yooton_weight)+(shakuton_weight)+(hyoton_weight)+(jiton_weight)+(bakuton_weight)+(ranton_weight)+(futton_weight) + (kekkeitota_weight) + (jinchuriki_weight))));
 		entity.getEntityData().setBoolean("firstkg", true);
 		if ((entity.getEntityData().getBoolean("firstkg"))) {
 			if (rngbase <= rngbase - (rngbase - sharingan_weight) && ! (sharingan_weight == 0)) {
