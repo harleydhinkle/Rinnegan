@@ -24,6 +24,20 @@ public class justuconfig extends ElementsNarutomodMod.ModElement {
 
     @Config.Comment("how much heal from blood chains  ")
     public static float bloodchainsheal = 3.0F;
+    
+    @Config.Comment("KG Distrubution weights")
+    public static int sharingan_weight_config = 3;
+    public static int byakugan_weight_config = 3;
+    public static int shikotsumyaku_weight_config = 3;
+    public static int yooton_weight_config = 4;
+    public static int shakuton_weight_config = 4;
+    public static int hyoton_weight_config = 4;
+    public static int jiton_weight_config = 5;
+    public static int bakuton_weight_config = 4;
+    public static int ranton_weight_config = 4;
+    public static int futton_weight_config = 4;
+    public static int kekkeitota_weight_config = 3;
+    public static int jinchuriki_weight_config = 1;
 
     public justuconfig(ElementsNarutomodMod instance) {super(instance, 998);}
 
