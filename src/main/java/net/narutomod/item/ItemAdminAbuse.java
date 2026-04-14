@@ -34,7 +34,7 @@ public class ItemAdminAbuse extends ElementsNarutomodMod.ModElement {
 
     @Override
     public void initElements() {
-        elements.items.add(() -> new ItemSword(EnumHelper.addToolMaterial("ADMIN_ABUSE", 3, 5000000, 40f, 9999999999999f, 0)) {
+        elements.items.add(() -> new ItemSword(EnumHelper.addToolMaterial("ADMIN_ABUSE", 4, 5000000, 40f, 30000f, 0)) {
             @Override
             public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot slot) {
                 Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier>create();

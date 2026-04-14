@@ -86,8 +86,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
 				//Sharingan
 				stack = new ItemStack(ItemSharingan.helmet, (int) (1));
 				ItemHandlerHelper.giveItemToPlayer((EntityPlayer) entity, stack);
-				((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
-				((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
+				((ItemDojutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
 				Advancement adv = ((MinecraftServer) ((EntityPlayerMP) entity).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:sharinganopened"));
 				AdvancementProgress ap = (((EntityPlayerMP) entity).getAdvancements().getProgress(adv));
 				for (String crit : ap.getRemaningCriteria()) {
@@ -98,8 +97,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
 				//Byakugan
 				stack = new ItemStack(ItemByakugan.helmet, (int) (1));
 				ItemHandlerHelper.giveItemToPlayer((EntityPlayer) entity, stack);
-				((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
-				((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
+				((ItemDojutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
 				Advancement adv = ((MinecraftServer) ((EntityPlayerMP) entity).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:byakuganopened"));
 				AdvancementProgress ap = (((EntityPlayerMP) entity).getAdvancements().getProgress(adv));
 				for (String crit : ap.getRemaningCriteria()) {

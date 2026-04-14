@@ -76,91 +76,89 @@ public class ProcedureReRollKg extends ElementsNarutomodMod.ModElement {
         futton_weight = justuconfig.futton_weight_config;
         kekkeitota_weight = justuconfig.kekkeitota_weight_config;
         jinchuriki_weight = justuconfig.jinchuriki_weight_config;
-        rngbase = ThreadLocalRandom.current().nextInt(1, (((sharingan_weight) + (byakugan_weight) + (shikotsumyaku_weight) + (yooton_weight) + (shakuton_weight) + (hyoton_weight) + (jiton_weight) + (bakuton_weight) + (ranton_weight) + (futton_weight) + (kekkeitota_weight) + (jinchuriki_weight))));
+        rngbase = ThreadLocalRandom.current().nextInt(1, (((sharingan_weight)+(byakugan_weight)+(shikotsumyaku_weight)+(yooton_weight)+(shakuton_weight)+(hyoton_weight)+(jiton_weight)+(bakuton_weight)+(ranton_weight)+(futton_weight) + (kekkeitota_weight) + (jinchuriki_weight))));
 
         if (player != null) {
-            if (rngbase <= rngbase - (rngbase - sharingan_weight) && !(sharingan_weight == 0)) {
+            if (rngbase <= rngbase - (rngbase - sharingan_weight) && ! (sharingan_weight == 0)) {
                 //Sharingan
                 stack = new ItemStack(ItemSharingan.helmet, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
-                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
-                ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
-                Advancement adv = ((MinecraftServer) ((EntityPlayerMP) entity).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:sharinganopened"));
-                AdvancementProgress ap = (((EntityPlayerMP) entity).getAdvancements().getProgress(adv));
+                ((ItemDojutsu.Base) stack.getItem()).setOwner(stack, player);
+                Advancement adv = ((MinecraftServer) (player).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:sharinganopened"));
+                AdvancementProgress ap = ((player).getAdvancements().getProgress(adv));
                 for (String crit : ap.getRemaningCriteria()) {
-                    ((EntityPlayerMP) entity).getAdvancements().grantCriterion(adv, crit);
+                    (player).getAdvancements().grantCriterion(adv, crit);
                 }
                 entity.getEntityData().setBoolean("firstkg", false);
-            } else if (rngbase > rngbase - (rngbase - sharingan_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight) && !(byakugan_weight == 0)) {
+            } else if (rngbase > rngbase - (rngbase - sharingan_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight)&& ! (byakugan_weight == 0)) {
                 //Byakugan
                 stack = new ItemStack(ItemByakugan.helmet, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
-                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
-                ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
-                Advancement adv = ((MinecraftServer) ((EntityPlayerMP) entity).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:byakuganopened"));
-                AdvancementProgress ap = (((EntityPlayerMP) entity).getAdvancements().getProgress(adv));
+                ((ItemDojutsu.Base) stack.getItem()).setOwner(stack, player);
+                Advancement adv = ((MinecraftServer) (player).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:byakuganopened"));
+                AdvancementProgress ap = ((player).getAdvancements().getProgress(adv));
                 for (String crit : ap.getRemaningCriteria()) {
-                    ((EntityPlayerMP) entity).getAdvancements().grantCriterion(adv, crit);
+                    (player).getAdvancements().grantCriterion(adv, crit);
                 }
                 entity.getEntityData().setBoolean("firstkg", false);
-            } else if (rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - shikotsumyaku_weight) && !(shikotsumyaku_weight == 0)) {
+            } else if (rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - shikotsumyaku_weight)&& ! (shikotsumyaku_weight == 0)) {
                 //shikotsumyaku
                 stack = new ItemStack(ItemShikotsumyaku.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
-                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
+                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
-                Advancement adv = ((MinecraftServer) ((EntityPlayerMP) entity).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:shikotsumyaku_acquired"));
-                AdvancementProgress ap = (((EntityPlayerMP) entity).getAdvancements().getProgress(adv));
+                Advancement adv = ((MinecraftServer) (player).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:shikotsumyaku_acquired"));
+                AdvancementProgress ap = ((player).getAdvancements().getProgress(adv));
                 for (String crit : ap.getRemaningCriteria()) {
-                    ((EntityPlayerMP) entity).getAdvancements().grantCriterion(adv, crit);
+                    (player).getAdvancements().grantCriterion(adv, crit);
                 }
                 entity.getEntityData().setBoolean("firstkg", false);
             } else if (!(yooton_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - shikotsumyaku_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - shikotsumyaku_weight - yooton_weight)) {
                 //yooton
                 stack = new ItemStack(ItemYooton.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
-                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
+                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
-                Advancement adv = ((MinecraftServer) ((EntityPlayerMP) entity).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:yooton_acquired"));
-                AdvancementProgress ap = (((EntityPlayerMP) entity).getAdvancements().getProgress(adv));
+                Advancement adv = ((MinecraftServer) (player).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:yooton_acquired"));
+                AdvancementProgress ap = ((player).getAdvancements().getProgress(adv));
                 for (String crit : ap.getRemaningCriteria()) {
-                    ((EntityPlayerMP) entity).getAdvancements().grantCriterion(adv, crit);
+                    (player).getAdvancements().grantCriterion(adv, crit);
                 }
                 entity.getEntityData().setBoolean("firstkg", false);
             } else if (!(shakuton_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - shikotsumyaku_weight - yooton_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - shikotsumyaku_weight - yooton_weight - shakuton_weight)) {
                 //shakuton
                 stack = new ItemStack(ItemShakuton.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
-                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
+                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
-                Advancement adv = ((MinecraftServer) ((EntityPlayerMP) entity).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:shakuton_acquired"));
-                AdvancementProgress ap = (((EntityPlayerMP) entity).getAdvancements().getProgress(adv));
+                Advancement adv = ((MinecraftServer) (player).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:shakuton_acquired"));
+                AdvancementProgress ap = ((player).getAdvancements().getProgress(adv));
                 for (String crit : ap.getRemaningCriteria()) {
-                    ((EntityPlayerMP) entity).getAdvancements().grantCriterion(adv, crit);
+                    (player).getAdvancements().grantCriterion(adv, crit);
                 }
                 entity.getEntityData().setBoolean("firstkg", false);
             } else if (!(hyoton_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - shikotsumyaku_weight - yooton_weight - shakuton_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - shikotsumyaku_weight - yooton_weight - shakuton_weight - hyoton_weight)) {
                 //hyoton
                 stack = new ItemStack(ItemHyoton.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
-                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
+                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
-                Advancement adv = ((MinecraftServer) ((EntityPlayerMP) entity).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:hyoton_acquired"));
-                AdvancementProgress ap = (((EntityPlayerMP) entity).getAdvancements().getProgress(adv));
+                Advancement adv = ((MinecraftServer) (player).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:hyoton_acquired"));
+                AdvancementProgress ap = ((player).getAdvancements().getProgress(adv));
                 for (String crit : ap.getRemaningCriteria()) {
-                    ((EntityPlayerMP) entity).getAdvancements().grantCriterion(adv, crit);
+                    (player).getAdvancements().grantCriterion(adv, crit);
                 }
                 entity.getEntityData().setBoolean("firstkg", false);
             } else if (!(jiton_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - shikotsumyaku_weight - yooton_weight - shakuton_weight - hyoton_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - shikotsumyaku_weight - yooton_weight - shakuton_weight - hyoton_weight - jiton_weight)) {
                 //jiton
                 stack = new ItemStack(ItemJiton.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
-                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
+                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
-                Advancement adv = ((MinecraftServer) ((EntityPlayerMP) entity).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:jiton_acquired"));
-                AdvancementProgress ap = (((EntityPlayerMP) entity).getAdvancements().getProgress(adv));
+                Advancement adv = ((MinecraftServer) (player).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:jiton_acquired"));
+                AdvancementProgress ap = ((player).getAdvancements().getProgress(adv));
                 for (String crit : ap.getRemaningCriteria()) {
-                    ((EntityPlayerMP) entity).getAdvancements().grantCriterion(adv, crit);
+                    (player).getAdvancements().grantCriterion(adv, crit);
                 }
                 entity.getEntityData().setBoolean("firstkg", false);
             } else if (!(bakuton_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - shikotsumyaku_weight - yooton_weight - shakuton_weight - hyoton_weight - jiton_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - shikotsumyaku_weight - yooton_weight - shakuton_weight - hyoton_weight - jiton_weight - bakuton_weight)) {
@@ -168,13 +166,13 @@ public class ProcedureReRollKg extends ElementsNarutomodMod.ModElement {
                 //Item
                 stack = new ItemStack(ItemBakuton.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
-                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
+                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
                 //Advacement
-                Advancement adv = ((MinecraftServer) ((EntityPlayerMP) entity).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:bakuton_acquired"));
-                AdvancementProgress ap = (((EntityPlayerMP) entity).getAdvancements().getProgress(adv));
+                Advancement adv = ((MinecraftServer) (player).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:bakuton_acquired"));
+                AdvancementProgress ap = ((player).getAdvancements().getProgress(adv));
                 for (String crit : ap.getRemaningCriteria()) {
-                    ((EntityPlayerMP) entity).getAdvancements().grantCriterion(adv, crit);
+                    (player).getAdvancements().grantCriterion(adv, crit);
                 }
                 //Stat
                 entity.getEntityData().setBoolean("firstkg", false);
@@ -182,46 +180,45 @@ public class ProcedureReRollKg extends ElementsNarutomodMod.ModElement {
                 //ranton
                 stack = new ItemStack(ItemRanton.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
-                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
+                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
-                Advancement adv = ((MinecraftServer) ((EntityPlayerMP) entity).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:ranton_acquired"));
-                AdvancementProgress ap = (((EntityPlayerMP) entity).getAdvancements().getProgress(adv));
+                Advancement adv = ((MinecraftServer) (player).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:ranton_acquired"));
+                AdvancementProgress ap = ((player).getAdvancements().getProgress(adv));
                 for (String crit : ap.getRemaningCriteria()) {
-                    ((EntityPlayerMP) entity).getAdvancements().grantCriterion(adv, crit);
+                    (player).getAdvancements().grantCriterion(adv, crit);
                 }
-                entity.getEntityData().setBoolean("firstkg", false);
+                entity.getEntityData().setBoolean("firstkg", true);
             } else if (!(futton_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - shikotsumyaku_weight - yooton_weight - shakuton_weight - hyoton_weight - jiton_weight - bakuton_weight - ranton_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - shikotsumyaku_weight - yooton_weight - shakuton_weight - hyoton_weight - jiton_weight - bakuton_weight - ranton_weight - futton_weight)) {
                 //futton
                 stack = new ItemStack(ItemFuton.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
-                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
+                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
-                Advancement adv = ((MinecraftServer) ((EntityPlayerMP) entity).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:futton_acquired"));
-                AdvancementProgress ap = (((EntityPlayerMP) entity).getAdvancements().getProgress(adv));
+                Advancement adv = ((MinecraftServer) (player).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:futton_acquired"));
+                AdvancementProgress ap = ((player).getAdvancements().getProgress(adv));
                 for (String crit : ap.getRemaningCriteria()) {
-                    ((EntityPlayerMP) entity).getAdvancements().grantCriterion(adv, crit);
+                    (player).getAdvancements().grantCriterion(adv, crit);
                 }
                 entity.getEntityData().setBoolean("firstkg", false);
             } else if (!(kekkeitota_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - shikotsumyaku_weight - yooton_weight - shakuton_weight - hyoton_weight - jiton_weight - bakuton_weight - ranton_weight - futton_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - shikotsumyaku_weight - yooton_weight - shakuton_weight - hyoton_weight - jiton_weight - bakuton_weight - ranton_weight - futton_weight - kekkeitota_weight)) {
                 //kekkeitota
                 stack = new ItemStack(ItemKekkeiMora.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
-                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
+                ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
-                Advancement adv = ((MinecraftServer) ((EntityPlayerMP) entity).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:kekkei_tota_awakened"));
-                AdvancementProgress ap = (((EntityPlayerMP) entity).getAdvancements().getProgress(adv));
+                Advancement adv = ((MinecraftServer) (player).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:kekkei_tota_awakened"));
+                AdvancementProgress ap = ((player).getAdvancements().getProgress(adv));
                 for (String crit : ap.getRemaningCriteria()) {
-                    ((EntityPlayerMP) entity).getAdvancements().grantCriterion(adv, crit);
+                    (player).getAdvancements().grantCriterion(adv, crit);
                 }
-                entity.getEntityData().setBoolean("firstkg", false);
+                entity.getEntityData().setBoolean("firstkg", true);
             } else if (!(jinchuriki_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - shikotsumyaku_weight - yooton_weight - shakuton_weight - hyoton_weight - jiton_weight - bakuton_weight - ranton_weight - futton_weight - kekkeitota_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - shikotsumyaku_weight - yooton_weight - shakuton_weight - hyoton_weight - jiton_weight - bakuton_weight - ranton_weight - futton_weight - kekkeitota_weight - jinchuriki_weight)) {
                 //jinchuriki
                 int jintail = EntityBijuManager.getRandomAvailableBiju();
                 EntityBijuManager.setVesselByTails(entity, jintail);
-                MinecraftServer server = ((EntityPlayerMP) entity).getServer();
-                server.getPlayerList().sendMessage(new TextComponentString(entity.getName() + " Has Become the Jinchuriki of the " + jintail + "!"));
-                entity.getEntityData().setBoolean("firstkg", false);
-
+                MinecraftServer server = (player).getServer();
+                server.getPlayerList().sendMessage(new TextComponentString(entity.getName() +" Has Become the Jinchuriki of the "+jintail+"!"));
+                entity.getEntityData().setBoolean("firstkg", true);
 
             }
         }
