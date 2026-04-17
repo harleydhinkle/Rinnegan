@@ -28,16 +28,22 @@ public class justuconfig extends ElementsNarutomodMod.ModElement {
     @Config.Comment("KG Distrubution weights")
     public static int sharingan_weight_config = 3;
     public static int byakugan_weight_config = 3;
-    public static int shikotsumyaku_weight_config = 3;
-    public static int yooton_weight_config = 4;
-    public static int shakuton_weight_config = 4;
-    public static int hyoton_weight_config = 4;
-    public static int jiton_weight_config = 5;
-    public static int bakuton_weight_config = 4;
-    public static int ranton_weight_config = 4;
-    public static int futton_weight_config = 4;
-    public static int kekkeitota_weight_config = 3;
+    public static int bone_weight_config = 3;
+    public static int lava_weight_config = 4;
+    public static int scorch_weight_config = 4;
+    public static int ice_weight_config = 4;
+    public static int magnet_weight_config = 5;
+    public static int explosion_weight_config = 4;
+    public static int storm_weight_config = 4;
+    public static int boil_weight_config = 4;
+    public static int wood_weight_config = 3;
+    public static int eightgates_weight_config = 2;
+    public static int dust_weight_config = 2;
+    public static int crystal_weight_config = 2;
+    public static int blood_weight_config = 2;
     public static int jinchuriki_weight_config = 1;
+
+
 
     public justuconfig(ElementsNarutomodMod instance) {super(instance, 998);}
 
