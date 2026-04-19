@@ -135,12 +135,12 @@ public class EntitySwampTar extends ElementsNarutomodMod.ModElement {
 		}
 
 		public static class Jutsu implements ItemJutsu.IJutsuCallback {
-			private static final float BASE_DAMAGE = 20.0f;
+			private static final float BASE_DAMAGE = 40.0f;
 
 			@Override
 			public boolean createJutsu(ItemStack stack, EntityLivingBase entityIn, float power) {
 				if (stack.getItem() instanceof ItemSwampRelease.RangedItem) {
-					power = 1.0f / ((ItemSwampRelease.RangedItem)stack.getItem()).getCurrentJutsuXpModifier(stack, entityIn);
+					power = 2.0f / ((ItemSwampRelease.RangedItem)stack.getItem()).getCurrentJutsuXpModifier(stack, entityIn);
 					return this.createJutsu(entityIn, 2.0d, power) != null;
 				}
 				return false;
