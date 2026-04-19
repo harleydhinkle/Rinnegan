@@ -47,7 +47,7 @@ public class ItemSwampRelease extends ElementsNarutomodMod.ModElement {
         new ItemJutsu.JutsuEnum(
             0,
             "swamp_pit",
-            'S',
+            'A',
             80d,
             new EntitySwampPit.EC.Jutsu()
         );
@@ -56,7 +56,7 @@ public class ItemSwampRelease extends ElementsNarutomodMod.ModElement {
         new ItemJutsu.JutsuEnum(
             1,
             "swamp_tar",
-            'S',
+            'A',
             150d,
             new EntitySwampTar.EC.Jutsu()
         );
@@ -72,10 +72,10 @@ public class ItemSwampRelease extends ElementsNarutomodMod.ModElement {
  public static final ItemJutsu.JutsuEnum SUMMON =
         new ItemJutsu.JutsuEnum(
             2,
-            "summon",
+            "swamp_sentry",
             'S',
             200d,
-            new EntitySwampCreature.EC.Jutsu()
+            new EntitySwampSentry.EC.Jutsu()
         );
     @Override
     public void initElements() {
@@ -84,7 +84,7 @@ public class ItemSwampRelease extends ElementsNarutomodMod.ModElement {
                 SWAMPPIT,
                 SWAMPTAR,
                 VINETRAP,
-				SUMMON
+				SWAMPSENTRY,
             ).setRegistryName("swamp_release")
         );
     }
