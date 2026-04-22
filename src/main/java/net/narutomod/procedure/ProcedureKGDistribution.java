@@ -195,7 +195,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
 				for (String crit : ap.getRemaningCriteria()) {
 					((EntityPlayerMP) entity).getAdvancements().grantCriterion(adv, crit);
 				}
-				entity.getEntityData().setBoolean("firstkg", true);
+				entity.getEntityData().setBoolean("firstkg", false);
 			} else if (!(boil_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight - boil_weight)) {
 				//boil
 				stack = new ItemStack(ItemFuton.block, (int) (1));
@@ -219,14 +219,14 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
 				for (String crit : ap.getRemaningCriteria()) {
 					((EntityPlayerMP) entity).getAdvancements().grantCriterion(adv, crit);
 				}
-				entity.getEntityData().setBoolean("firstkg", true);
+				entity.getEntityData().setBoolean("firstkg", false);
 			} else if (!(jinchuriki_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight - boil_weight - wood_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight - boil_weight - wood_weight - jinchuriki_weight)) {
 				//jinchuriki
 				int jintail = EntityBijuManager.getRandomAvailableBiju();
 				EntityBijuManager.setVesselByTails(entity, jintail);
 				MinecraftServer server = ((EntityPlayerMP) entity).getServer();
 				server.getPlayerList().sendMessage(new TextComponentString(entity.getName() +" Has Become the Jinchuriki of the "+jintail+"!"));
-				entity.getEntityData().setBoolean("firstkg", true);
+				entity.getEntityData().setBoolean("firstkg", false);
 
 			}
 			else if (!(dust_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight - boil_weight - wood_weight-jinchuriki_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight - boil_weight - wood_weight - jinchuriki_weight-dust_weight)) {
@@ -240,7 +240,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
 				for (String crit : ap.getRemaningCriteria()) {
 					((EntityPlayerMP) entity).getAdvancements().grantCriterion(adv, crit);
 				}
-				entity.getEntityData().setBoolean("firstkg", true);
+				entity.getEntityData().setBoolean("firstkg", false);
 			}
 			else if (!(crystal_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight - boil_weight - wood_weight-jinchuriki_weight-dust_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight - boil_weight - wood_weight - jinchuriki_weight-dust_weight-crystal_weight)) {
 				stack = new ItemStack(ItemShoton.block, (int) (1));
@@ -252,7 +252,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
 				//for (String crit : ap.getRemaningCriteria()) {
 					//((EntityPlayerMP) entity).getAdvancements().grantCriterion(adv, crit);
 				}
-				entity.getEntityData().setBoolean("firstkg", true);
+				entity.getEntityData().setBoolean("firstkg", false);
 			}
 			else if (!(eightgates_weight == 0) && rngbase > rngbase - (rngbase -crystal_weight- sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight - boil_weight - wood_weight-jinchuriki_weight-dust_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight - boil_weight - wood_weight - jinchuriki_weight-dust_weight-crystal_weight-eightgates_weight)) {
 				stack = new ItemStack(ItemEightGates.block, (int) (1));
@@ -264,7 +264,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
 				for (String crit : ap.getRemaningCriteria()) {
 					((EntityPlayerMP) entity).getAdvancements().grantCriterion(adv, crit);
 				}
-				entity.getEntityData().setBoolean("firstkg", true);
+				entity.getEntityData().setBoolean("firstkg", false);
 			}
 			else if (!(blood_weight == 0) && rngbase > rngbase - (rngbase -crystal_weight- sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight - boil_weight - wood_weight-jinchuriki_weight-dust_weight-eightgates_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight - boil_weight - wood_weight - jinchuriki_weight-dust_weight-crystal_weight-eightgates_weight-blood_weight)) {
 				stack = new ItemStack(ItemBloodRelease.block, (int) (1));
@@ -276,7 +276,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
 				//for (String crit : ap.getRemaningCriteria()) {
 				//	((EntityPlayerMP) entity).getAdvancements().grantCriterion(adv, crit);
 				//}
-				entity.getEntityData().setBoolean("firstkg", true);
+				entity.getEntityData().setBoolean("firstkg", false);
 			}
 		}
 	}

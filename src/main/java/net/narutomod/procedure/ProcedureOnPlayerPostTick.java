@@ -538,6 +538,7 @@ public class ProcedureOnPlayerPostTick extends ElementsNarutomodMod.ModElement {
 							$_dependencies.put("z", z);
 							$_dependencies.put("world", world);
 							ProcedureKGDistribution.executeProcedure($_dependencies);
+							ProcedureClanDistribution.executeProcedure($_dependencies);
 						}
 					}
 				}
@@ -551,6 +552,11 @@ public class ProcedureOnPlayerPostTick extends ElementsNarutomodMod.ModElement {
 		{
 			Map<String, Object> $_dependencies = new HashMap<>();
 			ProcedureDebug.executeProcedure($_dependencies);
+		}
+		{
+			Map<String, Object> $_dependencies = new HashMap<>();
+			$_dependencies.put("entity", entity);
+			ProcedureClanEffects.executeProcedure($_dependencies);
 		}
 	}
 
