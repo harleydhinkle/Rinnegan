@@ -6,7 +6,7 @@ import net.minecraftforge.common.config.Config;
 public class ClanConfig extends ElementsNarutomodMod.ModElement {
     public ClanConfig(ElementsNarutomodMod instance) {super(instance, 9935);}
 
-    @Config.Comment("Clan Distrubution weights")
+    @Config.Comment("Clan Distribution weights")
     public static int uchiha_weight_config = 2;
     public static int uzumaki_weight_config = 5;
     public static int hyuga_weight_config = 4;

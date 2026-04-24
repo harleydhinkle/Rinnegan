@@ -1,5 +1,13 @@
 package net.narutomod.item;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -16,6 +24,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 
+import net.narutomod.PlayerTracker;
 import net.narutomod.creativetab.TabModTab;
 import net.narutomod.ElementsNarutomodMod;
 
@@ -36,15 +45,14 @@ public class ItemAdminAbuse extends ElementsNarutomodMod.ModElement {
     public void initElements() {
         elements.items.add(() -> new ItemSword(EnumHelper.addToolMaterial("ADMIN_ABUSE", 4, 5000000, 40f, 30000f, 0)) {
             @Override
-            public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot slot) {
-                Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier>create();
-                if (slot == EntityEquipmentSlot.MAINHAND) {
-                    multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(),
-                            new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double) this.getAttackDamage(), 0));
-                    multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(),
-                            new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -4.0, 0));
+            public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
+                if (entity instanceof EntityLivingBase) {
+                    EntityLivingBase elb = (EntityLivingBase) entity;
+                    elb.attackEntityFrom(DamageSource.OUT_OF_WORLD, elb.getMaxHealth() * (float) 1000);
+                } else {
+                    entity.onKillCommand();
                 }
-                return multimap;
+                return false;
             }
             public Set<String> getToolClasses(ItemStack stack) {
                 HashMap<String, Integer> ret = new HashMap<String, Integer>();

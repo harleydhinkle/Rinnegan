@@ -1,6 +1,9 @@
 package net.narutomod;
 
 import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 @Config(modid = NarutomodMod.MODID)
 @ElementsNarutomodMod.ModElement.Tag

@@ -69,12 +69,12 @@ public class CommandClan extends ElementsNarutomodMod.ModElement {
 
         @Override
         public String getName() {
-            return "clan";
+            return "rinneganclan";
         }
 
         @Override
         public String getUsage(ICommandSender var1) {
-            return "/clan [set/reroll/clear/check] [name]";
+            return "/rinneganclan [set/reroll/clear/check] [name]";
         }
 
         @Override

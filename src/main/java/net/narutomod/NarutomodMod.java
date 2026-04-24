@@ -40,6 +40,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.item.Item;
 import net.minecraft.block.Block;
 
+import java.io.File;
 import java.util.function.Supplier;
 
 @Mod(modid = NarutomodMod.MODID, version = NarutomodMod.VERSION)
@@ -118,5 +119,15 @@ public class NarutomodMod {
 	}
 	static {
 		FluidRegistry.enableUniversalBucket();
+	}
+
+	public static File CONFIG_DIR;
+
+	public static void init(FMLPreInitializationEvent event) {
+		CONFIG_DIR = new File(event.getModConfigurationDirectory(), "Rinnegan configs");
+
+		if (!CONFIG_DIR.exists()) {
+			CONFIG_DIR.mkdirs();
+		}
 	}
 }
