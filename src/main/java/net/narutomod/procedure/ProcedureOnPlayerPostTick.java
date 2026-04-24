@@ -119,9 +119,9 @@ public class ProcedureOnPlayerPostTick extends ElementsNarutomodMod.ModElement {
                         : false)))) {
                     if ((((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                             ? ((EntityPlayerMP) entity).getAdvancements()
-                            .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                    .getAdvancement(new ResourceLocation("narutomod:bakuton_acquired")))
-                            .isDone()
+                              .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                           .getAdvancement(new ResourceLocation("narutomod:bakuton_acquired")))
+                              .isDone()
                             : false)) {
                         stack = new ItemStack(ItemDoton.block, (int) (1));
                         ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -141,9 +141,9 @@ public class ProcedureOnPlayerPostTick extends ElementsNarutomodMod.ModElement {
                         ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                     } else if ((((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                             ? ((EntityPlayerMP) entity).getAdvancements()
-                            .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                    .getAdvancement(new ResourceLocation("narutomod:ranton_acquired")))
-                            .isDone()
+                              .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                           .getAdvancement(new ResourceLocation("narutomod:ranton_acquired")))
+                              .isDone()
                             : false)) {
                         stack = new ItemStack(ItemSuiton.block, (int) (1));
                         ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -163,9 +163,9 @@ public class ProcedureOnPlayerPostTick extends ElementsNarutomodMod.ModElement {
                         ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                     } else if ((((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                             ? ((EntityPlayerMP) entity).getAdvancements()
-                            .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                    .getAdvancement(new ResourceLocation("narutomod:futton_acquired")))
-                            .isDone()
+                              .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                           .getAdvancement(new ResourceLocation("narutomod:futton_acquired")))
+                              .isDone()
                             : false)) {
                         stack = new ItemStack(ItemSuiton.block, (int) (1));
                         ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -185,9 +185,9 @@ public class ProcedureOnPlayerPostTick extends ElementsNarutomodMod.ModElement {
                         ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                     } else if ((((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                             ? ((EntityPlayerMP) entity).getAdvancements()
-                            .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                    .getAdvancement(new ResourceLocation("narutomod:jiton_acquired")))
-                            .isDone()
+                              .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                           .getAdvancement(new ResourceLocation("narutomod:jiton_acquired")))
+                              .isDone()
                             : false)) {
                         stack = new ItemStack(ItemFuton.block, (int) (1));
                         ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -207,9 +207,9 @@ public class ProcedureOnPlayerPostTick extends ElementsNarutomodMod.ModElement {
                         ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                     } else if ((((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                             ? ((EntityPlayerMP) entity).getAdvancements()
-                            .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                    .getAdvancement(new ResourceLocation("narutomod:yooton_acquired")))
-                            .isDone()
+                              .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                           .getAdvancement(new ResourceLocation("narutomod:yooton_acquired")))
+                              .isDone()
                             : false)) {
                         stack = new ItemStack(ItemDoton.block, (int) (1));
                         ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -229,9 +229,9 @@ public class ProcedureOnPlayerPostTick extends ElementsNarutomodMod.ModElement {
                         ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                     } else if ((((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                             ? ((EntityPlayerMP) entity).getAdvancements()
-                            .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                    .getAdvancement(new ResourceLocation("narutomod:hyoton_acquired")))
-                            .isDone()
+                              .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                           .getAdvancement(new ResourceLocation("narutomod:hyoton_acquired")))
+                              .isDone()
                             : false)) {
                         stack = new ItemStack(ItemFuton.block, (int) (1));
                         ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -251,9 +251,9 @@ public class ProcedureOnPlayerPostTick extends ElementsNarutomodMod.ModElement {
                         ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                     } else if ((((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                             ? ((EntityPlayerMP) entity).getAdvancements()
-                            .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                    .getAdvancement(new ResourceLocation("narutomod:shakuton_acquired")))
-                            .isDone()
+                              .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                           .getAdvancement(new ResourceLocation("narutomod:shakuton_acquired")))
+                              .isDone()
                             : false)) {
                         stack = new ItemStack(ItemKaton.block, (int) (1));
                         ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -273,9 +273,9 @@ public class ProcedureOnPlayerPostTick extends ElementsNarutomodMod.ModElement {
                         ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                     } else if ((((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                             ? ((EntityPlayerMP) entity).getAdvancements()
-                            .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                    .getAdvancement(new ResourceLocation("narutomod:kekkei_tota_awakened")))
-                            .isDone()
+                              .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                           .getAdvancement(new ResourceLocation("narutomod:kekkei_tota_awakened")))
+                              .isDone()
                             : false)) {
                         stack = new ItemStack(ItemKaton.block, (int) (1));
                         ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -323,9 +323,9 @@ public class ProcedureOnPlayerPostTick extends ElementsNarutomodMod.ModElement {
                     if ((!ItemSharingan.hasAny((EntityPlayer) entity)
                             && (((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                             ? ((EntityPlayerMP) entity).getAdvancements()
-                            .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                    .getAdvancement(new ResourceLocation("narutomod:sharinganopened")))
-                            .isDone()
+                              .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                           .getAdvancement(new ResourceLocation("narutomod:sharinganopened")))
+                              .isDone()
                             : false))) {
                         GuiScrollGenjutsuGui.giveGenjutsu((EntityPlayer) entity);
                         stack = new ItemStack(ItemSharingan.helmet, (int) (1));
@@ -341,9 +341,9 @@ public class ProcedureOnPlayerPostTick extends ElementsNarutomodMod.ModElement {
                             : false))
                             && (((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                             ? ((EntityPlayerMP) entity).getAdvancements()
-                            .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                    .getAdvancement(new ResourceLocation("narutomod:byakuganopened")))
-                            .isDone()
+                              .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                           .getAdvancement(new ResourceLocation("narutomod:byakuganopened")))
+                              .isDone()
                             : false))) {
                         stack = new ItemStack(ItemByakugan.helmet, (int) (1));
                         ((ItemDojutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
@@ -358,9 +358,9 @@ public class ProcedureOnPlayerPostTick extends ElementsNarutomodMod.ModElement {
                             : false))
                             && (((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                             ? ((EntityPlayerMP) entity).getAdvancements()
-                            .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                    .getAdvancement(new ResourceLocation("narutomod:shikotsumyaku_acquired")))
-                            .isDone()
+                              .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                           .getAdvancement(new ResourceLocation("narutomod:shikotsumyaku_acquired")))
+                              .isDone()
                             : false))) {
                         stack = new ItemStack(ItemShikotsumyaku.block, (int) (1));
                         ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
@@ -377,9 +377,9 @@ public class ProcedureOnPlayerPostTick extends ElementsNarutomodMod.ModElement {
                         : false))) {
                     achievedMedical = (boolean) (((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                             ? ((EntityPlayerMP) entity).getAdvancements()
-                            .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                    .getAdvancement(new ResourceLocation("narutomod:achievementmedicalgenin")))
-                            .isDone()
+                              .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                           .getAdvancement(new ResourceLocation("narutomod:achievementmedicalgenin")))
+                              .isDone()
                             : false);
                     if (((achievedMedical) || ((!(entity.getEntityData().getBoolean("MedicalNinjaChecked")))
                             && (((EntityLivingBase) entity).getRNG().nextDouble() <= 0.25)))) {
@@ -457,71 +457,71 @@ public class ProcedureOnPlayerPostTick extends ElementsNarutomodMod.ModElement {
                 } else if (((ModConfig.AUTO_KEKKEIGENKAI_ASSIGNMENT && ((entity.getEntityData().getDouble((NarutomodModVariables.BATTLEXP))) >= 300))
                         && (((((!(((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                         ? ((EntityPlayerMP) entity).getAdvancements()
-                        .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                .getAdvancement(new ResourceLocation("narutomod:sharinganopened")))
-                        .isDone()
+                          .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                       .getAdvancement(new ResourceLocation("narutomod:sharinganopened")))
+                          .isDone()
                         : false))
                         && (!(((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                         ? ((EntityPlayerMP) entity).getAdvancements()
-                        .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                .getAdvancement(new ResourceLocation("narutomod:byakuganopened")))
-                        .isDone()
+                          .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                       .getAdvancement(new ResourceLocation("narutomod:byakuganopened")))
+                          .isDone()
                         : false)))
                         && ((!(((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                         ? ((EntityPlayerMP) entity).getAdvancements()
-                        .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                .getAdvancement(new ResourceLocation("narutomod:shakuton_acquired")))
-                        .isDone()
+                          .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                       .getAdvancement(new ResourceLocation("narutomod:shakuton_acquired")))
+                          .isDone()
                         : false))
                         && (!(((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                         ? ((EntityPlayerMP) entity).getAdvancements()
-                        .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                .getAdvancement(new ResourceLocation("narutomod:yooton_acquired")))
-                        .isDone()
+                          .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                       .getAdvancement(new ResourceLocation("narutomod:yooton_acquired")))
+                          .isDone()
                         : false))))
                         && (((!(((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                         ? ((EntityPlayerMP) entity).getAdvancements()
-                        .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                .getAdvancement(new ResourceLocation("narutomod:bakuton_acquired")))
-                        .isDone()
+                          .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                       .getAdvancement(new ResourceLocation("narutomod:bakuton_acquired")))
+                          .isDone()
                         : false))
                         && (!(((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                         ? ((EntityPlayerMP) entity).getAdvancements()
-                        .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                .getAdvancement(new ResourceLocation("narutomod:ranton_acquired")))
-                        .isDone()
+                          .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                       .getAdvancement(new ResourceLocation("narutomod:ranton_acquired")))
+                          .isDone()
                         : false)))
                         && (((!(((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                         ? ((EntityPlayerMP) entity).getAdvancements()
-                        .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                .getAdvancement(new ResourceLocation("narutomod:hyoton_acquired")))
-                        .isDone()
+                          .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                       .getAdvancement(new ResourceLocation("narutomod:hyoton_acquired")))
+                          .isDone()
                         : false))
                         && (!(((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                         ? ((EntityPlayerMP) entity).getAdvancements()
-                        .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                .getAdvancement(new ResourceLocation("narutomod:jiton_acquired")))
-                        .isDone()
+                          .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                       .getAdvancement(new ResourceLocation("narutomod:jiton_acquired")))
+                          .isDone()
                         : false)))
                         && ((!(((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                         ? ((EntityPlayerMP) entity).getAdvancements()
-                        .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                .getAdvancement(new ResourceLocation("narutomod:futton_acquired")))
-                        .isDone()
+                          .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                       .getAdvancement(new ResourceLocation("narutomod:futton_acquired")))
+                          .isDone()
                         : false))
                         && ((!(((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                         ? ((EntityPlayerMP) entity).getAdvancements()
-                        .getProgress(
-                                ((WorldServer) (entity).world).getAdvancementManager().getAdvancement(
-                                        new ResourceLocation("narutomod:shikotsumyaku_acquired")))
-                        .isDone()
+                          .getProgress(
+                                  ((WorldServer) (entity).world).getAdvancementManager().getAdvancement(
+                                          new ResourceLocation("narutomod:shikotsumyaku_acquired")))
+                          .isDone()
                         : false))
                         && (!(((entity instanceof EntityPlayerMP) && ((entity).world instanceof WorldServer))
                         ? ((EntityPlayerMP) entity).getAdvancements()
-                        .getProgress(((WorldServer) (entity).world).getAdvancementManager()
-                                .getAdvancement(new ResourceLocation(
-                                        "narutomod:kekkei_tota_awakened")))
-                        .isDone()
+                          .getProgress(((WorldServer) (entity).world).getAdvancementManager()
+                                       .getAdvancement(new ResourceLocation(
+                                               "narutomod:kekkei_tota_awakened")))
+                          .isDone()
                         : false)))))))
                         && (((entity instanceof EntityPlayer) ? ((EntityPlayer) entity).experienceLevel : 0) >= 10)))) {
                     if (((((EntityLivingBase) entity).getRNG().nextFloat() <= 0.50)

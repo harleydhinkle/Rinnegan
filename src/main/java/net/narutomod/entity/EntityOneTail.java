@@ -17,6 +17,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.IEntityMultiPart;
+import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.Entity;
@@ -135,12 +137,18 @@ public class EntityOneTail extends ElementsNarutomodMod.ModElement {
 	 	}
 	}
 
-	public static class EntityCustom extends EntityTailedBeast.Base {
+	public static class EntityCustom extends EntityTailedBeast.Base implements IEntityMultiPart {
+		private final OneTailPart[] parts = new OneTailPart[4];
+
 		public EntityCustom(World world) {
 			super(world);
 			this.setSize(MODELSCALE * 0.4F, MODELSCALE * 1.0625F);
 			this.experienceValue = 12000;
 			this.stepHeight = this.height / 3.0F;
+			this.parts[0] = new OneTailPart(this, "head", MODELSCALE * 0.34F, MODELSCALE * 0.30F);
+			this.parts[1] = new OneTailPart(this, "upper_body", MODELSCALE * 0.34F, MODELSCALE * 0.31F);
+			this.parts[2] = new OneTailPart(this, "lower_body", MODELSCALE * 0.34F, MODELSCALE * 0.30F);
+			this.parts[3] = new OneTailPart(this, "hips", MODELSCALE * 0.30F, MODELSCALE * 0.26F);
 		}
 
 		public EntityCustom(EntityPlayer player) {
@@ -148,6 +156,63 @@ public class EntityOneTail extends ElementsNarutomodMod.ModElement {
 			this.setSize(MODELSCALE * 0.4F, MODELSCALE * 1.0625F);
 			this.experienceValue = 12000;
 			this.stepHeight = this.height / 3.0F;
+			this.parts[0] = new OneTailPart(this, "head", MODELSCALE * 0.34F, MODELSCALE * 0.30F);
+			this.parts[1] = new OneTailPart(this, "upper_body", MODELSCALE * 0.34F, MODELSCALE * 0.31F);
+			this.parts[2] = new OneTailPart(this, "lower_body", MODELSCALE * 0.34F, MODELSCALE * 0.30F);
+			this.parts[3] = new OneTailPart(this, "hips", MODELSCALE * 0.30F, MODELSCALE * 0.26F);
+		}
+
+		@Override
+		public Entity[] getParts() {
+			return this.parts;
+		}
+
+		@Override
+		public World getWorld() {
+			return this.world;
+		}
+
+		@Override
+		public boolean attackEntityFromPart(MultiPartEntityPart part, DamageSource source, float damage) {
+			if ("head".equals(part.partName)) {
+				return this.attackEntityFrom(source, damage * 1.1f);
+			}
+			return this.attackEntityFrom(source, damage);
+		}
+
+		@Override
+		public void onUpdate() {
+			super.onUpdate();
+			this.updateHitboxes();
+		}
+
+		private Vec3d rotateByYaw(float yawDeg, double x, double y, double z) {
+			return new Vec3d(x, y, z).rotateYaw(-yawDeg * 0.017453292F);
+		}
+
+		private void setPartPos(OneTailPart part, float yaw, double localX, double localY, double localZ) {
+			Vec3d v = this.rotateByYaw(yaw, localX, localY, localZ);
+			part.setLocationAndAngles(this.posX + v.x, this.posY + v.y, this.posZ + v.z, this.rotationYaw, this.rotationPitch);
+		}
+
+		private void updateHitboxes() {
+			for (OneTailPart part : this.parts) {
+				part.onUpdate();
+			}
+			float bodyYaw = this.renderYawOffset;
+			float headYaw = this.rotationYawHead;
+			float y = this.isFaceDown() ? MODELSCALE * 0.23F : MODELSCALE * 0.33F;
+			if (this.isFaceDown()) {
+				this.setPartPos(this.parts[0], headYaw, 0.0D, y + MODELSCALE * 0.21F, MODELSCALE * 0.44F);
+				this.setPartPos(this.parts[1], bodyYaw, 0.0D, y + MODELSCALE * 0.05F, MODELSCALE * 0.30F);
+				this.setPartPos(this.parts[2], bodyYaw, 0.0D, y - MODELSCALE * 0.03F, MODELSCALE * 0.02F);
+				this.setPartPos(this.parts[3], bodyYaw, 0.0D, y - MODELSCALE * 0.11F, -MODELSCALE * 0.24F);
+			} else {
+				this.setPartPos(this.parts[0], headYaw, 0.0D, y + MODELSCALE * 0.31F, MODELSCALE * 0.46F);
+				this.setPartPos(this.parts[1], bodyYaw, 0.0D, y + MODELSCALE * 0.12F, MODELSCALE * 0.30F);
+				this.setPartPos(this.parts[2], bodyYaw, 0.0D, y, MODELSCALE * 0.02F);
+				this.setPartPos(this.parts[3], bodyYaw, 0.0D, y - MODELSCALE * 0.12F, -MODELSCALE * 0.24F);
+			}
 		}
 
 		@Override
@@ -230,6 +295,20 @@ public class EntityOneTail extends ElementsNarutomodMod.ModElement {
 		@Override
 		public SoundEvent getDeathSound() {
 			return SoundEvent.REGISTRY.getObject(new ResourceLocation(""));
+		}
+	}
+
+	public static class OneTailPart extends MultiPartEntityPart {
+		private final EntityCustom parent;
+
+		public OneTailPart(EntityCustom parentIn, String partName, float width, float height) {
+			super(parentIn, partName, width, height);
+			this.parent = parentIn;
+		}
+
+		@Override
+		public boolean processInitialInteract(EntityPlayer player, net.minecraft.util.EnumHand hand) {
+			return this.parent.processInitialInteract(player, hand);
 		}
 	}
 

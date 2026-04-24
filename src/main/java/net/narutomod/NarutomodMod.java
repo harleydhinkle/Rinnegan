@@ -40,6 +40,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.item.Item;
 import net.minecraft.block.Block;
 
+import java.io.File;
 import java.util.function.Supplier;
 
 @Mod(modid = NarutomodMod.MODID, version = NarutomodMod.VERSION)
@@ -54,6 +55,9 @@ public class NarutomodMod {
 	public ElementsNarutomodMod elements = new ElementsNarutomodMod();
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		initConfigDirectory(event);
+		justuconfig.init();
+		ClanEffectRegister.load();
 		MinecraftForge.EVENT_BUS.register(this);
 		GameRegistry.registerWorldGenerator(elements, 5);
 		GameRegistry.registerFuelHandler(elements);
@@ -63,6 +67,16 @@ public class NarutomodMod {
 		elements.getElements().forEach(element -> element.preInit(event));
 		proxy.preInit(event);
 	}
+    public static File CONFIG_DIR;
+
+    private static void initConfigDirectory(FMLPreInitializationEvent event) {
+        CONFIG_DIR = new File(event.getModConfigurationDirectory(), "Rinnegan_configs");
+
+        if (!CONFIG_DIR.exists()) {
+            CONFIG_DIR.mkdirs();
+        }
+    }
+
 
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
