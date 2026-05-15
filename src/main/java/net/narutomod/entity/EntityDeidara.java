@@ -3,7 +3,7 @@ package net.narutomod.entity;
 
 import net.narutomod.item.ItemAkatsukiRobe;
 import net.narutomod.item.ItemNinjaArmorFishnets;
-import net.narutomod.item.ItemBakuton;
+import net.narutomod.item.ItemExplosionRelease;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.ModConfig;
 import net.narutomod.ElementsNarutomodMod;
@@ -134,7 +134,7 @@ public class EntityDeidara extends ElementsNarutomodMod.ModElement {
 			EntityLivingBase target = this.getAttackTarget();
 			if (target != null) {
 				if (this.c4Entity == null && (this.getHealth() < this.getMaxHealth() * 0.25f || this.remainingChakra() < 0.25f)
-				 && this.consumeChakra(ItemBakuton.CLAY.chakraUsage * 4d)) {
+				 && this.consumeChakra(ItemExplosionRelease.CLAY.chakraUsage * 4d)) {
 					Vec3d vec = this.getPositionEyes(1f).add(this.getLookVec());
 					this.c4Entity = new EntityC4.EC(this);
 					this.c4Entity.setLocationAndAngles(vec.x, vec.y, vec.z, this.rotationYaw, 0f);
@@ -143,7 +143,7 @@ public class EntityDeidara extends ElementsNarutomodMod.ModElement {
 					this.world.spawnEntity(this.c4Entity);
 				}
 				if (!this.isRiding() && this.ticksExisted - this.explosiveCloneLastUsed == 40 && this.getHealth() < this.getMaxHealth()
-				 && this.consumeChakra(ItemBakuton.CLAY.chakraUsage * 2d)) {
+				 && this.consumeChakra(ItemExplosionRelease.CLAY.chakraUsage * 2d)) {
 					this.c2Entity = new EntityC2.EC(this);
 					this.c2Entity.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0f);
 					this.moveC2ToOpenSpace();
@@ -184,7 +184,7 @@ public class EntityDeidara extends ElementsNarutomodMod.ModElement {
 			if (!this.world.isRemote && !this.isAIDisabled() && source.getTrueSource() instanceof EntityLivingBase
 			 && !this.isRiding() && this.ticksExisted - this.explosiveCloneLastUsed > this.explosiveCloneCD
 			 //&& EntityAITarget.isSuitableTarget(this, (EntityLivingBase)source.getTrueSource(), false, false)
-			 && this.consumeChakra(ItemBakuton.CLONE.chakraUsage)) {
+			 && this.consumeChakra(ItemExplosionRelease.CLONE.chakraUsage)) {
 				this.setRevengeTarget((EntityLivingBase)source.getTrueSource());
 				EntityExplosiveClone.EC clone = EntityExplosiveClone.EC.Jutsu.createJutsu(this);
 				clone.attackEntityFrom(source, amount);
@@ -201,11 +201,11 @@ public class EntityDeidara extends ElementsNarutomodMod.ModElement {
 
 		@Override
 		public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
-			if (this.consumeChakra(ItemBakuton.CLAY.chakraUsage * 0.5d)) {
+			if (this.consumeChakra(ItemExplosionRelease.CLAY.chakraUsage * 0.5d)) {
 				this.swingArm(EnumHand.MAIN_HAND);
 				this.setLastAttackedEntity(target);
 				for (int i = 0; i < 1 + this.rand.nextInt(2); i++) {
-					ItemBakuton.CLAY.jutsu.createJutsu(null, this, 1.0f);
+					ItemExplosionRelease.CLAY.jutsu.createJutsu(null, this, 1.0f);
 				}
 			}
 		}

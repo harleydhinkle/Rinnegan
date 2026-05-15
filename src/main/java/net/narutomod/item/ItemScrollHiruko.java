@@ -167,9 +167,9 @@ public class ItemScrollHiruko extends ElementsNarutomodMod.ModElement {
                 if (this.summoner != null) {
                     EntityLivingBase entity = null;
                     if (this.summoner instanceof EntityPlayer) {
-                        ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)this.summoner, ItemNinjutsu.block);
-                        if (stack != null && ((ItemNinjutsu.RangedItem)stack.getItem())
-                                .canActivateJutsu(stack, ItemNinjutsu.PUPPET, (EntityPlayer)this.summoner) == EnumActionResult.SUCCESS) {
+                        ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)this.summoner, ItemNinjaArts.block);
+                        if (stack != null && ((ItemNinjaArts.RangedItem)stack.getItem())
+                                .canActivateJutsu(stack, ItemNinjaArts.PUPPET, (EntityPlayer)this.summoner) == EnumActionResult.SUCCESS) {
                             entity = new EntityPuppetHiruko.EntityCustom(this.summoner, this.posX, this.posY, this.posZ);
                         }
                     }

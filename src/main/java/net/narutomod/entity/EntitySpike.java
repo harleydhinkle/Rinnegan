@@ -158,6 +158,12 @@ public class EntitySpike extends ElementsNarutomodMod.ModElement {
 				Vec3d hitvec = null;
 				AxisAlignedBB bigAABB = this.getEntityBoundingBox().expand(this.motionX, this.motionY, this.motionZ).grow(1.0D);
 				double d0 = 0.0D;
+				RayTraceResult oneTailResult = ProcedureUtils.rayTraceOneTailParts(this.world, excludedEntity, vec1, vec2, 0.0D);
+				if (oneTailResult != null) {
+					entity = oneTailResult.entityHit;
+					hitvec = oneTailResult.hitVec;
+					d0 = vec1.distanceTo(hitvec);
+				}
 				for (Entity entity1 : this.world.getEntitiesWithinAABBExcludingEntity(this, bigAABB)) {
 					if (entity1.canBeCollidedWith() && (ignoreExcludedEntity || !entity1.equals(excludedEntity)) && !entity1.noClip) {
 						RayTraceResult result = entity1.getEntityBoundingBox().calculateIntercept(vec1, vec2);

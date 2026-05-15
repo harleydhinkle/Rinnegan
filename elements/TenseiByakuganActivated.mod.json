@@ -3,7 +3,7 @@
   "_type": "achievement",
   "definition": {
     "achievementName": "RinneSharingan Activated",
-    "achievementDescription": "The Rinne Sharingan is a dojutsu kekkei mora and the predecessor to the Tenseigan and Byakugan.",
+    "achievementDescription": "The Rinne Sharingan is a ocular_jutsu kekkei mora and the predecessor to the Tenseigan and Byakugan.",
     "achievementIcon": {
       "value": "CUSTOM:KekkeiMora"
     },

@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-import net.narutomod.item.ItemFuton;
+import net.narutomod.item.ItemWindRelease;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.PlayerTracker;
 import net.narutomod.ElementsNarutomodMod;
@@ -31,7 +31,7 @@ public class GuiScrollVacuumWaveGui extends ElementsNarutomodMod.ModElement {
 			// security measure to prevent arbitrary chunk generation
 			if (player.world.isRemote || !player.world.isBlockLoaded(new BlockPos(this.x, this.y, this.z)))
 				return;
-			ItemStack stack = GuiNinjaScroll.enableJutsu(player, (ItemFuton.RangedItem)ItemFuton.block, ItemFuton.VACWAVE, true);
+			ItemStack stack = GuiNinjaScroll.enableJutsu(player, (ItemWindRelease.RangedItem)ItemWindRelease.block, ItemWindRelease.VACWAVE, true);
 			if (stack != null) {
 				super.handleButtonAction(player, buttonID);
 			}
@@ -46,7 +46,7 @@ public class GuiScrollVacuumWaveGui extends ElementsNarutomodMod.ModElement {
 		@Override
 		protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
 			super.drawGuiContainerBackgroundLayer(par1, par2, par3);
-			this.mc.renderEngine.bindTexture(new ResourceLocation("narutomod:textures/blocks/futon.png"));
+			this.mc.renderEngine.bindTexture(new ResourceLocation("narutomod:textures/blocks/wind_release.png"));
 			this.drawModalRectWithCustomSizedTexture(this.guiLeft + 89, this.guiTop + 49, 0, 0, 48, 48, 48, 48);
 			this.mc.renderEngine.bindTexture(new ResourceLocation("narutomod:textures/zi_.png"));
 			this.drawModalRectWithCustomSizedTexture(this.guiLeft + 0, this.guiTop + 108, 0, 0, 48, 48, 48, 48);
@@ -60,7 +60,7 @@ public class GuiScrollVacuumWaveGui extends ElementsNarutomodMod.ModElement {
 
 		@Override
 		protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-			this.fontRenderer.drawString(ItemFuton.VACWAVE.getName(), 38, 13, -16777216);
+			this.fontRenderer.drawString(ItemWindRelease.VACWAVE.getName(), 38, 13, -16777216);
 		}
 	}
 }

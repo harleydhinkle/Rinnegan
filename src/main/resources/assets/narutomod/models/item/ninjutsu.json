@@ -1,6 +1,0 @@
-{
-  "parent": "narutomod:custom/ninjutsu",
-  "textures": {
-    "1": "narutomod:blocks/ninjutsu"
-  }
-}

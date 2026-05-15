@@ -3,8 +3,8 @@
   "_type": "gun",
   "definition": {
     "renderType": 1,
-    "texture": "ranton",
-    "customModelName": "ranton:default",
+    "texture": "storm_release",
+    "customModelName": "storm_release:default",
     "name": "Storm Release",
     "specialInfo": [],
     "creativeTab": {

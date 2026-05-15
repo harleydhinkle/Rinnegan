@@ -254,11 +254,17 @@ public class EntityLightningPanther extends ElementsNarutomodMod.ModElement {
 		protected void collideWithNearbyEntities() {
 			Vec3d vec1 = this.getPositionVector().addVector(0d, 0.5d * this.height, 0d);
 			Vec3d vec2 = vec1.add(ProcedureUtils.getMotion(this));
+			java.util.List<Entity> collidedEntities = com.google.common.collect.Lists.newArrayList();
 			for (Entity entity : this.world.getEntitiesInAABBexcluding(this,
 			 this.getEntityBoundingBox().expand(this.motionX, this.motionY, this.motionZ), EntitySelectors.getTeamCollisionPredicate(this))) {
 				if (entity.getEntityBoundingBox().grow(this.width * 0.5, this.height * 0.5, this.width * 0.5).calculateIntercept(vec1, vec2) != null) {
 					this.collideWithEntity(entity);
+					collidedEntities.add(entity);
 				}
+			}
+			RayTraceResult multipartResult = ProcedureUtils.rayTraceMultipartParts(this.world, this, vec1, vec2, Math.max(this.width, this.height) * 0.5D);
+			if (multipartResult != null && multipartResult.entityHit != null && !collidedEntities.contains(multipartResult.entityHit)) {
+				this.collideWithEntity(multipartResult.entityHit);
 			}
 		}
 

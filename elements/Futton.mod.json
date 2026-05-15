@@ -3,8 +3,8 @@
   "_type": "gun",
   "definition": {
     "renderType": 1,
-    "texture": "futton",
-    "customModelName": "futton:default",
+    "texture": "boil_release",
+    "customModelName": "boil_release:default",
     "name": "Boil Release",
     "specialInfo": [],
     "creativeTab": {

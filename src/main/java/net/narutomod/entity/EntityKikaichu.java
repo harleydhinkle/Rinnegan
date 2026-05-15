@@ -29,7 +29,7 @@ import net.minecraft.client.model.ModelBox;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 
-import net.narutomod.item.ItemJiton;
+import net.narutomod.item.ItemMagnetRelease;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.potion.PotionHeaviness;
 import net.narutomod.procedure.ProcedureSync;
@@ -60,7 +60,7 @@ public class EntityKikaichu extends ElementsNarutomodMod.ModElement {
 	public static class EC extends Entity implements ItemJutsu.IJutsu {
 		private EntityLivingBase user;
 		private EntityLivingBase target;
-		private ItemJiton.SwarmTarget bugsTarget;
+		private ItemMagnetRelease.SwarmTarget bugsTarget;
 		private static final int MAXTIME = 600;
 
 		public EC(World worldIn) {
@@ -74,7 +74,7 @@ public class EntityKikaichu extends ElementsNarutomodMod.ModElement {
 			this.target = targetIn;
 			Vec3d vec = this.getUserVector();
 			this.setPosition(vec.x, vec.y, vec.z);
-			this.bugsTarget = new ItemJiton.SwarmTarget<EntityCustom>(this.world, (int)(power * 50), vec,
+			this.bugsTarget = new ItemMagnetRelease.SwarmTarget<EntityCustom>(this.world, (int)(power * 50), vec,
 			 this.getTargetVector(), new Vec3d(0.4d, 0.4d, 0.4d), 0.6f, 0.05f, false, 1f, -1) {
 				@Override
 				protected EntityCustom createParticle(double x, double y, double z, double mx, double my, double mz, int c, float sc, int life) {
@@ -209,7 +209,7 @@ public class EntityKikaichu extends ElementsNarutomodMod.ModElement {
 		}
 	}
 
-	public static class EntityCustom extends Entity implements ItemJiton.ISwarmEntity {
+	public static class EntityCustom extends Entity implements ItemMagnetRelease.ISwarmEntity {
 		private EntityLivingBase host;
 		private int maxAge;
 		public float prevRotationRoll;

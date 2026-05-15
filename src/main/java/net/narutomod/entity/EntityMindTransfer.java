@@ -30,7 +30,7 @@ import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.procedure.ProcedureOnLivingUpdate;
 import net.narutomod.procedure.ProcedureSync;
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemInton;
+import net.narutomod.item.ItemYinRelease;
 import net.narutomod.PlayerInput;
 import net.narutomod.PlayerRender;
 import net.narutomod.PlayerTracker;
@@ -250,7 +250,7 @@ public class EntityMindTransfer extends ElementsNarutomodMod.ModElement {
 								d = Math.max(((EntityLivingBase)res.entityHit).getHealth() / entity.getHealth(), 1.0d);
 							}
 						}
-						entity1 = new EC(entity, (EntityLivingBase)res.entityHit, ItemInton.MBTRANSFER.chakraUsage * d * 0.005d);
+						entity1 = new EC(entity, (EntityLivingBase)res.entityHit, ItemYinRelease.MBTRANSFER.chakraUsage * d * 0.005d);
 						entity.world.spawnEntity(entity1);
 						ProcedureSync.EntityNBTTag.setAndSync(entity, ECENTITYID, entity1.getEntityId());
 						//entity.getEntityData().setInteger(ECENTITYID, entity1.getEntityId());

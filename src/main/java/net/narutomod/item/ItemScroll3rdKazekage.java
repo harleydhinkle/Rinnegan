@@ -179,7 +179,7 @@ public class ItemScroll3rdKazekage extends ElementsNarutomodMod.ModElement {
                 EntityPuppet3rdKazekage.EntityCustom puppet = this.getPuppetEntity(stack, player.world);
                 if (puppet != null && puppet.isEntityAlive() && this.getCurrentJutsu(stack) == SANDBULLET
                         && this.getPower(stack, player, timeLeft) < this.getMaxPower(stack, player)) {
-                    EntitySandBullet.addPos(ItemJiton.Type.IRON, puppet, this.getPower(stack, player, timeLeft),
+                    EntitySandBullet.addPos(ItemMagnetRelease.Type.IRON, puppet, this.getPower(stack, player, timeLeft),
                             puppet.getPositionVector().addVector(0d, 1.5d, 0d));
                     puppet.setMouthOpen(true);
                 }
@@ -284,7 +284,7 @@ public class ItemScroll3rdKazekage extends ElementsNarutomodMod.ModElement {
                 this.setDead();
             } else if (this.ticksExisted > this.openScrollTime) {
                 if (this.summoner != null) {
-                    EntityPuppet3rdKazekage.EntityCustom entity = new EntityPuppet3rdKazekage.EntityCustom(this.summoner, ItemNinjutsu.PUPPET.chakraUsage);
+                    EntityPuppet3rdKazekage.EntityCustom entity = new EntityPuppet3rdKazekage.EntityCustom(this.summoner, ItemNinjaArts.PUPPET.chakraUsage);
                     entity.setLocationAndAngles(this.posX, this.posY, this.posZ, this.summoner.rotationYaw, 0f);
                     entity.onInitialSpawn(this.world.getDifficultyForLocation(this.getPosition()), null);
                     this.world.spawnEntity(entity);

@@ -3,8 +3,8 @@
   "_type": "gun",
   "definition": {
     "renderType": 1,
-    "texture": "raiton",
-    "customModelName": "raiton:default",
+    "texture": "lightning_release",
+    "customModelName": "lightning_release:default",
     "name": "Raiton",
     "specialInfo": [
       "Lightning Release"

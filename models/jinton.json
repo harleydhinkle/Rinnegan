@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "mc_stuff/jinton",
-		"particle": "mc_stuff/jinton"
+		"0": "mc_stuff/dust_release",
+		"particle": "mc_stuff/dust_release"
 	},
 	"elements": [
 		{

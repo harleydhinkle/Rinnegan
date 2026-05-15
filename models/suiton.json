@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "mc_stuff/suiton",
-		"particle": "mc_stuff/suiton"
+		"0": "mc_stuff/water_release",
+		"particle": "mc_stuff/water_release"
 	},
 	"elements": [
 		{

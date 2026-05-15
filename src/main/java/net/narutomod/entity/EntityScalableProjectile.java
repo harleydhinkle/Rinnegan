@@ -20,6 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IProjectile;
+import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.world.WorldServer;
 
 import net.narutomod.procedure.ProcedureUtils;
@@ -356,8 +357,8 @@ public class EntityScalableProjectile extends ElementsNarutomodMod.ModElement {
         return forwardsRaycast(projectile, ProcedureUtils.getMotion(projectile), false, includeEntities, ignoreExcludedEntity, excludedEntity);
     }
 
-    public static RayTraceResult forwardsRaycast(Entity projectile, Vec3d motion, boolean scaleBlocks, boolean includeEntities, boolean ignoreExcludedEntity, @Nullable Entity excludedEntity) {
-        World world = projectile.world;
+	    public static RayTraceResult forwardsRaycast(Entity projectile, Vec3d motion, boolean scaleBlocks, boolean includeEntities, boolean ignoreExcludedEntity, @Nullable Entity excludedEntity) {
+	        World world = projectile.world;
         Vec3d vec3d = new Vec3d(projectile.posX, projectile.posY + projectile.height * 0.5f, projectile.posZ);
         Vec3d vec3d2 = vec3d.add(motion);
         AxisAlignedBB bigAABB = projectile.getEntityBoundingBox().expand(motion.x, motion.y, motion.z).grow(1.0d);
@@ -385,19 +386,41 @@ public class EntityScalableProjectile extends ElementsNarutomodMod.ModElement {
         } else {
             raytraceresult = world.rayTraceBlocks(vec3d, vec3d2, false, true, false);
         }
-        if (includeEntities) {
-            Entity entity = null;
-            Vec3d hitvec = null;
-            for (Entity entity1 : world.getEntitiesWithinAABBExcludingEntity(projectile, bigAABB)) {
-                if (entity1.canBeCollidedWith() && (ignoreExcludedEntity || !entity1.equals(excludedEntity)) && !entity1.noClip) {
-                    AxisAlignedBB aabb = entity1.getEntityBoundingBox().grow(projectile.width * 0.5f, projectile.height * 0.5f, projectile.width * 0.5f);
-                    RayTraceResult result = aabb.calculateIntercept(vec3d, vec3d2);
-                    if (result != null) {
-                        double d = vec3d.distanceTo(result.hitVec);
-                        if (d < d0 || d0 == 0.0D) {
-                            entity = entity1;
-                            hitvec = result.hitVec;
-                            d0 = d;
+	        if (includeEntities) {
+	            Entity entity = null;
+	            Vec3d hitvec = null;
+	            for (Entity entity1 : world.getEntitiesWithinAABBExcludingEntity(projectile, bigAABB)) {
+	                Entity target = resolveMultipartTarget(entity1);
+	                if (entity1.canBeCollidedWith() && (ignoreExcludedEntity || (!entity1.equals(excludedEntity) && !target.equals(excludedEntity))) && !entity1.noClip) {
+	                    AxisAlignedBB aabb = entity1.getEntityBoundingBox().grow(projectile.width * 0.5f, projectile.height * 0.5f, projectile.width * 0.5f);
+	                    RayTraceResult result = aabb.calculateIntercept(vec3d, vec3d2);
+	                    if (result != null) {
+	                        double d = vec3d.distanceTo(result.hitVec);
+	                        if (d < d0 || d0 == 0.0D) {
+	                            entity = target;
+	                            hitvec = result.hitVec;
+	                            d0 = d;
+	                        }
+	                    }
+	                }
+            }
+            for (Entity entity1 : world.loadedEntityList) {
+                if (entity1 instanceof EntityOneTail.EntityCustom && (ignoreExcludedEntity || !entity1.equals(excludedEntity))) {
+                    Entity[] parts = entity1.getParts();
+                    if (parts != null) {
+                        for (Entity part : parts) {
+                            if (part != null && part.canBeCollidedWith() && !part.noClip) {
+                                AxisAlignedBB aabb = part.getEntityBoundingBox().grow(projectile.width * 0.5f, projectile.height * 0.5f, projectile.width * 0.5f);
+                                RayTraceResult result = aabb.calculateIntercept(vec3d, vec3d2);
+                                if (result != null) {
+                                    double d = vec3d.distanceTo(result.hitVec);
+                                    if (d < d0 || d0 == 0.0D) {
+                                        entity = entity1;
+                                        hitvec = result.hitVec;
+                                        d0 = d;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -405,9 +428,16 @@ public class EntityScalableProjectile extends ElementsNarutomodMod.ModElement {
             if (entity != null) {
                 raytraceresult = new RayTraceResult(entity, hitvec);
             }
-        }
-        return raytraceresult;
-    }
+	        }
+	        return raytraceresult;
+	    }
+
+	    private static Entity resolveMultipartTarget(Entity entity) {
+	        if (entity instanceof MultiPartEntityPart && ((MultiPartEntityPart)entity).parent instanceof Entity) {
+	            return (Entity)((MultiPartEntityPart)entity).parent;
+	        }
+	        return entity;
+	    }
 
     public Vec3d getCenter(AxisAlignedBB bb) {
         return new Vec3d(bb.minX + (bb.maxX - bb.minX) * 0.5D, bb.minY + (bb.maxY - bb.minY) * 0.5D, bb.minZ + (bb.maxZ - bb.minZ) * 0.5D);

@@ -216,7 +216,7 @@ public class ItemScrollKarasu extends ElementsNarutomodMod.ModElement {
                 this.setDead();
             } else if (this.ticksExisted > this.openScrollTime) {
                 if (this.summoner != null) {
-                    EntityPuppetKarasu.EntityCustom entity = new EntityPuppetKarasu.EntityCustom(this.summoner, ItemNinjutsu.PUPPET.chakraUsage);
+                    EntityPuppetKarasu.EntityCustom entity = new EntityPuppetKarasu.EntityCustom(this.summoner, ItemNinjaArts.PUPPET.chakraUsage);
                     entity.setLocationAndAngles(this.posX, this.posY, this.posZ, this.summoner.rotationYaw, 0f);
 
                     // ? will now always be fullHealth (from onItemUse)

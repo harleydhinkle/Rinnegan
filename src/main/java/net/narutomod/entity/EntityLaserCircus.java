@@ -29,7 +29,7 @@ import net.minecraft.network.datasync.DataSerializers;
 
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemRanton;
+import net.narutomod.item.ItemStormRelease;
 import net.narutomod.ElementsNarutomodMod;
 
 @ElementsNarutomodMod.ModElement.Tag
@@ -119,7 +119,7 @@ public class EntityLaserCircus extends ElementsNarutomodMod.ModElement {
 		}
 
 		private float getDamage() {
-			float f = Math.max(((ItemJutsu.Base)this.rantonstack.getItem()).getXpRatio(this.rantonstack, ItemRanton.LASERCIRCUS), 1f);
+			float f = Math.max(((ItemJutsu.Base)this.rantonstack.getItem()).getXpRatio(this.rantonstack, ItemStormRelease.LASERCIRCUS), 1f);
 			return this.rand.nextFloat() * f * 35f;
 		}
 

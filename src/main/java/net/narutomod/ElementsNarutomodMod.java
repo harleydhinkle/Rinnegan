@@ -67,6 +67,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
@@ -273,7 +274,7 @@ public class ElementsNarutomodMod implements IFuelHandler, IWorldGenerator {
                 new net.minecraft.util.SoundEvent(new ResourceLocation("narutomod", "senbon_impact")));
         sounds.put(new ResourceLocation("narutomod", "roar"), new net.minecraft.util.SoundEvent(new ResourceLocation("narutomod", "roar")));
         sounds.put(new ResourceLocation("narutomod", "hirudora"), new net.minecraft.util.SoundEvent(new ResourceLocation("narutomod", "hirudora")));
-        sounds.put(new ResourceLocation("narutomod", "dojutsu"), new net.minecraft.util.SoundEvent(new ResourceLocation("narutomod", "dojutsu")));
+        sounds.put(new ResourceLocation("narutomod", "ocular_jutsu"), new net.minecraft.util.SoundEvent(new ResourceLocation("narutomod", "ocular_jutsu")));
         sounds.put(new ResourceLocation("narutomod", "swoosh"), new net.minecraft.util.SoundEvent(new ResourceLocation("narutomod", "swoosh")));
         sounds.put(new ResourceLocation("narutomod", "highpitch"), new net.minecraft.util.SoundEvent(new ResourceLocation("narutomod", "highpitch")));
         sounds.put(new ResourceLocation("narutomod", "fourtails_idle1"),
@@ -692,6 +693,9 @@ public class ElementsNarutomodMod implements IFuelHandler, IWorldGenerator {
         }
 
         public void preInit(FMLPreInitializationEvent event) {
+        }
+
+        public void postInit(FMLPostInitializationEvent event) {
         }
 
         public void generateWorld(Random random, int posX, int posZ, World world, int dimID, IChunkGenerator cg, IChunkProvider cp) {

@@ -60,25 +60,25 @@ public class ItemByakugan extends ElementsNarutomodMod.ModElement {
 
 	public static double getByakuganChakraUsage(EntityLivingBase entity) {
 		ItemStack stack = entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-		return stack.getItem() == helmet ? ((ItemDojutsu.Base)helmet).isOwner(stack, entity) ? BYAKUGAN_CHAKRA_USAGE 
+		return stack.getItem() == helmet ? ((ItemOcularJutsu.Base)helmet).isOwner(stack, entity) ? BYAKUGAN_CHAKRA_USAGE 
 		 : BYAKUGAN_CHAKRA_USAGE * 2 : (Double.MAX_VALUE * 0.001d);
 	}
 
 	public static double getRokujuyonshoChakraUsage(EntityLivingBase entity) {
 		ItemStack stack = entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-		return stack.getItem() == helmet && ((ItemDojutsu.Base)helmet).isOwner(stack, entity) ? ROKUJUYONSHO_CHAKRA_USAGE 
+		return stack.getItem() == helmet && ((ItemOcularJutsu.Base)helmet).isOwner(stack, entity) ? ROKUJUYONSHO_CHAKRA_USAGE 
 		 : (Double.MAX_VALUE * 0.001d);
 	}
 
 	public static double getKaitenChakraUsage(EntityLivingBase entity) {
 		ItemStack stack = entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-		return stack.getItem() == helmet && ((ItemDojutsu.Base)helmet).isOwner(stack, entity) ? KAITEN_CHAKRA_USAGE 
+		return stack.getItem() == helmet && ((ItemOcularJutsu.Base)helmet).isOwner(stack, entity) ? KAITEN_CHAKRA_USAGE 
 		 : (Double.MAX_VALUE * 0.001d);
 	}
 
 	public static double getKushoChakraUsage(EntityLivingBase entity) {
 		ItemStack stack = entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-		return stack.getItem() == helmet && ((ItemDojutsu.Base)helmet).isOwner(stack, entity) ? KUSHO_CHAKRA_USAGE 
+		return stack.getItem() == helmet && ((ItemOcularJutsu.Base)helmet).isOwner(stack, entity) ? KUSHO_CHAKRA_USAGE 
 		 : (Double.MAX_VALUE * 0.001d);
 	}
 
@@ -86,16 +86,16 @@ public class ItemByakugan extends ElementsNarutomodMod.ModElement {
 	public void initElements() {
 		ItemArmor.ArmorMaterial enuma = EnumHelper.addArmorMaterial("BYAKUGAN", "narutomod:byakugan_", 25, new int[]{2, 5, 6, 15}, 0, null, 0.0F);
 		
-		this.elements.items.add(() -> new ItemDojutsu.Base(enuma) {
+		this.elements.items.add(() -> new ItemOcularJutsu.Base(enuma) {
 			@Override
-			public ItemDojutsu.Type getType() {
-				return ItemDojutsu.Type.BYAKUGAN;
+			public ItemOcularJutsu.Type getType() {
+				return ItemOcularJutsu.Type.BYAKUGAN;
 			}
 			
 			@SideOnly(Side.CLIENT)
 			@Override
 			public ModelBiped getArmorModel(EntityLivingBase living, ItemStack stack, EntityEquipmentSlot slot, ModelBiped defaultModel) {
-				ItemDojutsu.ClientModel.ModelHelmetSnug armorModel = (ItemDojutsu.ClientModel.ModelHelmetSnug)super.getArmorModel(living, stack, slot, defaultModel);
+				ItemOcularJutsu.ClientModel.ModelHelmetSnug armorModel = (ItemOcularJutsu.ClientModel.ModelHelmetSnug)super.getArmorModel(living, stack, slot, defaultModel);
 				armorModel.headwearHide = true;
 				armorModel.onface.showModel = living.getEntityData().getBoolean("byakugan_activated") || EntityEightTrigrams.EntityCustom.isActivated(living)
 				 || living.getRidingEntity() instanceof EntityHakkeshoKeiten.EntityCustom;
@@ -134,7 +134,7 @@ public class ItemByakugan extends ElementsNarutomodMod.ModElement {
 					if (d <= 0.0d && entity instanceof EntityPlayerMP) {
 						ItemStack oldstack = itemstack.copy();
 						ItemStack newstack = new ItemStack(ItemTenseigan.helmet);
-						((ItemDojutsu.Base)newstack.getItem()).setOwner(newstack, (EntityLivingBase)entity);
+						((ItemOcularJutsu.Base)newstack.getItem()).setOwner(newstack, (EntityLivingBase)entity);
 						newstack.getTagCompound().setDouble("ByakuganCount", itemstack.getTagCompound().getDouble("ByakuganCount"));
 						((EntityPlayer)entity).inventory.setInventorySlotContents(getSlotId((EntityPlayer)entity, itemstack), newstack);
 						oldstack.getTagCompound().removeTag("ByakuganCount");

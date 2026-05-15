@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"2": "minecraft/bakuton",
-		"particle": "minecraft/bakuton"
+		"2": "minecraft/explosion_release",
+		"particle": "minecraft/explosion_release"
 	},
 	"elements": [
 		{

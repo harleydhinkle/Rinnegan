@@ -14,7 +14,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.potion.PotionEffect;
 
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemMokuton;
+import net.narutomod.item.ItemWoodRelease;
 import net.narutomod.potion.PotionHeaviness;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.ElementsNarutomodMod;
@@ -35,7 +35,7 @@ public class EntityWoodArm extends ElementsNarutomodMod.ModElement {
 				.name("wood_arm").tracker(64, 3, true).build());
 	}
 
-	public static class EC extends ItemMokuton.WoodSegment implements ItemJutsu.IJutsu {
+	public static class EC extends ItemWoodRelease.WoodSegment implements ItemJutsu.IJutsu {
 		private int lifespan = 300;
 		private EC prevSegment;
 		private Entity target;
@@ -147,7 +147,7 @@ public class EntityWoodArm extends ElementsNarutomodMod.ModElement {
 		public static class Jutsu implements ItemJutsu.IJutsuCallback {
 			@Override
 			public boolean createJutsu(ItemStack stack, EntityLivingBase entity, float power) {
-				RayTraceResult res = ProcedureUtils.objectEntityLookingAt(entity, 30d, 3d, ItemMokuton.WoodSegment.class);
+				RayTraceResult res = ProcedureUtils.objectEntityLookingAt(entity, 30d, 3d, ItemWoodRelease.WoodSegment.class);
 				if (res != null && res.entityHit != null) {
 					entity.world.spawnEntity(new EC(entity, res.entityHit));
 					return true;

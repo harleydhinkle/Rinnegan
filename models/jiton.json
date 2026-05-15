@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"2": "minecraft/jiton",
-		"particle": "minecraft/jiton"
+		"2": "minecraft/magnet_release",
+		"particle": "minecraft/magnet_release"
 	},
 	"elements": [
 		{

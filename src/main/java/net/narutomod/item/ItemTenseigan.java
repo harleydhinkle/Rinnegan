@@ -65,7 +65,7 @@ public class ItemTenseigan extends ElementsNarutomodMod.ModElement {
 	@Override
 	public void initElements() {
 		ItemArmor.ArmorMaterial enuma = EnumHelper.addArmorMaterial("TENSEIGAN", "narutomod:sasuke_", 5, new int[]{2, 75, 100, 15}, 0,
-		 net.minecraft.util.SoundEvent.REGISTRY.getObject(new ResourceLocation("narutomod:dojutsu")), 2.0f);
+		 net.minecraft.util.SoundEvent.REGISTRY.getObject(new ResourceLocation("narutomod:ocular_jutsu")), 2.0f);
 
 		elements.items.add(() -> new ItemRinnegan.Base(enuma) {
 			@Override
@@ -77,9 +77,9 @@ public class ItemTenseigan extends ElementsNarutomodMod.ModElement {
 			public void onUpdatePost(EntityPlayer player) {
 				if (!player.world.isRemote && player.ticksExisted % 20 == 3) {
 					ItemStack helmetStack = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-					GuiNinjaScroll.enableJutsu(player, (ItemJutsu.Base)ItemYoton.block, ItemYoton.SEALING9D, helmetStack.getItem() == helmet);
-					GuiNinjaScroll.enableJutsu(player, (ItemJutsu.Base)ItemYoton.block,
-					 ItemYoton.SEALING10, helmetStack.getItem() == helmet && EntityTenTails.getBijuManager().isAddedToWorld(player.world));
+					GuiNinjaScroll.enableJutsu(player, (ItemJutsu.Base)ItemYangRelease.block, ItemYangRelease.SEALING9D, helmetStack.getItem() == helmet);
+					GuiNinjaScroll.enableJutsu(player, (ItemJutsu.Base)ItemYangRelease.block,
+					 ItemYangRelease.SEALING10, helmetStack.getItem() == helmet && EntityTenTails.getBijuManager().isAddedToWorld(player.world));
 					if (!(helmetStack.getItem() instanceof ItemRinnegan.Base)) {
 						player.inventory.clearMatchingItems(ItemAsuraCanon.block, -1, -1, null);
 						if (player.getRidingEntity() instanceof EntityPretaShield.EntityCustom) {
@@ -92,7 +92,7 @@ public class ItemTenseigan extends ElementsNarutomodMod.ModElement {
 			@SideOnly(Side.CLIENT)
 			@Override
 			public ModelBiped getArmorModel(EntityLivingBase living, ItemStack stack, EntityEquipmentSlot slot, ModelBiped defaultModel) {
-				ItemDojutsu.ClientModel.ModelHelmetSnug armorModel = (ItemDojutsu.ClientModel.ModelHelmetSnug)super.getArmorModel(living, stack, slot, defaultModel);
+				ItemOcularJutsu.ClientModel.ModelHelmetSnug armorModel = (ItemOcularJutsu.ClientModel.ModelHelmetSnug)super.getArmorModel(living, stack, slot, defaultModel);
 				armorModel.headwearShine = true;
 				armorModel.foreheadHide = !ItemRinnegan.isRinnesharinganActivated(stack);
 				Item item = living.getHeldItemMainhand().getItem();

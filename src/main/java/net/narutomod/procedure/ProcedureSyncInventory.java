@@ -44,7 +44,7 @@ public class ProcedureSyncInventory extends ElementsNarutomodMod.ModElement {
 								: false)))) {
 					if (entity instanceof EntityPlayer && !entity.world.isRemote) {
 						((EntityPlayer) entity).sendStatusMessage(new TextComponentString(
-								((TextFormatting.RED) + "" + ("You obtained your advanced dojutsu illegally, it will be removed"))), (false));
+								((TextFormatting.RED) + "" + ("You obtained your advanced ocular_jutsu illegally, it will be removed"))), (false));
 					}
 					if (entity instanceof EntityPlayer)
 						((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemMangekyoSharinganEternal.helmet, (int) (1)).getItem(),
@@ -61,7 +61,7 @@ public class ProcedureSyncInventory extends ElementsNarutomodMod.ModElement {
 								: false)))) {
 					if (entity instanceof EntityPlayer && !entity.world.isRemote) {
 						((EntityPlayer) entity).sendStatusMessage(new TextComponentString(
-								((TextFormatting.RED) + "" + ("You obtained your advanced dojutsu illegally, it will be removed"))), (false));
+								((TextFormatting.RED) + "" + ("You obtained your advanced ocular_jutsu illegally, it will be removed"))), (false));
 					}
 					if (entity instanceof EntityPlayer)
 						((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemRinnegan.helmet, (int) (1)).getItem(), -1, (int) (-1),
@@ -78,7 +78,7 @@ public class ProcedureSyncInventory extends ElementsNarutomodMod.ModElement {
 								: false)))) {
 					if (entity instanceof EntityPlayer && !entity.world.isRemote) {
 						((EntityPlayer) entity).sendStatusMessage(new TextComponentString(
-								((TextFormatting.RED) + "" + ("You obtained your advanced dojutsu illegally, it will be removed"))), (false));
+								((TextFormatting.RED) + "" + ("You obtained your advanced ocular_jutsu illegally, it will be removed"))), (false));
 					}
 					if (entity instanceof EntityPlayer)
 						((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemTenseigan.helmet, (int) (1)).getItem(), -1, (int) (-1),

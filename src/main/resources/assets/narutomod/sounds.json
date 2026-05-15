@@ -890,11 +890,11 @@
       }
     ]
   },
-  "dojutsu": {
+  "ocular_jutsu": {
     "category": "master",
     "sounds": [
       {
-        "name": "narutomod:dojutsu",
+        "name": "narutomod:ocular_jutsu",
         "stream": false
       }
     ]

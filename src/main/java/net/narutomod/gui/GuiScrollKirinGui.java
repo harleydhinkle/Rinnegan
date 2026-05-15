@@ -9,7 +9,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-import net.narutomod.item.ItemRaiton;
+import net.narutomod.item.ItemLightningRelease;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.PlayerTracker;
 import net.narutomod.ElementsNarutomodMod;
@@ -32,7 +32,7 @@ public class GuiScrollKirinGui extends ElementsNarutomodMod.ModElement {
 			// security measure to prevent arbitrary chunk generation
 			if (player.world.isRemote || !player.world.isBlockLoaded(new BlockPos(this.x, this.y, this.z)))
 				return;
-			ItemStack stack = GuiNinjaScroll.enableJutsu(player, (ItemRaiton.RangedItem)ItemRaiton.block, ItemRaiton.KIRIN, true);
+			ItemStack stack = GuiNinjaScroll.enableJutsu(player, (ItemLightningRelease.RangedItem)ItemLightningRelease.block, ItemLightningRelease.KIRIN, true);
 			if (stack != null) {
 				super.handleButtonAction(player, buttonID);
 			}
@@ -47,13 +47,13 @@ public class GuiScrollKirinGui extends ElementsNarutomodMod.ModElement {
 		@Override
 		protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
 			super.drawGuiContainerBackgroundLayer(par1, par2, par3);
-			this.mc.renderEngine.bindTexture(new ResourceLocation("narutomod:textures/blocks/raiton.png"));
+			this.mc.renderEngine.bindTexture(new ResourceLocation("narutomod:textures/blocks/lightning_release.png"));
 			this.drawModalRectWithCustomSizedTexture(this.guiLeft + 89, this.guiTop + 49, 0, 0, 48, 48, 48, 48);
 		}
 
 		@Override
 		protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-			this.fontRenderer.drawString(I18n.translateToLocal(ItemRaiton.block.getUnlocalizedName()+".name")+": "+ItemRaiton.KIRIN.getName(), 38, 13, -16777216);
+			this.fontRenderer.drawString(I18n.translateToLocal(ItemLightningRelease.block.getUnlocalizedName()+".name")+": "+ItemLightningRelease.KIRIN.getName(), 38, 13, -16777216);
 		}
 	}
 }

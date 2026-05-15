@@ -56,7 +56,7 @@ import net.minecraft.block.BlockLiquid;
 
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.item.ItemZabuzaSword;
-import net.narutomod.item.ItemSuiton;
+import net.narutomod.item.ItemWaterRelease;
 import net.narutomod.ModConfig;
 import net.narutomod.ElementsNarutomodMod;
 
@@ -220,7 +220,7 @@ public class EntityZabuzaMomochi extends ElementsNarutomodMod.ModElement {
 			if (target != null && target.isEntityAlive()) {
 				double distanceToTarget = this.getDistance(target);
 				if (!this.isClone() && this.ticksExisted > this.mistLastUsed + MIST_CD && this.consumeChakra(MIST_CHAKRA)) {
-					new ItemSuiton.EntityMist.Jutsu().createJutsu(this.getHeldItemOffhand(), this, 1f);
+					new ItemWaterRelease.EntityMist.Jutsu().createJutsu(this.getHeldItemOffhand(), this, 1f);
 					this.mistLastUsed = this.ticksExisted;
 				}
 				if (this.isClone() && !EntityWaterPrison.isEntityTrapped(target) && distanceToTarget >= 2d

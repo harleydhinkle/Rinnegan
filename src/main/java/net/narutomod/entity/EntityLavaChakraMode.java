@@ -35,7 +35,7 @@ import net.minecraft.potion.PotionEffect;
 
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemYooton;
+import net.narutomod.item.ItemLavaRelease;
 import net.narutomod.Chakra;
 import net.narutomod.ElementsNarutomodMod;
 
@@ -115,7 +115,7 @@ public class EntityLavaChakraMode extends ElementsNarutomodMod.ModElement {
 			if (user != null) {
 				this.setPosition(user.posX, user.posY, user.posZ);
 				if (this.ticksExisted % 20 == 19) {
-					if (!Chakra.pathway(user).consume(ItemYooton.CHAKRAMODE.chakraUsage)) {
+					if (!Chakra.pathway(user).consume(ItemLavaRelease.CHAKRAMODE.chakraUsage)) {
 						this.setDead();
 					} else {
 						user.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 21, this.strengthAmplifier, false, false));

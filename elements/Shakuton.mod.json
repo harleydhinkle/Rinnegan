@@ -3,7 +3,7 @@
   "_type": "gun",
   "definition": {
     "renderType": 0,
-    "texture": "shakuton",
+    "texture": "scorch_release",
     "customModelName": "Normal",
     "name": "Scorch Release",
     "specialInfo": [],

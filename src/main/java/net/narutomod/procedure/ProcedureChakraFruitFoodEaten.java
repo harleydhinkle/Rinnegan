@@ -3,7 +3,7 @@ package net.narutomod.procedure;
 import net.narutomod.item.ItemTenseigan;
 import net.narutomod.item.ItemSharingan;
 import net.narutomod.item.ItemRinnegan;
-import net.narutomod.item.ItemKekkeiMora;
+import net.narutomod.item.ItemAllEncompassingBloodline;
 import net.narutomod.item.ItemByakugan;
 import net.narutomod.PlayerTracker;
 import net.narutomod.NarutomodModVariables;
@@ -77,7 +77,7 @@ public class ProcedureChakraFruitFoodEaten extends ElementsNarutomodMod.ModEleme
 							.getObject(new ResourceLocation("ui.toast.challenge_complete")),
 					SoundCategory.NEUTRAL, (float) 1, (float) 1);
 			if (entity instanceof EntityPlayer) {
-				ItemStack _setstack = new ItemStack(ItemKekkeiMora.block, (int) (1));
+				ItemStack _setstack = new ItemStack(ItemAllEncompassingBloodline.block, (int) (1));
 				_setstack.setCount(1);
 				ItemHandlerHelper.giveItemToPlayer(((EntityPlayer) entity), _setstack);
 			}
@@ -114,7 +114,7 @@ public class ProcedureChakraFruitFoodEaten extends ElementsNarutomodMod.ModEleme
 							.getObject(new ResourceLocation("ui.toast.challenge_complete")),
 					SoundCategory.NEUTRAL, (float) 1, (float) 1);
 			if (entity instanceof EntityPlayer) {
-				ItemStack _setstack = new ItemStack(ItemKekkeiMora.block, (int) (1));
+				ItemStack _setstack = new ItemStack(ItemAllEncompassingBloodline.block, (int) (1));
 				_setstack.setCount(1);
 				ItemHandlerHelper.giveItemToPlayer(((EntityPlayer) entity), _setstack);
 			}

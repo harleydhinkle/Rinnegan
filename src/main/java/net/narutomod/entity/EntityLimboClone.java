@@ -31,7 +31,7 @@ import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateFlying;
 
 import net.narutomod.procedure.ProcedureUtils;
-import net.narutomod.item.ItemSixPathSenjutsu;
+import net.narutomod.item.ItemSixPathsSageArts;
 import net.narutomod.item.ItemRinnegan;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.Chakra;
@@ -136,7 +136,7 @@ public class EntityLimboClone extends ElementsNarutomodMod.ModElement {
 		private boolean canBeDetectedBy(Entity entity) {
 			return entity.equals(this.getSummoner())
 			 || (entity instanceof EntityLivingBase && ItemRinnegan.wearingRinnegan((EntityLivingBase)entity))
-			 || (entity instanceof EntityPlayer && ProcedureUtils.hasItemInInventory((EntityPlayer)entity, ItemSixPathSenjutsu.block));
+			 || (entity instanceof EntityPlayer && ProcedureUtils.hasItemInInventory((EntityPlayer)entity, ItemSixPathsSageArts.block));
 		}
 
 		/*@SideOnly(Side.CLIENT)

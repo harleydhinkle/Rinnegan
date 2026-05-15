@@ -3,8 +3,8 @@
   "_type": "gun",
   "definition": {
     "renderType": 1,
-    "texture": "jiton",
-    "customModelName": "jiton:default",
+    "texture": "magnet_release",
+    "customModelName": "magnet_release:default",
     "name": "Magnet Release",
     "specialInfo": [],
     "creativeTab": {

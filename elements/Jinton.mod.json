@@ -3,8 +3,8 @@
   "_type": "gun",
   "definition": {
     "renderType": 1,
-    "texture": "jinton",
-    "customModelName": "jinton:default",
+    "texture": "dust_release",
+    "customModelName": "dust_release:default",
     "name": "Jinton",
     "specialInfo": [
       "Dust Release"

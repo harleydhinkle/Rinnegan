@@ -16,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.PotionEffect;
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemMokuton;
+import net.narutomod.item.ItemWoodRelease;
 import net.narutomod.potion.PotionHeaviness;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.ElementsNarutomodMod;
@@ -46,7 +46,7 @@ public class EntityWoodForest extends ElementsNarutomodMod.ModElement {
         );
     }
 
-    public static class EC extends ItemMokuton.WoodSegment implements ItemJutsu.IJutsu {
+    public static class EC extends ItemWoodRelease.WoodSegment implements ItemJutsu.IJutsu {
         private int lifespan = 600;
         private EC lastSegment;
         private float diameter;

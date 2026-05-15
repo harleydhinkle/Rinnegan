@@ -3,8 +3,8 @@
   "_type": "gun",
   "definition": {
     "renderType": 1,
-    "texture": "katon",
-    "customModelName": "katon:default",
+    "texture": "fire_release",
+    "customModelName": "fire_release:default",
     "name": "Katon",
     "specialInfo": [
       "Fire Release"

@@ -28,7 +28,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.item.ItemStack;
 
 import net.narutomod.gui.GuiNinjaScroll;
-import net.narutomod.item.ItemSuiton;
+import net.narutomod.item.ItemWaterRelease;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.ElementsNarutomodMod;
 
@@ -65,8 +65,8 @@ public class EntitySixTails extends ElementsNarutomodMod.ModElement {
 		public void setVesselEntity(@Nullable Entity player) {
 			super.setVesselEntity(player);
 			if (player instanceof EntityPlayer) {
-				//ItemHandlerHelper.giveItemToPlayer((EntityPlayer)player, new ItemStack(ItemSuiton.block));
-				GuiNinjaScroll.enableJutsu((EntityPlayer)player, (ItemSuiton.RangedItem)ItemSuiton.block, ItemSuiton.ACIDSPIT, true);
+				//ItemHandlerHelper.giveItemToPlayer((EntityPlayer)player, new ItemStack(ItemWaterRelease.block));
+				GuiNinjaScroll.enableJutsu((EntityPlayer)player, (ItemWaterRelease.RangedItem)ItemWaterRelease.block, ItemWaterRelease.ACIDSPIT, true);
 			}
 		}
 

@@ -22,7 +22,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.model.ModelBox;
 
 import net.narutomod.item.ItemGourd;
-import net.narutomod.item.ItemJiton;
+import net.narutomod.item.ItemMagnetRelease;
 import net.narutomod.ElementsNarutomodMod;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.IEntityLivingData;
@@ -60,7 +60,7 @@ public class EntityGaara extends ElementsNarutomodMod.ModElement {
 		@Override
 		public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
 			ItemStack stack = new ItemStack(ItemGourd.body);
-			ItemGourd.setMaterial(stack, ItemJiton.Type.SAND);
+			ItemGourd.setMaterial(stack, ItemMagnetRelease.Type.SAND);
 			this.setItemStackToSlot(EntityEquipmentSlot.CHEST, stack);
 			return super.onInitialSpawn(difficulty, livingdata);
 		}

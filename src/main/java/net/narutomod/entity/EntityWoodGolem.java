@@ -33,7 +33,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 
 import net.narutomod.procedure.ProcedureUtils;
-import net.narutomod.item.ItemMokuton;
+import net.narutomod.item.ItemWoodRelease;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.Chakra;
 import net.narutomod.ElementsNarutomodMod;
@@ -158,8 +158,8 @@ public static class Jutsu implements ItemJutsu.IJutsuCallback {
 				SoundCategory.PLAYERS, 1, 1f);
 
 			if (!entity.world.isRemote) {
-				entity.world.spawnEntity(new EC(entity, ItemMokuton.GOLEM.chakraUsage * 0.05d *
-					((ItemMokuton.ItemCustom)stack.getItem()).getCurrentJutsuXpModifier(stack, entity)));
+				entity.world.spawnEntity(new EC(entity, ItemWoodRelease.GOLEM.chakraUsage * 0.05d *
+					((ItemWoodRelease.ItemCustom)stack.getItem()).getCurrentJutsuXpModifier(stack, entity)));
 					
 				((ItemJutsu.Base)stack.getItem()).setCurrentJutsuCooldown(stack, 2400);
 			}

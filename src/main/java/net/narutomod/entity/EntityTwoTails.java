@@ -33,7 +33,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 
-import net.narutomod.item.ItemKaton;
+import net.narutomod.item.ItemFireRelease;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.Particles;
 import net.narutomod.ElementsNarutomodMod;
@@ -72,14 +72,14 @@ public class EntityTwoTails extends ElementsNarutomodMod.ModElement {
 		public void setVesselEntity(@Nullable Entity player) {
 			super.setVesselEntity(player);
 			if (player instanceof EntityPlayer) {
-				ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)player, ItemKaton.block);
+				ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)player, ItemFireRelease.block);
 				if (stack == null) {
-					stack = new ItemStack(ItemKaton.block);
-					((ItemKaton.RangedItem)stack.getItem()).setOwner(stack, (EntityPlayer)player);
+					stack = new ItemStack(ItemFireRelease.block);
+					((ItemFireRelease.RangedItem)stack.getItem()).setOwner(stack, (EntityPlayer)player);
 					ItemHandlerHelper.giveItemToPlayer((EntityPlayer)player, stack);
 				}
 				if (stack != null) {
-					((ItemKaton.RangedItem)stack.getItem()).enableJutsu(stack, ItemKaton.GREATFIREBALL, true);
+					((ItemFireRelease.RangedItem)stack.getItem()).enableJutsu(stack, ItemFireRelease.GREATFIREBALL, true);
 				}
 			}
 		}
@@ -206,9 +206,9 @@ public class EntityTwoTails extends ElementsNarutomodMod.ModElement {
 			if (!this.isAIDisabled() && (this.mouthShootingJutsu == null || this.mouthShootingJutsu.isDead)
 			 && distanceFactor < 1.0f && distanceFactor > (float)(ProcedureUtils.getReachDistance(this) * 0.6d / this.getBijudamaMinRange())) {
 				this.setSwingingArms(true);
-				this.mouthShootingJutsu = new ItemKaton.EntityBigFireball(this, 10.0f, false);
-				((ItemKaton.EntityBigFireball)this.mouthShootingJutsu).shoot(target.posX - this.mouthShootingJutsu.posX, target.posY - this.mouthShootingJutsu.posY, target.posZ - this.mouthShootingJutsu.posZ, 1.2f, 0);
-				((ItemKaton.EntityBigFireball)this.mouthShootingJutsu).setDamage(300.0f);
+				this.mouthShootingJutsu = new ItemFireRelease.EntityBigFireball(this, 10.0f, false);
+				((ItemFireRelease.EntityBigFireball)this.mouthShootingJutsu).shoot(target.posX - this.mouthShootingJutsu.posX, target.posY - this.mouthShootingJutsu.posY, target.posZ - this.mouthShootingJutsu.posZ, 1.2f, 0);
+				((ItemFireRelease.EntityBigFireball)this.mouthShootingJutsu).setDamage(300.0f);
 				this.world.spawnEntity(this.mouthShootingJutsu);
 			} else {
 				super.attackEntityWithRangedAttack(target, distanceFactor);

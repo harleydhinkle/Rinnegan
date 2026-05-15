@@ -3,8 +3,8 @@
   "_type": "gun",
   "definition": {
     "renderType": 1,
-    "texture": "inton",
-    "customModelName": "inton:default",
+    "texture": "yin_release",
+    "customModelName": "yin_release:default",
     "name": "Yin Release",
     "specialInfo": [],
     "creativeTab": {

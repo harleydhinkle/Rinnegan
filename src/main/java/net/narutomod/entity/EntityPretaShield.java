@@ -31,7 +31,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.server.SPacketAnimation;
 
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemSenjutsu;
+import net.narutomod.item.ItemSageArts;
 import net.narutomod.ElementsNarutomodMod;
 import net.narutomod.Chakra;
 import net.narutomod.PlayerTracker;
@@ -192,8 +192,8 @@ public class EntityPretaShield extends ElementsNarutomodMod.ModElement {
 		protected void collideWithEntity(Entity entity) {
 			EntityLivingBase summoner = this.getSummoner();
 			if (!entity.equals(summoner) && this.absorbEntityChakra(entity, 10f)) {
-				if (entity instanceof EntityLivingBase && ItemSenjutsu.isSageModeActivated((EntityLivingBase)entity)
-				 && !ItemSenjutsu.canUseSageMode(summoner)) {
+				if (entity instanceof EntityLivingBase && ItemSageArts.isSageModeActivated((EntityLivingBase)entity)
+				 && !ItemSageArts.canUseSageMode(summoner)) {
 					this.absorbedSageChakra += 10.0d;
 					if (this.absorbedSageChakra >= this.sageChakraLimit) {
 						ProcedureUtils.setDeathAnimations(summoner, 1, 100);

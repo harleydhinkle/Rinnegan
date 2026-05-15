@@ -4,7 +4,7 @@
   "definition": {
     "renderType": 1,
     "texture": "mokuton_symbol",
-    "customModelName": "mokuton:default",
+    "customModelName": "wood_release:default",
     "name": "Mokuton",
     "rarity": "COMMON",
     "creativeTab": {

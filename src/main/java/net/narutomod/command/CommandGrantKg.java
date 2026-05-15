@@ -102,7 +102,7 @@ public class CommandGrantKg extends ElementsNarutomodMod.ModElement {
                 //Sharingan
                 stack = new ItemStack(ItemSharingan.helmet, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
-                ((ItemDojutsu.Base) stack.getItem()).setOwner(stack, player);
+                ((ItemOcularJutsu.Base) stack.getItem()).setOwner(stack, player);
                 Advancement adv = ((MinecraftServer) player.mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:sharinganopened"));
                 AdvancementProgress ap = player.getAdvancements().getProgress(adv);
                 for (String crit : ap.getRemaningCriteria()) {
@@ -114,7 +114,7 @@ public class CommandGrantKg extends ElementsNarutomodMod.ModElement {
                 //Byakugan
                 stack = new ItemStack(ItemByakugan.helmet, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
-                ((ItemDojutsu.Base) stack.getItem()).setOwner(stack, player);
+                ((ItemOcularJutsu.Base) stack.getItem()).setOwner(stack, player);
                 Advancement adv = ((MinecraftServer) player.mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:byakuganopened"));
                 AdvancementProgress ap = player.getAdvancements().getProgress(adv);
                 for (String crit : ap.getRemaningCriteria()) {
@@ -132,7 +132,7 @@ public class CommandGrantKg extends ElementsNarutomodMod.ModElement {
 
             } else if (kg.equals("lava")) {
                 //lava
-                stack = new ItemStack(ItemYooton.block, (int) (1));
+                stack = new ItemStack(ItemLavaRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -140,7 +140,7 @@ public class CommandGrantKg extends ElementsNarutomodMod.ModElement {
 
             } else if (kg.equals("scorch")) {
                 //scorch
-                stack = new ItemStack(ItemShakuton.block, (int) (1));
+                stack = new ItemStack(ItemScorchRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -148,7 +148,7 @@ public class CommandGrantKg extends ElementsNarutomodMod.ModElement {
 
             } else if (kg.equals("ice")) {
                 //ice
-                stack = new ItemStack(ItemHyoton.block, (int) (1));
+                stack = new ItemStack(ItemIceRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -156,7 +156,7 @@ public class CommandGrantKg extends ElementsNarutomodMod.ModElement {
 
             } else if (kg.equals("magnet")) {
                 //magnet
-                stack = new ItemStack(ItemJiton.block, (int) (1));
+                stack = new ItemStack(ItemMagnetRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -164,7 +164,7 @@ public class CommandGrantKg extends ElementsNarutomodMod.ModElement {
 
             } else if (kg.equals("explosion")) {
                 //explosion
-                stack = new ItemStack(ItemBakuton.block, (int) (1));
+                stack = new ItemStack(ItemExplosionRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -172,7 +172,7 @@ public class CommandGrantKg extends ElementsNarutomodMod.ModElement {
 
             } else if (kg.equals("storm")) {
                 //storm
-                stack = new ItemStack(ItemRanton.block, (int) (1));
+                stack = new ItemStack(ItemStormRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -180,7 +180,7 @@ public class CommandGrantKg extends ElementsNarutomodMod.ModElement {
 
             } else if (kg.equals("boil")) {
                 //boil
-                stack = new ItemStack(ItemFuton.block, (int) (1));
+                stack = new ItemStack(ItemWindRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -188,7 +188,7 @@ public class CommandGrantKg extends ElementsNarutomodMod.ModElement {
 
             } else if (kg.equals("wood")) {
                 //wood
-                stack = new ItemStack(ItemMokuton.block, (int) (1));
+                stack = new ItemStack(ItemWoodRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -196,14 +196,14 @@ public class CommandGrantKg extends ElementsNarutomodMod.ModElement {
 
             } else if (kg.equals("dust")) {
                 //dust
-                stack = new ItemStack(ItemJinton.block, (int) (1));
+                stack = new ItemStack(ItemDustRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
                 player.getEntityData().setBoolean("firstkg", false);
 
             } else if (kg.equals("crystal")) {
-                stack = new ItemStack(ItemShoton.block, (int) (1));
+                stack = new ItemStack(ItemCrystalRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer(player, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, player);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);

@@ -3,7 +3,7 @@ package net.narutomod.entity;
 
 import net.narutomod.item.ItemIshiken;
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemSenjutsu;
+import net.narutomod.item.ItemSageArts;
 import net.narutomod.procedure.ProcedureCameraShake;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.NarutomodMod;
@@ -164,9 +164,9 @@ public class EntityGamarinsho extends ElementsNarutomodMod.ModElement {
 
 		private void setCooldown(EntityLivingBase caster) {
 			if (caster instanceof EntityPlayer) {
-				ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)caster, ItemSenjutsu.block);
+				ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)caster, ItemSageArts.block);
 				if (stack != null) {
-					((ItemJutsu.Base)stack.getItem()).setJutsuCooldown(stack, ItemSenjutsu.GAMARINSHO, 3600);
+					((ItemJutsu.Base)stack.getItem()).setJutsuCooldown(stack, ItemSageArts.GAMARINSHO, 3600);
 				}
 			}
 		}
@@ -177,7 +177,7 @@ public class EntityGamarinsho extends ElementsNarutomodMod.ModElement {
 			int age = this.getAge() + 1;
 			if (!this.world.isRemote && (caster == null || age > this.prepareTime + this.genjutsuDuration || !caster.isEntityAlive()
 			 || (this.toadPa != null && !this.toadPa.isEntityAlive()) || (this.toadMa != null && !this.toadMa.isEntityAlive())
-			 || (caster instanceof EntityPlayer && age < this.prepareTime && !ItemSenjutsu.isSageModeActivated((EntityPlayer)caster)))) {
+			 || (caster instanceof EntityPlayer && age < this.prepareTime && !ItemSageArts.isSageModeActivated((EntityPlayer)caster)))) {
 				this.setDead();
 			} else {
 				this.setIdlePosition();

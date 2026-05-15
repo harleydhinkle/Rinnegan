@@ -4,7 +4,7 @@
   "definition": {
     "renderType": 1,
     "texture": "sagetoadhelmet_item",
-    "customModelName": "senjutsu:default",
+    "customModelName": "sage_arts:default",
     "name": "Senjutsu",
     "specialInfo": [],
     "creativeTab": {

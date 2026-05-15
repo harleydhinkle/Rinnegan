@@ -31,7 +31,7 @@ import net.minecraft.item.ItemStack;
 
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.item.ItemGourd;
-import net.narutomod.item.ItemJiton;
+import net.narutomod.item.ItemMagnetRelease;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.Chakra;
 import net.narutomod.ElementsNarutomodMod;
@@ -58,7 +58,7 @@ public class EntitySandLevitation extends ElementsNarutomodMod.ModElement {
 	public static class EC extends Entity implements ItemJutsu.IJutsu {
 		private static final DataParameter<Boolean> DEAD = EntityDataManager.<Boolean>createKey(EC.class, DataSerializers.BOOLEAN);
 		private static final DataParameter<Integer> SUMMONER_ID = EntityDataManager.<Integer>createKey(EC.class, DataSerializers.VARINT);
-		private ItemJiton.SwarmTarget sandCloud;
+		private ItemMagnetRelease.SwarmTarget sandCloud;
 		private boolean firstRidden;
 		private final int waitTime = 40;
 
@@ -74,7 +74,7 @@ public class EntitySandLevitation extends ElementsNarutomodMod.ModElement {
 			Vec3d vec = summonerIn.getLookVec().scale(2d);
 			vec = summonerIn.getPositionVector().addVector(vec.x, 0d, vec.z);
 			this.setPosition(vec.x, vec.y, vec.z);
-			this.sandCloud = new ItemJiton.SwarmTarget(this.world, 15, this.getGourdMouthPos(), 
+			this.sandCloud = new ItemMagnetRelease.SwarmTarget(this.world, 15, this.getGourdMouthPos(), 
 			 vec, new Vec3d(0.1d, 0.4d, 0.1d), 0.5f, 0.03f, false, 2f, this.getSandType().getColor());
 		}
 
@@ -99,15 +99,15 @@ public class EntitySandLevitation extends ElementsNarutomodMod.ModElement {
 			this.dataManager.set(SUMMONER_ID, Integer.valueOf(summonerIn.getEntityId()));
 		}
 
-		private ItemJiton.Type getSandType() {
+		private ItemMagnetRelease.Type getSandType() {
 			EntityPlayer summoner = this.getSummoner();
 			if (summoner != null) {
-				ItemStack stack = ProcedureUtils.getMatchingItemStack(summoner, ItemJiton.block);
+				ItemStack stack = ProcedureUtils.getMatchingItemStack(summoner, ItemMagnetRelease.block);
 				if (stack != null) {
-					return ItemJiton.getSandType(stack);
+					return ItemMagnetRelease.getSandType(stack);
 				}
 			}
-			return ItemJiton.Type.IRON;
+			return ItemMagnetRelease.Type.IRON;
 		}
 
 		public boolean getIsDead() {
@@ -197,7 +197,7 @@ public class EntitySandLevitation extends ElementsNarutomodMod.ModElement {
 					this.sandCloud.onUpdate();
 				}
 			} else if (this.firstRidden && !this.isSummonerControlling()) {
-				this.sandCloud = new ItemJiton.SwarmTarget(this.world, 15, this.getPositionVector(), 
+				this.sandCloud = new ItemMagnetRelease.SwarmTarget(this.world, 15, this.getPositionVector(), 
 			 	 this.getGourdMouthPos(), new Vec3d(0.1d, 0.2d, 0.1d), 0.5f, 0.03f, true, 2f, this.getSandType().getColor());
 			 	 this.setIsDead(true);
 			}
@@ -209,7 +209,7 @@ public class EntitySandLevitation extends ElementsNarutomodMod.ModElement {
 			this.updateSandParticles();
 			if (this.isSummonerControlling()) {
 				EntityPlayer rider = this.getSummoner();
-				if (this.world.isRemote || Chakra.pathway(rider).consume(ItemJiton.SANDFLY.chakraUsage)) {
+				if (this.world.isRemote || Chakra.pathway(rider).consume(ItemMagnetRelease.SANDFLY.chakraUsage)) {
 					this.rotationYaw = rider.rotationYaw;
 					this.prevRotationYaw = this.rotationYaw;
 					this.motionX *= 0.9d;
@@ -296,7 +296,7 @@ public class EntitySandLevitation extends ElementsNarutomodMod.ModElement {
 			}
 			@Override
 			protected ResourceLocation getEntityTexture(EC entity) {
-				return entity.getSandType() == ItemJiton.Type.SAND ? this.sand_texture : this.iron_texture;
+				return entity.getSandType() == ItemMagnetRelease.Type.SAND ? this.sand_texture : this.iron_texture;
 			}
 		}
 	

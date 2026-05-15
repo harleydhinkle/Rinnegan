@@ -66,7 +66,7 @@ public class ProcedureAoeCommand extends ElementsNarutomodMod.ModElement {
 		//excludedEntities.clear();
 		if (minRange < 0.0D)
 			minRange = 0.0D;
-		entitiesList = world.getEntitiesWithinAABB(Entity.class, aabb.grow(maxRange), MIN_DISTANCE);
+		entitiesList = ProcedureUtils.getEntitiesWithinAABBIncludingMultipartParts(world, aabb.grow(maxRange), null, MIN_DISTANCE);
 		return Instance;
 	}
 
@@ -82,7 +82,7 @@ public class ProcedureAoeCommand extends ElementsNarutomodMod.ModElement {
 		//excludedEntities.clear();
 		if (minRange < 0.0D)
 			minRange = 0.0D;
-		entitiesList = world.getEntitiesWithinAABB(Entity.class, aabb.grow(maxRange), MIN_DISTANCE);
+		entitiesList = ProcedureUtils.getEntitiesWithinAABBIncludingMultipartParts(world, aabb.grow(maxRange), null, MIN_DISTANCE);
 		return Instance;
 	}
 
@@ -93,7 +93,7 @@ public class ProcedureAoeCommand extends ElementsNarutomodMod.ModElement {
 		centerZ = ProcedureUtils.BB.getCenterZ(axisalignedbb);
 		minRange = 0.0d;
 		maxRange = Math.max(Math.max(axisalignedbb.maxX - axisalignedbb.minX, axisalignedbb.maxZ - axisalignedbb.minZ), axisalignedbb.maxY - axisalignedbb.minY) * 0.5d;
-		entitiesList = world.getEntitiesWithinAABB(Entity.class, axisalignedbb, MIN_DISTANCE);
+		entitiesList = ProcedureUtils.getEntitiesWithinAABBIncludingMultipartParts(world, axisalignedbb, null, MIN_DISTANCE);
 		return Instance;
 	}
 

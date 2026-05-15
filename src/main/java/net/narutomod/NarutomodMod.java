@@ -39,8 +39,11 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.potion.Potion;
 import net.minecraft.item.Item;
 import net.minecraft.block.Block;
+import net.minecraft.util.ResourceLocation;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 @Mod(modid = NarutomodMod.MODID, version = NarutomodMod.VERSION)
@@ -48,6 +51,7 @@ public class NarutomodMod {
 	public static final String MODID = "narutomod";
 	public static final String VERSION = "0.3.2-beta";
 	public static final SimpleNetworkWrapper PACKET_HANDLER = NetworkRegistry.INSTANCE.newSimpleChannel("narutomod:a");
+	private static final Map<ResourceLocation, ResourceLocation> ITEM_ID_REMAPS = new HashMap<>();
 	@SidedProxy(clientSide = "net.narutomod.ClientProxyNarutomodMod", serverSide = "net.narutomod.ServerProxyNarutomodMod")
 	public static IProxyNarutomodMod proxy;
 	@Mod.Instance(MODID)
@@ -86,6 +90,7 @@ public class NarutomodMod {
 
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
+		elements.getElements().forEach(element -> element.postInit(event));
 		proxy.postInit(event);
 	}
 
@@ -103,6 +108,19 @@ public class NarutomodMod {
 	@SubscribeEvent
 	public void registerItems(RegistryEvent.Register<Item> event) {
 		event.getRegistry().registerAll(elements.getItems().stream().map(Supplier::get).toArray(Item[]::new));
+	}
+
+	@SubscribeEvent
+	public void remapMissingItems(RegistryEvent.MissingMappings<Item> event) {
+		for (RegistryEvent.MissingMappings.Mapping<Item> mapping : event.getMappings()) {
+			ResourceLocation replacementId = ITEM_ID_REMAPS.get(mapping.key);
+			if (replacementId != null) {
+				Item replacement = event.getRegistry().getValue(replacementId);
+				if (replacement != null) {
+					mapping.remap(replacement);
+				}
+			}
+		}
 	}
 
 	@SubscribeEvent
@@ -132,5 +150,28 @@ public class NarutomodMod {
 	}
 	static {
 		FluidRegistry.enableUniversalBucket();
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "katon"), new ResourceLocation(MODID, "fire_release"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "suiton"), new ResourceLocation(MODID, "water_release"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "doton"), new ResourceLocation(MODID, "earth_release"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "futon"), new ResourceLocation(MODID, "wind_release"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "raiton"), new ResourceLocation(MODID, "lightning_release"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "mokuton"), new ResourceLocation(MODID, "wood_release"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "yoton"), new ResourceLocation(MODID, "yang_release"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "jinton"), new ResourceLocation(MODID, "dust_release"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "bakuton"), new ResourceLocation(MODID, "explosion_release"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "shakuton"), new ResourceLocation(MODID, "scorch_release"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "shoton"), new ResourceLocation(MODID, "crystal_release"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "hyoton"), new ResourceLocation(MODID, "ice_release"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "ranton"), new ResourceLocation(MODID, "storm_release"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "jiton"), new ResourceLocation(MODID, "magnet_release"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "futton"), new ResourceLocation(MODID, "boil_release"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "yooton"), new ResourceLocation(MODID, "lava_release"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "inton"), new ResourceLocation(MODID, "yin_release"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "iryo_jutsu"), new ResourceLocation(MODID, "medical_ninjutsu"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "dojutsu"), new ResourceLocation(MODID, "ocular_jutsu"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "ninjutsu"), new ResourceLocation(MODID, "ninja_arts"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "senjutsu"), new ResourceLocation(MODID, "sage_arts"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "six_path_senjutsu"), new ResourceLocation(MODID, "six_paths_sage_arts"));
+		ITEM_ID_REMAPS.put(new ResourceLocation(MODID, "kekkei_mora"), new ResourceLocation(MODID, "all_encompassing_bloodline"));
 	}
 }

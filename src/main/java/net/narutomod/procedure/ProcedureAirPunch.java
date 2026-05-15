@@ -175,6 +175,10 @@ public abstract class ProcedureAirPunch {
 					this.affectedTraceList.add(new RayTraceResult(entity1));
 			}
 		}
+		RayTraceResult oneTailResult = ProcedureUtils.rayTraceOneTailParts(entity.world, entity, vec3d, vec3d2, nearRadius + farRadius + 1);
+		if (oneTailResult != null) {
+			this.affectedTraceList.add(oneTailResult);
+		}
 		//this.affectedTraceList.sort(new ProcedureUtils.RayTraceResultSorter(vec3d));
 		return !this.affectedTraceList.isEmpty();
 	}

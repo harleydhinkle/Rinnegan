@@ -8,7 +8,7 @@ import net.narutomod.ModConfig;
 import net.narutomod.Particles;
 import net.narutomod.item.ItemAkatsukiRobe;
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemNinjutsu;
+import net.narutomod.item.ItemNinjaArts;
 import net.narutomod.procedure.ProcedureAoeCommand;
 import net.narutomod.procedure.ProcedureOnLivingUpdate;
 import net.narutomod.procedure.ProcedureUtils;
@@ -215,7 +215,7 @@ public class EntityKonan extends ElementsNarutomodMod.ModElement {
 			Entity attacker = source.getTrueSource();
 			if (!this.world.isRemote && !this.isAIDisabled() && source != ProcedureUtils.SPECIAL_DAMAGE
 			 && attacker instanceof EntityLivingBase && this.rand.nextInt(4) != 0
-			 && Chakra.pathway(this).consume(ItemNinjutsu.REPLACEMENT.chakraUsage)) {
+			 && Chakra.pathway(this).consume(ItemNinjaArts.REPLACEMENT.chakraUsage)) {
 				this.setRevengeTarget((EntityLivingBase)attacker);
 				ProcedureOnLivingUpdate.setUntargetable(this, 5);
 				EntityReplacementClone clone = new EntityReplacementClone(this, attacker);
@@ -286,7 +286,7 @@ public class EntityKonan extends ElementsNarutomodMod.ModElement {
 		}
 	}
 
-	public static class EntityReplacementClone extends ItemNinjutsu.EntityReplacementClone {
+	public static class EntityReplacementClone extends ItemNinjaArts.EntityReplacementClone {
 		private static final DataParameter<Boolean> IGNITED = EntityDataManager.<Boolean>createKey(EntityReplacementClone.class, DataSerializers.BOOLEAN);
 		private final int fuse = 30;
 		private int ignitionTime;

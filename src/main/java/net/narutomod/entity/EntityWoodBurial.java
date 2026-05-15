@@ -18,7 +18,7 @@ import net.minecraft.util.text.TextFormatting;
 
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemMokuton;
+import net.narutomod.item.ItemWoodRelease;
 import net.narutomod.ElementsNarutomodMod;
 
 import com.google.common.base.Predicate;
@@ -43,7 +43,7 @@ public class EntityWoodBurial extends ElementsNarutomodMod.ModElement {
                 .build());
     }
 
-    public static class EC extends ItemMokuton.WoodSegment implements ItemJutsu.IJutsu {
+    public static class EC extends ItemWoodRelease.WoodSegment implements ItemJutsu.IJutsu {
         private int lifespan = 300;
         private EC prevSegment;
         private Entity target;

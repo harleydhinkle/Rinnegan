@@ -1,34 +1,34 @@
 package net.narutomod.procedure;
 
-import net.narutomod.item.ItemYoton;
-import net.narutomod.item.ItemYooton;
+import net.narutomod.item.ItemYangRelease;
+import net.narutomod.item.ItemLavaRelease;
 import net.narutomod.item.ItemTenseigan;
-import net.narutomod.item.ItemSuiton;
+import net.narutomod.item.ItemWaterRelease;
 import net.narutomod.item.ItemShikotsumyaku;
 import net.narutomod.item.ItemSharingan;
-import net.narutomod.item.ItemShakuton;
-import net.narutomod.item.ItemSenjutsu;
+import net.narutomod.item.ItemScorchRelease;
+import net.narutomod.item.ItemSageArts;
 import net.narutomod.item.ItemRinnegan;
-import net.narutomod.item.ItemRanton;
-import net.narutomod.item.ItemRaiton;
-import net.narutomod.item.ItemNinjutsu;
-import net.narutomod.item.ItemMokuton;
+import net.narutomod.item.ItemStormRelease;
+import net.narutomod.item.ItemLightningRelease;
+import net.narutomod.item.ItemNinjaArts;
+import net.narutomod.item.ItemWoodRelease;
 import net.narutomod.item.ItemMangekyoSharinganObito;
 import net.narutomod.item.ItemMangekyoSharinganEternal;
 import net.narutomod.item.ItemMangekyoSharingan;
-import net.narutomod.item.ItemKaton;
-import net.narutomod.item.ItemJiton;
-import net.narutomod.item.ItemJinton;
-import net.narutomod.item.ItemIryoJutsu;
-import net.narutomod.item.ItemInton;
-import net.narutomod.item.ItemHyoton;
+import net.narutomod.item.ItemFireRelease;
+import net.narutomod.item.ItemMagnetRelease;
+import net.narutomod.item.ItemDustRelease;
+import net.narutomod.item.ItemMedicalNinjutsu;
+import net.narutomod.item.ItemYinRelease;
+import net.narutomod.item.ItemIceRelease;
 import net.narutomod.item.ItemGourd;
-import net.narutomod.item.ItemFutton;
-import net.narutomod.item.ItemFuton;
+import net.narutomod.item.ItemBoilRelease;
+import net.narutomod.item.ItemWindRelease;
 import net.narutomod.item.ItemEightGates;
-import net.narutomod.item.ItemDoton;
+import net.narutomod.item.ItemEarthRelease;
 import net.narutomod.item.ItemByakugan;
-import net.narutomod.item.ItemBakuton;
+import net.narutomod.item.ItemExplosionRelease;
 import net.narutomod.item.ItemAsuraPathArmor;
 import net.narutomod.entity.EntityBijuManager;
 import net.narutomod.PlayerTracker;
@@ -137,54 +137,54 @@ public class ProcedureOnPlayerDeath extends ElementsNarutomodMod.ModElement {
 					EntityBijuManager.unsetPlayerAsJinchuriki((EntityPlayer) entity);
 				}
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemMokuton.block, (int) (1)).getItem(), -1, (int) (-1), null);
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemWoodRelease.block, (int) (1)).getItem(), -1, (int) (-1), null);
 				if (entity instanceof EntityPlayer)
 					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemEightGates.block, (int) (1)).getItem(), -1, (int) (-1),
 							null);
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemRaiton.block, (int) (1)).getItem(), -1, (int) (-1), null);
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemLightningRelease.block, (int) (1)).getItem(), -1, (int) (-1), null);
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemFuton.block, (int) (1)).getItem(), -1, (int) (-1), null);
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemWindRelease.block, (int) (1)).getItem(), -1, (int) (-1), null);
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemNinjutsu.block, (int) (1)).getItem(), -1, (int) (-1),
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemNinjaArts.block, (int) (1)).getItem(), -1, (int) (-1),
 							null);
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemDoton.block, (int) (1)).getItem(), -1, (int) (-1), null);
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemEarthRelease.block, (int) (1)).getItem(), -1, (int) (-1), null);
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemYoton.block, (int) (1)).getItem(), -1, (int) (-1), null);
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemYangRelease.block, (int) (1)).getItem(), -1, (int) (-1), null);
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemInton.block, (int) (1)).getItem(), -1, (int) (-1), null);
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemYinRelease.block, (int) (1)).getItem(), -1, (int) (-1), null);
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemKaton.block, (int) (1)).getItem(), -1, (int) (-1), null);
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemFireRelease.block, (int) (1)).getItem(), -1, (int) (-1), null);
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemJinton.block, (int) (1)).getItem(), -1, (int) (-1), null);
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemDustRelease.block, (int) (1)).getItem(), -1, (int) (-1), null);
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemSuiton.block, (int) (1)).getItem(), -1, (int) (-1), null);
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemWaterRelease.block, (int) (1)).getItem(), -1, (int) (-1), null);
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemBakuton.block, (int) (1)).getItem(), -1, (int) (-1), null);
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemExplosionRelease.block, (int) (1)).getItem(), -1, (int) (-1), null);
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemHyoton.block, (int) (1)).getItem(), -1, (int) (-1), null);
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemIceRelease.block, (int) (1)).getItem(), -1, (int) (-1), null);
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemJiton.block, (int) (1)).getItem(), -1, (int) (-1), null);
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemMagnetRelease.block, (int) (1)).getItem(), -1, (int) (-1), null);
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemShakuton.block, (int) (1)).getItem(), -1, (int) (-1),
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemScorchRelease.block, (int) (1)).getItem(), -1, (int) (-1),
 							null);
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemYooton.block, (int) (1)).getItem(), -1, (int) (-1), null);
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemLavaRelease.block, (int) (1)).getItem(), -1, (int) (-1), null);
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemRanton.block, (int) (1)).getItem(), -1, (int) (-1), null);
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemStormRelease.block, (int) (1)).getItem(), -1, (int) (-1), null);
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemFutton.block, (int) (1)).getItem(), -1, (int) (-1), null);
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemBoilRelease.block, (int) (1)).getItem(), -1, (int) (-1), null);
 				if (entity instanceof EntityPlayer)
 					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemShikotsumyaku.block, (int) (1)).getItem(), -1, (int) (-1),
 							null);
 				if (entity instanceof EntityPlayer)
 					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemGourd.body, (int) (1)).getItem(), -1, (int) (-1), null);
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemIryoJutsu.block, (int) (1)).getItem(), -1, (int) (-1),
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemMedicalNinjutsu.block, (int) (1)).getItem(), -1, (int) (-1),
 							null);
 				if (entity instanceof EntityPlayer)
-					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemSenjutsu.block, (int) (1)).getItem(), -1, (int) (-1),
+					((EntityPlayer) entity).inventory.clearMatchingItems(new ItemStack(ItemSageArts.block, (int) (1)).getItem(), -1, (int) (-1),
 							null);
 			} else {
 				if ((EntityBijuManager.cloakLevel((EntityPlayer) entity) > 0)) {

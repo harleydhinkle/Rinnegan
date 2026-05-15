@@ -3,7 +3,7 @@ package net.narutomod.entity;
 
 import net.narutomod.item.ItemKunaiHiraishin;
 import net.narutomod.item.ItemKunai3prong;
-import net.narutomod.item.ItemNinjutsu;
+import net.narutomod.item.ItemNinjaArts;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.procedure.ProcedureOnLivingUpdate;
 import net.narutomod.procedure.ProcedureSync;
@@ -121,9 +121,9 @@ public class EntityHiraishin extends ElementsNarutomodMod.ModElement {
 	}
 
 	public static boolean canUseJutsu(EntityPlayer player) {
-		ItemStack stack = ProcedureUtils.getMatchingItemStack(player, ItemNinjutsu.block);
-		return stack != null && ((ItemNinjutsu.RangedItem)stack.getItem())
-		 .canActivateJutsu(stack, ItemNinjutsu.HIRAISHIN, player) == EnumActionResult.SUCCESS;
+		ItemStack stack = ProcedureUtils.getMatchingItemStack(player, ItemNinjaArts.block);
+		return stack != null && ((ItemNinjaArts.RangedItem)stack.getItem())
+		 .canActivateJutsu(stack, ItemNinjaArts.HIRAISHIN, player) == EnumActionResult.SUCCESS;
 	}
 
 	public static class EC extends Entity implements ItemJutsu.IJutsu {

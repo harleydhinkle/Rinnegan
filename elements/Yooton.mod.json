@@ -3,8 +3,8 @@
   "_type": "gun",
   "definition": {
     "renderType": 1,
-    "texture": "yoton",
-    "customModelName": "yooton:default",
+    "texture": "yang_release",
+    "customModelName": "lava_release:default",
     "name": "Yooton",
     "specialInfo": [],
     "creativeTab": {

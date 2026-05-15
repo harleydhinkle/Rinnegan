@@ -34,8 +34,8 @@ import java.util.List;
 import net.minecraft.util.text.TextComponentString;
 
 import net.narutomod.block.BlockLightSource;
-import net.narutomod.item.ItemFuton;
-import net.narutomod.item.ItemSenjutsu;
+import net.narutomod.item.ItemWindRelease;
+import net.narutomod.item.ItemSageArts;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.procedure.ProcedureLightSourceSetBlock;
 import net.narutomod.procedure.ProcedureAoeCommand;
@@ -376,8 +376,8 @@ public class EntityRasenshuriken extends ElementsNarutomodMod.ModElement {
                     return false;
                 }
 
-                if ((stack.getItem() == ItemFuton.block && power >= 0.1f) || (stack.getItem() == ItemSenjutsu.block && power >= 2.0f)) {
-                    EC.create(entity, power, stack.getItem() == ItemSenjutsu.block);
+                if ((stack.getItem() == ItemWindRelease.block && power >= 0.1f) || (stack.getItem() == ItemSageArts.block && power >= 2.0f)) {
+                    EC.create(entity, power, stack.getItem() == ItemSageArts.block);
 
                     // Start Rasenshuriken cooldown (only for this jutsu)
                     EC.setRasenshurikenCooldown(stack, entity);

@@ -19,7 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 
 import net.narutomod.item.ItemBijuCloak;
-import net.narutomod.item.ItemSenjutsu;
+import net.narutomod.item.ItemSageArts;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.Chakra;
 import net.narutomod.ElementsNarutomodMod;
@@ -537,8 +537,8 @@ public abstract class EntityBijuManager<T extends EntityTailedBeast.Base> {
 					}
 					return;
 				}
-				if (ItemSenjutsu.isSageModeActivated(this.jinchurikiPlayer) && this.cloakXp[1] < 800) {
-					ItemSenjutsu.deactivateSageMode(this.jinchurikiPlayer);
+				if (ItemSageArts.isSageModeActivated(this.jinchurikiPlayer) && this.cloakXp[1] < 800) {
+					ItemSageArts.deactivateSageMode(this.jinchurikiPlayer);
 				}
 				double d = 5000d + this.getCloakXp();
 				if (d > cp.getMax() * 4d && !this.jinchurikiPlayer.isCreative()) {

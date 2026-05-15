@@ -1,6 +1,0 @@
-{
-  "parent": "narutomod:custom/futton",
-  "textures": {
-    "1": "narutomod:blocks/futton"
-  }
-}

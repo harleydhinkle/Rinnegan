@@ -32,7 +32,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.BlockLiquid;
 
-import net.narutomod.item.ItemSuiton;
+import net.narutomod.item.ItemWaterRelease;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.procedure.ProcedureAoeCommand;
@@ -215,7 +215,7 @@ public class EntityBloodDragon extends ElementsNarutomodMod.ModElement {
 			@Override
 			public boolean createJutsu(ItemStack stack, EntityLivingBase entity, float power) {
 				if (power >= 1.0f && entity.onGround
-				 && (entity.isOverWater() || Chakra.pathway(entity).consume(ItemSuiton.WATERDRAGON.chakraUsage * 2))) {
+				 && (entity.isOverWater() || Chakra.pathway(entity).consume(ItemWaterRelease.WATERDRAGON.chakraUsage * 2))) {
 				 	this.createJutsu(entity, power);
 					return true;
 				}

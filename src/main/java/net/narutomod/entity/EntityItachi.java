@@ -67,9 +67,9 @@ import net.narutomod.procedure.ProcedureSync;
 import net.narutomod.procedure.ProcedureOnLivingUpdate;
 import net.narutomod.item.ItemSharingan;
 import net.narutomod.item.ItemMangekyoSharingan;
-import net.narutomod.item.ItemInton;
+import net.narutomod.item.ItemYinRelease;
 import net.narutomod.item.ItemKunai;
-import net.narutomod.item.ItemKaton;
+import net.narutomod.item.ItemFireRelease;
 import net.narutomod.item.ItemAkatsukiRobe;
 import net.narutomod.ModConfig;
 import net.narutomod.ElementsNarutomodMod;
@@ -214,7 +214,7 @@ public class EntityItachi extends ElementsNarutomodMod.ModElement {
 				}
 				if (this.lookedAtTime >= 5 && this.ticksExisted > this.lastGenjutsuTime + this.genjutsuDuration + GENJUTSU_COOLDOWN
 				 && this.consumeChakra(GENJUTSU_CHAKRA)) {
-					ItemInton.Genjutsu.createJutsu(this, target, this.genjutsuDuration);
+					ItemYinRelease.Genjutsu.createJutsu(this, target, this.genjutsuDuration);
 					this.lastGenjutsuTime = this.ticksExisted;
 					this.lookedAtTime = 0;
 				}
@@ -333,7 +333,7 @@ public class EntityItachi extends ElementsNarutomodMod.ModElement {
 					double d0 = target.posX - this.posX;
 					double d1 = target.posY - (this.posY + this.getEyeHeight());
 					double d2 = target.posZ - this.posZ;
-					new ItemKaton.EntityBigFireball.Jutsu().createJutsu(this, d0, d1, d2, 5f, true);
+					new ItemFireRelease.EntityBigFireball.Jutsu().createJutsu(this, d0, d1, d2, 5f, true);
 				} else if (!this.isRiding()) {
 					ItemKunai.EntityArrowCustom kunai = new ItemKunai.EntityArrowCustom(this.world, this);
 					Vec3d vec = target.getPositionVector().addVector(0d, target.height * 0.333f, 0d).subtract(kunai.getPositionVector());

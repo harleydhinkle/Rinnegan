@@ -91,7 +91,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
                 //Sharingan
                 stack = new ItemStack(ItemSharingan.helmet, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer((EntityPlayer) entity, stack);
-                ((ItemDojutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
+                ((ItemOcularJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                 Advancement adv = ((MinecraftServer) ((EntityPlayerMP) entity).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:sharinganopened"));
                 AdvancementProgress ap = (((EntityPlayerMP) entity).getAdvancements().getProgress(adv));
                 for (String crit : ap.getRemaningCriteria()) {
@@ -102,7 +102,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
                 //Byakugan
                 stack = new ItemStack(ItemByakugan.helmet, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer((EntityPlayer) entity, stack);
-                ((ItemDojutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
+                ((ItemOcularJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                 Advancement adv = ((MinecraftServer) ((EntityPlayerMP) entity).mcServer).getAdvancementManager().getAdvancement(new ResourceLocation("narutomod:byakuganopened"));
                 AdvancementProgress ap = (((EntityPlayerMP) entity).getAdvancements().getProgress(adv));
                 for (String crit : ap.getRemaningCriteria()) {
@@ -123,7 +123,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
                 entity.getEntityData().setBoolean("firstkg", false);
             } else if (!(lava_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight)) {
                 //lava
-                stack = new ItemStack(ItemYooton.block, (int) (1));
+                stack = new ItemStack(ItemLavaRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer((EntityPlayer) entity, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -135,7 +135,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
                 entity.getEntityData().setBoolean("firstkg", false);
             } else if (!(scorch_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight)) {
                 //scorch
-                stack = new ItemStack(ItemShakuton.block, (int) (1));
+                stack = new ItemStack(ItemScorchRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer((EntityPlayer) entity, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -147,7 +147,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
                 entity.getEntityData().setBoolean("firstkg", false);
             } else if (!(ice_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight)) {
                 //ice
-                stack = new ItemStack(ItemHyoton.block, (int) (1));
+                stack = new ItemStack(ItemIceRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer((EntityPlayer) entity, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -159,7 +159,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
                 entity.getEntityData().setBoolean("firstkg", false);
             } else if (!(magnet_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight)) {
                 //magnet
-                stack = new ItemStack(ItemJiton.block, (int) (1));
+                stack = new ItemStack(ItemMagnetRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer((EntityPlayer) entity, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -172,7 +172,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
             } else if (!(explosion_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight)) {
                 //explosion
                 //Item
-                stack = new ItemStack(ItemBakuton.block, (int) (1));
+                stack = new ItemStack(ItemExplosionRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer((EntityPlayer) entity, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -186,7 +186,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
                 entity.getEntityData().setBoolean("firstkg", false);
             } else if (!(storm_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight)) {
                 //storm
-                stack = new ItemStack(ItemRanton.block, (int) (1));
+                stack = new ItemStack(ItemStormRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer((EntityPlayer) entity, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -198,7 +198,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
                 entity.getEntityData().setBoolean("firstkg", true);
             } else if (!(boil_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight - boil_weight)) {
                 //boil
-                stack = new ItemStack(ItemFuton.block, (int) (1));
+                stack = new ItemStack(ItemWindRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer((EntityPlayer) entity, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -210,7 +210,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
                 entity.getEntityData().setBoolean("firstkg", false);
             } else if (!(wood_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight - boil_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight - boil_weight - wood_weight)) {
                 //Wood
-                stack = new ItemStack(ItemMokuton.block, (int) (1));
+                stack = new ItemStack(ItemWoodRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer((EntityPlayer) entity, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -231,7 +231,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
             }
             else if (!(dust_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight - boil_weight - wood_weight-jinchuriki_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight - boil_weight - wood_weight - jinchuriki_weight-dust_weight)) {
                 //Dust
-                stack = new ItemStack(ItemJinton.block, (int) (1));
+                stack = new ItemStack(ItemDustRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer((EntityPlayer) entity, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);
@@ -243,7 +243,7 @@ public class ProcedureKGDistribution extends ElementsNarutomodMod.ModElement {
                 entity.getEntityData().setBoolean("firstkg", true);
             }
             else if (!(crystal_weight == 0) && rngbase > rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight - boil_weight - wood_weight-jinchuriki_weight-dust_weight) && rngbase <= rngbase - (rngbase - sharingan_weight - byakugan_weight - bone_weight - lava_weight - scorch_weight - ice_weight - magnet_weight - explosion_weight - storm_weight - boil_weight - wood_weight - jinchuriki_weight-dust_weight-crystal_weight)) {
-                stack = new ItemStack(ItemShoton.block, (int) (1));
+                stack = new ItemStack(ItemCrystalRelease.block, (int) (1));
                 ItemHandlerHelper.giveItemToPlayer((EntityPlayer) entity, stack);
                 ((ItemJutsu.Base) stack.getItem()).setOwner(stack, (EntityLivingBase) entity);
                 ((ItemJutsu.Base) stack.getItem()).setIsAffinity(stack, true);

@@ -26,7 +26,7 @@ import net.minecraft.block.BlockLiquid;
 
 import net.narutomod.block.BlockAmaterasuBlock;
 import net.narutomod.block.BlockWaterStill;
-import net.narutomod.item.ItemSuiton;
+import net.narutomod.item.ItemWaterRelease;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.procedure.ProcedureSync;
@@ -71,7 +71,7 @@ public class EntityWaterPrison extends ElementsNarutomodMod.ModElement {
 		private AxisAlignedBB realBB;
 		private int totalWaterBlocks;
 		private int duration;
-		private final double chakraBurn = ItemSuiton.WATERPRISON.chakraUsage * 0.1d; // per second
+		private final double chakraBurn = ItemWaterRelease.WATERPRISON.chakraUsage * 0.1d; // per second
 
 		public EC(World world) {
 			super(world);

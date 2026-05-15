@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "mc_stuff/katon",
-		"particle": "mc_stuff/katon"
+		"0": "mc_stuff/fire_release",
+		"particle": "mc_stuff/fire_release"
 	},
 	"elements": [
 		{

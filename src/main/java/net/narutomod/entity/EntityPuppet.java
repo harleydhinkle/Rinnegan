@@ -53,7 +53,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemNinjutsu;
+import net.narutomod.item.ItemNinjaArts;
 import net.narutomod.potion.PotionAmaterasuFlame;
 import net.narutomod.potion.PotionCorrosion;
 import net.narutomod.procedure.ProcedureUtils;
@@ -85,7 +85,7 @@ public class EntityPuppet extends ElementsNarutomodMod.ModElement {
 		@SubscribeEvent
 		public void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
 			if (!event.player.world.isRemote) {
-				ItemStack stack = ProcedureUtils.getMatchingItemStack(event.player, ItemNinjutsu.block);
+				ItemStack stack = ProcedureUtils.getMatchingItemStack(event.player, ItemNinjaArts.block);
 				if (stack != null) {
 					Base.Jutsu.updatePuppetList(stack.getTagCompound(), null, false);
 				}
@@ -100,7 +100,7 @@ public class EntityPuppet extends ElementsNarutomodMod.ModElement {
 			EntityLivingBase entity = event.getEntityLiving();
 			NBTTagCompound compound = entity.getEntityData();
 			if (entity instanceof EntityPlayer) {
-				ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)entity, ItemNinjutsu.block);
+				ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)entity, ItemNinjaArts.block);
 				compound = stack != null ? stack.getTagCompound() : null;
 			}
 			if (compound != null && Base.Jutsu.puppetCount(compound) > 0) {
@@ -147,9 +147,9 @@ public class EntityPuppet extends ElementsNarutomodMod.ModElement {
 			this(ownerIn.world);
 			this.chakraUsage = ownerIn instanceof EntitySasori.EntityCustom ? chakraUsageIn * 0.2d : chakraUsageIn;
 			if (ownerIn instanceof EntityPlayer) {
-				ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)ownerIn, ItemNinjutsu.block);
-				if (stack != null && ((ItemNinjutsu.RangedItem)stack.getItem())
-				 .canActivateJutsu(stack, ItemNinjutsu.PUPPET, (EntityPlayer)ownerIn) == EnumActionResult.SUCCESS) {
+				ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)ownerIn, ItemNinjaArts.block);
+				if (stack != null && ((ItemNinjaArts.RangedItem)stack.getItem())
+				 .canActivateJutsu(stack, ItemNinjaArts.PUPPET, (EntityPlayer)ownerIn) == EnumActionResult.SUCCESS) {
 					this.setOwner(ownerIn);
 				}
 			} else {
@@ -184,9 +184,9 @@ public class EntityPuppet extends ElementsNarutomodMod.ModElement {
 				if (oldOwner != newOwner) {
 					boolean addedNew = false;
 					if (newOwner instanceof EntityPlayer) {
-						ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)newOwner, ItemNinjutsu.block);
-						if (stack != null && ((ItemNinjutsu.RangedItem)stack.getItem()).canActivateJutsu(stack, ItemNinjutsu.PUPPET, (EntityPlayer)newOwner) == EnumActionResult.SUCCESS
-						 && Jutsu.puppetCount(stack.getTagCompound()) < (int)Math.ceil(Math.max(((ItemNinjutsu.RangedItem)stack.getItem()).getXpRatio(stack, ItemNinjutsu.PUPPET) - 0.999f, 0.0f) * 4.95f)) {
+						ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)newOwner, ItemNinjaArts.block);
+						if (stack != null && ((ItemNinjaArts.RangedItem)stack.getItem()).canActivateJutsu(stack, ItemNinjaArts.PUPPET, (EntityPlayer)newOwner) == EnumActionResult.SUCCESS
+						 && Jutsu.puppetCount(stack.getTagCompound()) < (int)Math.ceil(Math.max(((ItemNinjaArts.RangedItem)stack.getItem()).getXpRatio(stack, ItemNinjaArts.PUPPET) - 0.999f, 0.0f) * 4.95f)) {
 							Jutsu.updatePuppetList(stack.getTagCompound(), this, true);
 						 	addedNew = true;
 						}
@@ -196,7 +196,7 @@ public class EntityPuppet extends ElementsNarutomodMod.ModElement {
 					}
 					if (newOwner == null || addedNew) {
 						if (oldOwner instanceof EntityPlayer) {
-							ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)oldOwner, ItemNinjutsu.block);
+							ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)oldOwner, ItemNinjaArts.block);
 							if (stack != null) {
 								Jutsu.updatePuppetList(stack.getTagCompound(), this, false);
 							}
@@ -214,8 +214,8 @@ public class EntityPuppet extends ElementsNarutomodMod.ModElement {
 		}
 
 		public static boolean canPlayerUseJutsu(EntityPlayer player) {
-			ItemStack stack = ProcedureUtils.getMatchingItemStack(player, ItemNinjutsu.block);
-			return stack != null && ((ItemNinjutsu.RangedItem)stack.getItem()).canActivateJutsu(stack, ItemNinjutsu.PUPPET, player) == EnumActionResult.SUCCESS;
+			ItemStack stack = ProcedureUtils.getMatchingItemStack(player, ItemNinjaArts.block);
+			return stack != null && ((ItemNinjaArts.RangedItem)stack.getItem()).canActivateJutsu(stack, ItemNinjaArts.PUPPET, player) == EnumActionResult.SUCCESS;
 		}
 
 		protected Vec3d getOffsetToOwner() {
@@ -328,8 +328,8 @@ public class EntityPuppet extends ElementsNarutomodMod.ModElement {
 		/*@Override
 		protected boolean processInteract(EntityPlayer player, EnumHand hand) {
 			ItemStack stack = player.getHeldItem(hand);
-			if (!this.world.isRemote && stack.getItem() == ItemNinjutsu.block
-			 && ((ItemNinjutsu.RangedItem)stack.getItem()).canActivateJutsu(stack, ItemNinjutsu.PUPPET, player) == EnumActionResult.SUCCESS) {
+			if (!this.world.isRemote && stack.getItem() == ItemNinjaArts.block
+			 && ((ItemNinjaArts.RangedItem)stack.getItem()).canActivateJutsu(stack, ItemNinjaArts.PUPPET, player) == EnumActionResult.SUCCESS) {
 				this.setOwner(player.equals(this.getOwner()) ? null : player);
 				return true;
 			}

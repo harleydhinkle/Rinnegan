@@ -3,7 +3,7 @@ package net.narutomod.procedure;
 import net.narutomod.item.ItemSharingan;
 import net.narutomod.item.ItemMangekyoSharinganObito;
 import net.narutomod.item.ItemMangekyoSharingan;
-import net.narutomod.item.ItemDojutsu;
+import net.narutomod.item.ItemOcularJutsu;
 import net.narutomod.PlayerTracker;
 import net.narutomod.NarutomodModVariables;
 import net.narutomod.ElementsNarutomodMod;
@@ -89,7 +89,7 @@ public class ProcedureSharinganHelmetTickEvent extends ElementsNarutomodMod.ModE
 			}
 		}
 		if ((!((itemstack).hasTagCompound() && (itemstack).getTagCompound().getBoolean("sharingan_blinded")))) {
-			not_my_sharingan = (boolean) !((ItemDojutsu.Base) itemstack.getItem()).isOwner(itemstack, (EntityLivingBase) entity);;
+			not_my_sharingan = (boolean) !((ItemOcularJutsu.Base) itemstack.getItem()).isOwner(itemstack, (EntityLivingBase) entity);;
 			if ((not_my_sharingan)) {
 				if (((((entity instanceof EntityPlayer) ? ((EntityPlayer) entity).experienceLevel : 0) < 10)
 						|| ((entity.getEntityData().getDouble((NarutomodModVariables.BATTLEXP))) < 300))) {

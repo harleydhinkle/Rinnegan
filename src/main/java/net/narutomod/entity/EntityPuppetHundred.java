@@ -3,7 +3,7 @@ package net.narutomod.entity;
 
 import net.narutomod.item.ItemClaw;
 import net.narutomod.item.ItemKunaiBlade;
-import net.narutomod.item.ItemNinjutsu;
+import net.narutomod.item.ItemNinjaArts;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.ElementsNarutomodMod;
 
@@ -225,7 +225,7 @@ public class EntityPuppetHundred extends ElementsNarutomodMod.ModElement {
 					}
 					this.setInvisible(true);
 				} else if (this.summoner != null && this.spawnedPuppets < this.puppetEntity.length) {
-					this.puppetEntity[this.spawnedPuppets] = new EntityCustom(this.summoner, ItemNinjutsu.PUPPET.chakraUsage * 0.2d);
+					this.puppetEntity[this.spawnedPuppets] = new EntityCustom(this.summoner, ItemNinjaArts.PUPPET.chakraUsage * 0.2d);
 					this.puppetEntity[this.spawnedPuppets].setLocationAndAngles(this.posX, this.posY, this.posZ, this.summoner.rotationYaw, 0f);
 					this.puppetEntity[this.spawnedPuppets].onInitialSpawn(this.world.getDifficultyForLocation(this.getPosition()), null);
 					this.world.spawnEntity(this.puppetEntity[this.spawnedPuppets]);

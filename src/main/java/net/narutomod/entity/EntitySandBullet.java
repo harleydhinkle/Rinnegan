@@ -25,7 +25,7 @@ import net.minecraft.network.datasync.DataSerializers;
 
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.item.ItemGourd;
-import net.narutomod.item.ItemJiton;
+import net.narutomod.item.ItemMagnetRelease;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.Particles;
 import net.narutomod.ElementsNarutomodMod;
@@ -177,11 +177,11 @@ public class EntitySandBullet extends ElementsNarutomodMod.ModElement {
 		public static class Jutsu implements ItemJutsu.IJutsuCallback {
 			@Override
 			public boolean createJutsu(ItemStack stack, EntityLivingBase entity, float power) {
-				List<ItemJiton.SwarmTarget> list = getStartPosList(entity);
+				List<ItemMagnetRelease.SwarmTarget> list = getStartPosList(entity);
 				if (list != null) {
-					Iterator<ItemJiton.SwarmTarget> iter = list.iterator();
+					Iterator<ItemMagnetRelease.SwarmTarget> iter = list.iterator();
 					for (int i = 0; iter.hasNext(); i++) {
-						ItemJiton.SwarmTarget st = iter.next();
+						ItemMagnetRelease.SwarmTarget st = iter.next();
 						Vec3d vec = st.getTargetPos();
 						this.createJutsu(st.getColor(), entity, vec.x, vec.y, vec.z, i);
 						st.forceRemove();
@@ -222,15 +222,15 @@ public class EntitySandBullet extends ElementsNarutomodMod.ModElement {
 		}
 	}
 
-	private static final Map<Integer, List<ItemJiton.SwarmTarget>> posMap = Maps.newHashMap();
+	private static final Map<Integer, List<ItemMagnetRelease.SwarmTarget>> posMap = Maps.newHashMap();
 
 	@Nullable
-	private static List<ItemJiton.SwarmTarget> getStartPosList(EntityLivingBase entity) {
-		List<ItemJiton.SwarmTarget> list = posMap.get(entity.getEntityId());
+	private static List<ItemMagnetRelease.SwarmTarget> getStartPosList(EntityLivingBase entity) {
+		List<ItemMagnetRelease.SwarmTarget> list = posMap.get(entity.getEntityId());
 		if (list != null) {
 			return list;
 		} else {
-			for (Map.Entry<Integer, List<ItemJiton.SwarmTarget>> entry : posMap.entrySet()) {
+			for (Map.Entry<Integer, List<ItemMagnetRelease.SwarmTarget>> entry : posMap.entrySet()) {
 				if (entry.getKey().intValue() == entity.getEntityId()) {
 				//if (ItemStack.areItemStacksEqual(entry.getKey(), stack)) {
 					return entry.getValue();
@@ -240,21 +240,21 @@ public class EntitySandBullet extends ElementsNarutomodMod.ModElement {
 		return null;
 	}
 
-	public static void addPos(ItemJiton.Type sandType, EntityLivingBase entity, float power, Vec3d sandOrigin) {
-		List<ItemJiton.SwarmTarget> list = getStartPosList(entity);
+	public static void addPos(ItemMagnetRelease.Type sandType, EntityLivingBase entity, float power, Vec3d sandOrigin) {
+		List<ItemMagnetRelease.SwarmTarget> list = getStartPosList(entity);
 		if (list == null) {
 			list = Lists.newArrayList();
 			posMap.put(entity.getEntityId(), list);
 		}
-		list.add(new ItemJiton.SwarmTarget(entity.world, 1, sandOrigin, 
+		list.add(new ItemMagnetRelease.SwarmTarget(entity.world, 1, sandOrigin, 
 		 new Vec3d(entity.posX + (entity.getRNG().nextDouble()-0.5d) * power * 2, entity.posY + entity.getEyeHeight() + (entity.getRNG().nextDouble()-0.5d) * 2d, entity.posZ + (entity.getRNG().nextDouble()-0.5d) * power * 2),
 		 new Vec3d(0.1d, 0.2d, 0.1d), 0.5f, 0.01f, false, 0.5f, sandType.getColor()));
 	}
 
 	public static void updateSwarms(EntityLivingBase entity) {
-		List<ItemJiton.SwarmTarget> list = getStartPosList(entity);
+		List<ItemMagnetRelease.SwarmTarget> list = getStartPosList(entity);
 		if (list != null && !list.isEmpty()) {
-			for (ItemJiton.SwarmTarget st : list) {
+			for (ItemMagnetRelease.SwarmTarget st : list) {
 				st.onUpdate();
 			}
 		}

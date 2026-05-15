@@ -20,7 +20,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 
-import net.narutomod.item.ItemBakuton;
+import net.narutomod.item.ItemExplosionRelease;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.ElementsNarutomodMod;
 
@@ -42,7 +42,7 @@ public class EntityC1 extends ElementsNarutomodMod.ModElement {
                 .build());
     }
 
-    public static class EC extends ItemBakuton.ExplosiveClay {
+    public static class EC extends ItemExplosionRelease.ExplosiveClay {
         public EC(World world) {
             super(world);
             this.setSize(0.4F, 0.8F);

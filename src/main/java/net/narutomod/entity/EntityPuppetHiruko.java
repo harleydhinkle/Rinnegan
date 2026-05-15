@@ -6,7 +6,7 @@ import net.narutomod.potion.PotionCorrosion;
 import net.narutomod.potion.PotionInstantDamage;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.item.ItemAkatsukiRobe;
-import net.narutomod.item.ItemNinjutsu;
+import net.narutomod.item.ItemNinjaArts;
 import net.narutomod.item.ItemScrollHiruko;
 import net.narutomod.item.ItemSenbon;
 import net.narutomod.item.ItemPoisonSenbon;
@@ -235,9 +235,9 @@ public class EntityPuppetHiruko extends ElementsNarutomodMod.ModElement {
 
 		private boolean hasPuppetJutsu(@Nullable Entity controllingRider) {
 			if (controllingRider instanceof EntityPlayer) {
-				ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)controllingRider, ItemNinjutsu.block);
-				return stack != null && ((ItemNinjutsu.RangedItem)stack.getItem())
-				 .canActivateJutsu(stack, ItemNinjutsu.PUPPET, (EntityPlayer)controllingRider) == EnumActionResult.SUCCESS;
+				ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)controllingRider, ItemNinjaArts.block);
+				return stack != null && ((ItemNinjaArts.RangedItem)stack.getItem())
+				 .canActivateJutsu(stack, ItemNinjaArts.PUPPET, (EntityPlayer)controllingRider) == EnumActionResult.SUCCESS;
 			} else {
 				return controllingRider instanceof EntitySasori.EntityCustom;
 			}
@@ -254,7 +254,7 @@ public class EntityPuppetHiruko extends ElementsNarutomodMod.ModElement {
 			Entity passenger = this.getControllingPassenger();
 			this.setOwnerCanSteer(this.hasPuppetJutsu(passenger), robeOff ? 1.5f : 0.5f);
 			if (!this.world.isRemote && this.isBeingRidden() && this.ticksExisted % 20 == 1 && passenger instanceof EntityLivingBase
-			 && !Chakra.pathway((EntityLivingBase)passenger).consume(ItemNinjutsu.PUPPET.chakraUsage * 10)) {
+			 && !Chakra.pathway((EntityLivingBase)passenger).consume(ItemNinjaArts.PUPPET.chakraUsage * 10)) {
 				passenger.dismountRidingEntity();
 			}
 		}
