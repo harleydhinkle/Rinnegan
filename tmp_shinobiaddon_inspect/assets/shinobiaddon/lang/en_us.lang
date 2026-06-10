@@ -1,0 +1,231 @@
+entity.strong_consecutive_winds.name=Strong Consecutive Winds
+entity.extreme_consecutive_winds.name=Extreme Consecutive Winds
+
+entity.inhaling_maw.name=Inhaling Maw
+entity.judgment.name=Judgment
+
+entity.steel_armor.name=Steel Impervious Armour
+entity.steel_blades.name=Steel Blades Technique
+entity.steel_projectile.name=Steel Projectile
+entity.dome_steel_shield_custom.name=Steel Shield Technique
+tile.steel_shield_block.name=Steel Shield Block
+
+entity.shadowless_flight.name=Shadowless Flight
+entity.afterimage_surge.name=Afterimage Surge
+entity.thunderous_cross.name=Thunderous Cross
+entity.momentum_breaker.name=Momentum Breaker
+
+entity.flame_wrapping_fire.name=Flame Wrapping Fire
+entity.blaze_porcupine.name=Blaze Porcupine
+entity.great_dragon_fire.name=Great Blazing Dragon
+
+entity.bl_chakra_mode.name=Black Lightning Chakra Mode
+entity.bl_stalking_orbs.name=Heaven-Stalking Orbs
+entity.conductors_grip.name=Conductor's Grip
+entity.thousand_strike_descent.name=Thousand Strike Descent
+
+entity.tearing_crystal_falling_dragon.name=Tearing Crystal Falling Dragon
+
+entity.phoenix_sage_fire.name=Phoenix Sage Fire
+entity.fire_dragon_bullet.name=Fire Dragon Bullet
+entity.fire_chakra_mode.name=Fire Chakra Mode
+entity.flame_rasengan.name=Flame Rasengan
+
+entity.great_waterfall.name=Great Waterfall
+entity.water_beast.name=Water Beast
+entity.water_quaking_pillar.name=Water Quaking Pillar
+
+entity.slug_sage_mode.name=Sage Mode
+entity.slug_summon.name=Katsuyu
+
+entity.axolotl_sage_mode.name=Sage Mode
+entity.axolotl_summon.name=Ransui
+
+entity.curse_mark_jutsu.name=Curse Mark
+
+entity.test_chat_jutsu.name=Test Chat Jutsu
+item.test_weapon.name=Test Weapon
+
+entity.tenseigan_orbs_custom.name=Localised Rebirth Blast
+entity.tensei_baku_silver_custom.name=Silver Wheel Reincarnation Explosion
+entity.tensei_baku_gold_custom.name=Golden Wheel Reincarnation Explosion
+
+entity.coil_of_fire.name=Coil of Fire
+entity.coil_of_water.name=Coil of Water
+entity.coil_of_earth.name=Coil of Earth
+entity.coil_of_lightning.name=Coil of Lightning
+entity.coil_of_wind.name=Coil of Wind
+
+entity.medical_ninja_trader.name=Medical Ninja Trader
+
+fluid.trapping_mud=Trapping Mud
+tile.trapping_mud.name=Trapping Mud
+fluid.black_water=Black Dream Water
+tile.black_water.name=Black Dream Water
+
+item.typhoon_release.name=Typhoon Release
+item.dark_release.name=Dark Release
+item.steel_release.name=Steel Release
+item.swift_release.name=Swift Release
+item.blaze_release.name=Blaze Release
+item.black_lightning_release.name=Black Lightning Release
+item.sevenheavens.name=Seven Heavenly Breathing Method
+item.cursemark_sasuke.name=Curse Mark [Sasuke]
+item.cursemark_kimi.name=Curse Mark [Kimimaro]
+
+item.slug_contract.name=Summoning Contract - Slug
+item.axolotl_contract.name=Summoning Contract - Axolotl
+item.izanami_scroll.name=Izanami Scroll
+item.izanagi_scroll.name=Izanagi Scroll
+item.medical_scroll.name=Medical Training Scroll
+item.dojutsu_medical_scroll.name=Medical Dojutsu Scroll
+item.mangekyo_awakening_scroll.name=Mangekyo Awakening Scroll
+
+item.fire_chakra_mode_scroll.name=Fire Chakra Mode Scroll
+item.fire_dragon_flame_bullet_scroll.name=Fire Dragon Bullet Scroll
+item.flame_rasengan_scroll.name=Flame Rasengan Scroll
+item.phoenix_sage_fire_scroll.name=Phoenix Sage Fire Scroll
+
+item.great_waterfall_scroll.name=Great Waterfall Scroll
+item.water_beast_scroll.name=Water Beast Scroll
+item.water_quaking_pillar_scroll.name=Water Quaking Pillar Scroll
+
+item.kris_blades.name=Kris Blades
+item.susanoo_chakram.name=Susanoo Chakram
+item.susanoo_drill.name=Tsukumo Drill
+item.susanoo_fan.name=Susanoo Lotus Fan
+item.susanoo_crossbow.name=Susanoo Crossbow
+item.susanoo_katanas.name=Susanoo Katana
+item.susanoo_greatsword.name=Susanoo Greatsword
+item.susanoo_spear.name=Susanoo Spear
+item.susanoo_kama.name=Susanoo Kama
+item.susanoo_scythe.name=Susanoo Scythe
+
+item.totsuka_blade.name=Totsuka Blade
+item.yata_mirror.name=Yata Mirror
+
+item.test_sword.name=Test Sword [Dev]
+item.bashosen.name=Bashosen
+item.sakura_axe.name=Sakura's Hatchet
+item.sakura_axe_v2.name=Battle Axe
+item.discarded_staff.name=Discarded Staff
+
+item.dynamic_sharingan.name=Dynamic Sharingan
+item.dynamic_ketsuryugan.name=Dynamic Ketsuryugan
+item.dynamic_byakugan.name=Dynamic Byakugan
+item.dynamic_hybrid_eye.name=Dynamic Byaku-Sharingan
+
+item.tenseigan_chakra_mode_custom.name=Tenseigan Chakra Mode
+item.tenseigan_chakra_mode_body.name=Tenseigan Chakra Mode Robe
+item.tenseigan_chakra_mode_legs.name=Tenseigan Chakra Mode Pants
+item.tenseigan_chakra_mode_boots.name=Tenseigan Chakra Mode Boots
+
+item.slug_senjutsu.name=Slug Senjutsu
+item.axolotl_senjutsu.name=Axolotl Senjutsu
+
+item.anbu_robe_black_body.name=Black Anbu Robe
+item.anbu_robe_white_body.name=White Anbu Robe
+item.anbu_robe_blue_body.name=Blue Anbu Robe
+item.anbu_robe_orange_body.name=Orange Anbu Robe
+item.anbu_robe_pink_body.name=Pink Anbu Robe
+item.anbu_robe_red_body.name=Red Anbu Robe
+item.anbu_robe_green_body.name=Green Anbu Robe
+item.anbu_robe_yellow_body.name=Yellow Anbu Robe
+item.anbu_robe_light_blue_body.name=Light Blue Anbu Robe
+item.anbu_robe_purple_body.name=Purple Anbu Robe
+
+item.anbu_mask_menma_helmet.name=Menma's Mask
+item.anbu_mask_type_1.name=Anbu Mask Type 1
+item.anbu_mask_type_2.name=Anbu Mask Type 2
+item.anbu_mask_type_3.name=Anbu Mask Type 3
+item.anbu_mask_type_4.name=Anbu Mask Type 4
+item.anbu_mask_type_5.name=Anbu Mask Type 5
+item.anbu_mask_type_6.name=Anbu Mask Type 6
+item.anbu_mask_type_7.name=Anbu Mask Type 7
+item.anbu_mask_type_8.name=Anbu Mask Type 8
+
+item.akatsuki_robe_blue.name=Akatsuki Robe Blue Clouds
+item.akatsuki_robe_dark_green.name=Akatsuki Robe Dark Green Clouds
+item.akatsuki_robe_gray.name=Akatsuki Robe Gray Clouds
+item.akatsuki_robe_green.name=Akatsuki Robe Green Clouds
+item.akatsuki_robe_light_blue.name=Akatsuki Robe Light Blue Clouds
+item.akatsuki_robe_orange.name=Akatsuki Robe Orange Clouds
+item.akatsuki_robe_pink.name=Akatsuki Robe Pink Clouds
+item.akatsuki_robe_purple.name=Akatsuki Robe Purple Clouds
+item.akatsuki_robe_yellow.name=Akatsuki Robe Yellow Clouds
+item.akatsuki_robe_redblack.name=Akatsuki Robe Inverted
+item.akatsuki_robe_whitered.name=Akatsuki White Robe
+item.training_weights.name=Training Weights
+
+item.cookie_dough.name=Cookie Dough
+item.sugar_cookies.name=Sugar Cookies
+item.hashirama_cells.name=Hashirama Cells Vial
+item.mind_awakening_pills.name=Mind Awakening Pills
+item.cursemark_syringe_sasuke.name=Cursemark Syringe [Sasuke]
+item.cursemark_syringe_kimimaro.name=Cursemark Syringe [Kimimaro]
+item.cursemark_syringe_random.name=Cursemark Syringe [Random]
+
+
+item.custom_spawn_egg_madara_guardian.name=Madara Spawn Egg
+item.custom_spawn_egg_izuna_guardian.name=Izuna Spawn Egg
+item.custom_spawn_egg_nanashi_uchiha.name=Nanashi Spawn Egg
+item.custom_spawn_egg_fugaku_uchiha.name=Fugaku Spawn Egg
+item.custom_spawn_egg_indra_uchiha.name=Indra Spawn Egg
+item.custom_spawn_egg_naori_uchiha.name=Naori Spawn Egg
+item.custom_spawn_egg_shisui_uchiha.name=Shisui Spawn Egg
+item.custom_spawn_egg_default_uchiha.name=Default Uchiha Spawn Egg
+item.custom_spawn_egg_sasuke_uchiha.name=Sasuke Spawn Egg
+item.custom_spawn_egg_neji_hyuga.name=Neji Spawn Egg
+item.custom_spawn_egg_chino_chinoike.name=Chino Spawn Egg
+item.custom_spawn_egg_medical_ninja_trader.name=Medical Ninja Spawn Egg
+
+itemGroup.shinobi_addon_tab=Dynamic Dojutsu
+
+key.shinobiaddon.category=Dynamic Dojutsu Keys
+key.shinobiaddon.ability1=Dojutsu Key 1
+key.shinobiaddon.ability2=Dojutsu Key 2
+key.shinobiaddon.ability3=Dojutsu Key 3
+key.shinobiaddon.ability4=Dojutsu Key 4
+key.shinobiaddon.sharingan_toggle=Dojutsu Toggle
+key.shinobiaddon.sharingan_form_up=Dojutsu Form Up
+key.shinobiaddon.sharingan_form_down=Dojutsu Form down
+key.shinobiaddon.sharingan_lockon=Dojutsu Lockon Toggle
+
+death.attack.kuroyume_genjutsu=%1$s was consumed by the Black Dream
+death.attack.kuroyume_genjutsu.player=%1$s was consumed by %2$s's Kuroyume Genjutsu
+
+advancement.shinobiaddon.blaze_release_acquired.title=Blaze Release Acquired
+advancement.shinobiaddon.blaze_release_acquired.description=Your flames burn beyond reason — black, eternal, and unyielding. Blaze Release answers only to those consumed by their own power.
+
+advancement.shinobiaddon.dark_release_acquired.title=Dark Release Acquired
+advancement.shinobiaddon.dark_release_acquired.description=You have awakened the forbidden power of Dark Release — a chakra that consumes the strength of others and bends it to your will. Balance and chaos are meaningless before such hunger.
+
+advancement.shinobiaddon.mud_release_acquired.title=Mud Release Acquired
+advancement.shinobiaddon.mud_release_acquired.description=You’ve mastered the balance of water and stone, summoning the strength of the land to swallow all who stand against you.
+
+advancement.shinobiaddon.steel_release_acquired.title=Steel Release Acquired
+advancement.shinobiaddon.steel_release_acquired.description=No blade can pierce you, no force can shatter you. Through Steel Release, you embody the strength of the unbreakable.
+
+advancement.shinobiaddon.swift_release_acquired.title=Swift Release Acquired
+advancement.shinobiaddon.swift_release_acquired.description=You have awakened the Swift Release — a chakra nature that transcends motion itself. To your enemies, you are a blur; to time, a fleeting whisper.
+
+advancement.shinobiaddon.typhoon_release_acquired.title=Typhoon Release Acquired
+advancement.shinobiaddon.typhoon_release_acquired.description=You have awakened Typhoon Release — the storm’s true form. With every motion of your chakra, winds roar and seas rise. None can stand before the fury of nature unchained.
+
+advancement.shinobiaddon.sevenheavens_acquired.title=New Fighting style
+advancement.shinobiaddon.sevenheavens_acquired.description=A powerful breathing art that enhances strength, reflexes, and perception through seven controlled breaths. With each breath, the user’s body becomes lighter, faster, and more attuned to battle — until they move with the grace of the heavens.
+
+advancement.shinobiaddon.1_tomoe_sharingan.title=First Tomoe Awakened
+advancement.shinobiaddon.1_tomoe_sharingan.description=Your Sharingan has awakened its first tomoe, granting you enhanced perception and the ability to see chakra flow.
+
+advancement.shinobiaddon.2_tomoe_sharingan.title=Second Tomoe Unlocked
+advancement.shinobiaddon.2_tomoe_sharingan.description=A second tomoe has manifested in your Sharingan, improving your visual prowess and granting limited precognitive abilities.
+
+advancement.shinobiaddon.3_tomoe_sharingan.title=Sharingan Mastery
+advancement.shinobiaddon.3_tomoe_sharingan.description=Your Sharingan has reached its mature form with three tomoe, allowing you to copy jutsu and predict enemy movements with incredible accuracy.
+
+advancement.ketsuryugan.title=Awakening of the Ketsuryugan
+advancement.ketsuryugan.description=Your blood stirs… the Crimson Eye opens for the first time.
+
+advancement.shinobiaddon.black_lightning_release_acquired.title=Black Lightning Release Acquired
+advancement.shinobiaddon.black_lightning_release_acquired.description=You've mastered the art of Lightning release now you can use even more destructive lightning jutsu.

@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Implementation-Title: ShinobiAdditions
+Implementation-Version: 1.3.8.1_dev-build
+FMLCorePluginContainsFMLMod: true
+FMLCorePlugin: com.leolifeless.shinobiaddon.coremod.ShinobiAddonLoadin
+ gPlugin
+

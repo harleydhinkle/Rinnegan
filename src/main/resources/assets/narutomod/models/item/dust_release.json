@@ -1,0 +1,6 @@
+{
+  "parent": "narutomod:custom/dust_release",
+  "textures": {
+    "0": "narutomod:blocks/dust_release"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "narutomod:custom/magnet_release",
+  "textures": {
+    "2": "narutomod:blocks/magnet_release"
+  }
+}

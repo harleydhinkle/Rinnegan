@@ -1,0 +1,6 @@
+ {
+   "parent": "shinobiaddon:custom/shakujo_obito",
+  "textures": {
+    "layer0": "shinobiaddon:items/sagestaff"
+   }
+ }

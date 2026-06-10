@@ -1,0 +1,11 @@
+{
+  "criteria": {
+    "has_rerolled": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 0
+  },
+  "parent": "narutomodaddon:chakra_charge_advancement"
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "narutomod:custom/ice_release",
+  "textures": {
+    "2": "narutomod:blocks/ice_release"
+  }
+}

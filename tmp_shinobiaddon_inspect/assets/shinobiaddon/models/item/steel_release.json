@@ -1,0 +1,6 @@
+{
+	"parent": "shinobiaddon:custom/steel_release",
+	"textures": {
+		"0": "shinobiaddon:items/steel_release"
+	}
+}

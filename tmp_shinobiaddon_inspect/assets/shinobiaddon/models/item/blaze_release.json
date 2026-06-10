@@ -1,0 +1,6 @@
+{
+  "parent": "shinobiaddon:custom/blaze_release",
+  "textures": {
+    "0": "shinobiaddon:items/blaze_release"
+  }
+}

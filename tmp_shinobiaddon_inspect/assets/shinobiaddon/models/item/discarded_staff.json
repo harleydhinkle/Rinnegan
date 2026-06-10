@@ -1,0 +1,9 @@
+{
+  "parent": "shinobiaddon:custom/zanka_staff_temp",
+  "overrides": [
+    {
+      "predicate": { "shinobiaddon:awakened": 1.0 },
+      "model": "shinobiaddon:item/discarded_staff_awakened"
+    }
+  ]
+}

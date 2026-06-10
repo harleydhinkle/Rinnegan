@@ -1,0 +1,10 @@
+{
+  "criteria": {
+    "chakra_charge_advancement": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 0
+  }
+}

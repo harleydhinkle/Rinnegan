@@ -1,0 +1,6 @@
+{
+  "parent": "narutomod:custom/ninja_arts",
+  "textures": {
+    "1": "narutomod:blocks/ninja_arts"
+  }
+}

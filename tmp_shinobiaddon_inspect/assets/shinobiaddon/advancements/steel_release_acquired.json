@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "shinobiaddon:steel_release"
+    },
+    "title": {
+      "translate": "advancement.shinobiaddon.steel_release_acquired.title"
+    },
+    "description": {
+      "translate": "advancement.shinobiaddon.steel_release_acquired.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "narutomod:ninjaachievement",
+  "criteria": {
+    "mud_release": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

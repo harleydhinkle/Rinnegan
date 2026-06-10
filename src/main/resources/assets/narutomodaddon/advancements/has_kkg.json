@@ -1,0 +1,152 @@
+{
+  "parent": "narutomodaddon:chakra_charge_advancement",
+  "criteria": {
+    "sharingan": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "narutomod:sharinganhelmet"
+          }
+        ]
+      }
+    },
+    "byakugan": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "narutomod:byakuganhelmet"
+          }
+        ]
+      }
+    },
+    "explosion": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "narutomod:explosion_release"
+          }
+        ]
+      }
+    },
+    "boil": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "narutomod:boil_release"
+          }
+        ]
+      }
+    },
+    "ice": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "narutomod:ice_release"
+          }
+        ]
+      }
+    },
+    "dust": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "narutomod:dust_release"
+          }
+        ]
+      }
+    },
+    "wood": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "narutomod:wood_release"
+          }
+        ]
+      }
+    },
+    "magnet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "narutomod:magnet_release"
+          }
+        ]
+      }
+    },
+    "scorch": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "narutomod:scorch_release"
+          }
+        ]
+      }
+    },
+    "lava": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "narutomod:lava_release"
+          }
+        ]
+      }
+    },
+    "storm": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "narutomod:storm_release"
+          }
+        ]
+      }
+    },
+    "skeletal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "narutomod:shikotsumyaku"
+          }
+        ]
+      }
+    },
+    "crystal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "narutomod:crystal_release"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "sharingan",
+      "byakugan",
+      "explosion",
+      "boil",
+      "ice",
+      "wood",
+      "magnet",
+      "scorch",
+      "lava",
+      "storm",
+      "skeletal",
+      "dust",
+      "crystal"
+    ]
+  ]
+}

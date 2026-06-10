@@ -1,0 +1,6 @@
+{
+  "parent": "narutomod:custom/boil_release",
+  "textures": {
+    "1": "narutomod:blocks/boil_release"
+  }
+}

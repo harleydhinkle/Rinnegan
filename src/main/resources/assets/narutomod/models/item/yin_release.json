@@ -1,0 +1,6 @@
+{
+  "parent": "narutomod:custom/yin_release",
+  "textures": {
+    "1": "narutomod:blocks/yin_release"
+  }
+}

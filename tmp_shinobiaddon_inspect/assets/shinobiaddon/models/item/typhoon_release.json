@@ -1,0 +1,6 @@
+{
+  "parent": "shinobiaddon:custom/typhoon_release",
+  "textures": {
+    "0": "shinobiaddon:items/typhoon_release"
+  }
+}

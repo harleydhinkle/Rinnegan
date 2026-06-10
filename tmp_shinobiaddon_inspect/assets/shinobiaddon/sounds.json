@@ -1,0 +1,56 @@
+{
+  "genjutsu": {
+    "category": "players",
+    "sounds": [
+      { "name": "shinobiaddon:jutsu/genjutsu" }
+    ]
+  },
+  "sharinganfx": {
+    "category": "players",
+    "sounds": [
+      { "name": "shinobiaddon:jutsu/sharinganfx" }
+    ]
+  },
+  "electricityspark": {
+    "category": "players",
+    "sounds": [
+      { "name": "shinobiaddon:jutsu/electricityspark" }
+    ]
+  },
+  "blood_explosion": {
+    "category": "players",
+    "sounds": [
+      { "name": "shinobiaddon:jutsu/blood_explosion" }
+    ]
+  },
+  "trigrams_orb": {
+    "category": "players",
+    "sounds": [
+      { "name": "shinobiaddon:jutsu/trigrams_orb" }
+    ]
+  },
+  "trigrams_palms": {
+    "category": "players",
+    "sounds": [
+      { "name": "shinobiaddon:jutsu/trigrams_palms" }
+    ]
+  },
+  "vacuum_palm": {
+    "category": "players",
+    "sounds": [
+      { "name": "shinobiaddon:jutsu/vacuum_palm" }
+    ]
+  },
+  "phoenix_sage_fire": {
+    "category": "players",
+    "sounds": [
+      { "name": "shinobiaddon:jutsu/phoenix_sage_fire" }
+    ]
+  },
+  "dragon_flame_bullet": {
+    "category": "players",
+    "sounds": [
+      { "name": "shinobiaddon:jutsu/dragon_flame_bullet" }
+    ]
+  }
+}

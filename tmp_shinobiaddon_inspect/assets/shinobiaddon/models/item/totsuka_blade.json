@@ -1,0 +1,7 @@
+{
+  "parent": "shinobiaddon:custom/totsuka_blade",
+  "textures": {
+    "0": "shinobiaddon:items/fire_layer_0",
+    "1": "shinobiaddon:items/fire_layer_1"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "shinobiaddon:custom/shakujo_hamura",
+  "textures": {
+    "layer0": "shinobiaddon:items/sagestaff"
+  }
+}

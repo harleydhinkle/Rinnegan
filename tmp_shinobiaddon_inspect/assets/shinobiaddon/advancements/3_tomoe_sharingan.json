@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "shinobiaddon:dynamic_sharingan"
+    },
+    "title": {
+      "translate": "advancement.shinobiaddon.3_tomoe_sharingan.title"
+    },
+    "description": {
+      "translate": "advancement.shinobiaddon.3_tomoe_sharingan.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "shinobiaddon:2_tomoe_sharingan",
+  "criteria": {
+    "mud_release": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

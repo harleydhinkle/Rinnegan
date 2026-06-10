@@ -1,0 +1,6 @@
+{
+  "parent": "narutomod:custom/lava_release",
+  "textures": {
+    "1": "narutomod:blocks/lava_release"
+  }
+}

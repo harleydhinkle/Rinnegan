@@ -1,0 +1,6 @@
+{
+  "parent": "narutomod:custom/wood_release",
+  "textures": {
+    "0": "narutomod:blocks/mokuton_symbol"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "shinobiaddon:custom/swift_release",
+  "textures": {
+    "0": "shinobiaddon:items/swift_release"
+  }
+}
