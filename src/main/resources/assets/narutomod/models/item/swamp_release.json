@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "narutomod:items/swamp_release"
+        "layer0": "narutomod:blocks/swamp_release"
     }
 }
