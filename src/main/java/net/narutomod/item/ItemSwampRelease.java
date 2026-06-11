@@ -1,25 +1,18 @@
 package net.narutomod.item;
 
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
-
 import net.minecraft.item.Item;
 import net.narutomod.creativetab.TabModTab;
 import net.narutomod.ElementsNarutomodMod;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
-
-import net.narutomod.entity.EntityBloodDragon;
-import net.narutomod.entity.EntityBloodPrison;
-import net.narutomod.entity.EntityHidingInBloodMist;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-
-
+import net.narutomod.entity.EntitySwampPit;
+import net.narutomod.entity.EntitySwampTar;
+import net.narutomod.entity.EntityVineTrap;
+import net.narutomod.entity.EntitySwampSentry;
 
 @ElementsNarutomodMod.ModElement.Tag
 public class ItemSwampRelease extends ElementsNarutomodMod.ModElement {
@@ -28,20 +21,21 @@ public class ItemSwampRelease extends ElementsNarutomodMod.ModElement {
     public static final Item block = null;
 
     public ItemSwampRelease(ElementsNarutomodMod instance) {
-        super(instance, 982); // change ID later if needed
+        super(instance, 982);
     }
 
     /*
      * ======================
-     * Swamp RELEASE JUTSU
+     * SWAMP RELEASE JUTSU
      * ======================
      */
-     @Override
-	@SideOnly(Side.CLIENT)
-	public void registerModels(ModelRegistryEvent event) {
-		ModelLoader.setCustomModelResourceLocation(block, 0, new ModelResourceLocation("narutomod:swamp_release", "inventory"));
-	}
 
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerModels(ModelRegistryEvent event) {
+        ModelLoader.setCustomModelResourceLocation(block, 0,
+            new ModelResourceLocation("narutomod:swamp_release", "inventory"));
+    }
 
     public static final ItemJutsu.JutsuEnum SWAMPPIT =
         new ItemJutsu.JutsuEnum(
@@ -69,14 +63,16 @@ public class ItemSwampRelease extends ElementsNarutomodMod.ModElement {
             200d,
             new EntityVineTrap.EC.Jutsu()
         );
- public static final ItemJutsu.JutsuEnum SUMMON =
+
+    public static final ItemJutsu.JutsuEnum SWAMPSENTRY =
         new ItemJutsu.JutsuEnum(
-            2,
+            3,
             "swamp_sentry",
             'S',
             200d,
             new EntitySwampSentry.EC.Jutsu()
         );
+
     @Override
     public void initElements() {
         this.elements.items.add(() ->
@@ -84,7 +80,7 @@ public class ItemSwampRelease extends ElementsNarutomodMod.ModElement {
                 SWAMPPIT,
                 SWAMPTAR,
                 VINETRAP,
-				SWAMPSENTRY,
+                SWAMPSENTRY
             ).setRegistryName("swamp_release")
         );
     }
@@ -96,12 +92,10 @@ public class ItemSwampRelease extends ElementsNarutomodMod.ModElement {
      */
 
     public static class ItemCustom extends ItemJutsu.Base {
-
         public ItemCustom(ItemJutsu.JutsuEnum... list) {
             super(ItemJutsu.JutsuEnum.Type.SWAMP, list);
             this.setUnlocalizedName("swamp_release");
             this.setCreativeTab(TabModTab.tab);
-            // Removed TabModTab reference
         }
     }
 }
