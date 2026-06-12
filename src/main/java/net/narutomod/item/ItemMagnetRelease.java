@@ -63,6 +63,7 @@ public class ItemMagnetRelease extends ElementsNarutomodMod.ModElement {
     public static final ItemJutsu.JutsuEnum SANDBIND = new ItemJutsu.JutsuEnum(2, "sand_bind", 'S', 200, 100d, new EntitySandBind.EC.Jutsu());
     public static final ItemJutsu.JutsuEnum SANDFLY = new ItemJutsu.JutsuEnum(3, "sand_levitation", 'S', 200, 0.25d, new EntitySandLevitation.EC.Jutsu());
     public static final ItemJutsu.JutsuEnum GATHERING = new ItemJutsu.JutsuEnum(4, "sand_gathering", 'S', 200, 100d, new EntitySandGathering.EC.Jutsu());
+    public static final ItemJutsu.JutsuEnum THIRDEYE = new ItemJutsu.JutsuEnum(5, "third_eye", 'S', 20d, new EntityThirdEye.EC.Jutsu());
 
     public ItemMagnetRelease(ElementsNarutomodMod instance) {
         super(instance, 518);
@@ -70,7 +71,7 @@ public class ItemMagnetRelease extends ElementsNarutomodMod.ModElement {
 
     @Override
     public void initElements() {
-        elements.items.add(() -> new ItemJiton.RangedItem(SANDSHIELD, SANDBULLET, SANDBIND, SANDFLY, GATHERING));
+        elements.items.add(() -> new ItemJiton.RangedItem(SANDSHIELD, SANDBULLET, SANDBIND, SANDFLY, GATHERING, THIRDEYE));
         elements.entities.add(() -> EntityEntryBuilder.create().entity(EntitySandShield.class)
                 .id(new ResourceLocation("narutomod", "entityjitonshield"), ENTITYID).name("entityjitonshield").tracker(64, 1, true).build());
         elements.entities.add(() -> EntityEntryBuilder.create().entity(SandParticle.class)
@@ -127,6 +128,7 @@ public class ItemMagnetRelease extends ElementsNarutomodMod.ModElement {
             this.defaultCooldownMap[SANDBULLET.index] = 0;
             this.defaultCooldownMap[SANDBIND.index] = 0;
             this.defaultCooldownMap[SANDFLY.index] = 0;
+            this.defaultCooldownMap[THIRDEYE.index] = 0;
         }
 
         @Override

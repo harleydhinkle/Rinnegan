@@ -27,6 +27,7 @@ import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.ElementsNarutomodMod;
 
 import java.util.Random;
+import java.util.UUID;
 import javax.annotation.Nullable;
 
 @ElementsNarutomodMod.ModElement.Tag
@@ -40,6 +41,7 @@ public class EntityScalableProjectile extends ElementsNarutomodMod.ModElement {
         private float ogWidth;
         private float ogHeight;
         public EntityLivingBase shootingEntity;
+        private UUID shootingEntityId;
         private double accelerationX;
         private double accelerationY;
         private double accelerationZ;
@@ -62,6 +64,7 @@ public class EntityScalableProjectile extends ElementsNarutomodMod.ModElement {
         public Base(EntityLivingBase shooter) {
             this(shooter.world);
             this.shootingEntity = shooter;
+            this.shootingEntityId = shooter.getUniqueID();
             //this.setPosition(shooter.posX, shooter.posY + shooter.height + 0.5D, shooter.posZ);
             this.setNoGravity(true);
         }
@@ -201,6 +204,7 @@ public class EntityScalableProjectile extends ElementsNarutomodMod.ModElement {
         @Override
         public void onUpdate() {
             super.onUpdate();
+            this.restoreShootingEntity();
             this.ticksAlive++;
             if (!this.world.isRemote && this.shootingEntity != null && this.shootingEntity.isDead
                     || !this.world.isBlockLoaded(new BlockPos(this))) {
@@ -251,6 +255,15 @@ public class EntityScalableProjectile extends ElementsNarutomodMod.ModElement {
                     }
                     this.renderParticles();
                     this.setPosition(this.posX, this.posY, this.posZ);
+                }
+            }
+        }
+
+        private void restoreShootingEntity() {
+            if (!this.world.isRemote && this.shootingEntity == null && this.shootingEntityId != null && this.world instanceof WorldServer) {
+                Entity entity = ((WorldServer)this.world).getEntityFromUuid(this.shootingEntityId);
+                if (entity instanceof EntityLivingBase) {
+                    this.shootingEntity = (EntityLivingBase)entity;
                 }
             }
         }
@@ -330,10 +343,16 @@ public class EntityScalableProjectile extends ElementsNarutomodMod.ModElement {
             this.ticksInAir = compound.getInteger("flighttime");
             this.ticksInGround = compound.getInteger("groundtime");
             this.maxInGroundTime = compound.getInteger("maxInGroundTime");
+            if (compound.hasUniqueId("ShooterUUID")) {
+                this.shootingEntityId = compound.getUniqueId("ShooterUUID");
+            }
         }
 
         @Override
         protected void writeEntityToNBT(NBTTagCompound compound) {
+            if (this.shootingEntity != null) {
+                this.shootingEntityId = this.shootingEntity.getUniqueID();
+            }
             compound.setTag("direction", this.newDoubleNBTList(new double[]{this.motionX, this.motionY, this.motionZ}));
             compound.setTag("power", this.newDoubleNBTList(new double[]{this.accelerationX, this.accelerationY, this.accelerationZ}));
             compound.setFloat("scale", this.getEntityScale());
@@ -342,6 +361,9 @@ public class EntityScalableProjectile extends ElementsNarutomodMod.ModElement {
             compound.setInteger("flighttime", this.ticksInAir);
             compound.setInteger("groundtime", this.ticksInGround);
             compound.setInteger("maxInGroundTime", this.maxInGroundTime);
+            if (this.shootingEntityId != null) {
+                compound.setUniqueId("ShooterUUID", this.shootingEntityId);
+            }
         }
     }
 

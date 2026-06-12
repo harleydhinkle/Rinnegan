@@ -28,6 +28,7 @@ import net.minecraft.init.MobEffects;
 import net.narutomod.entity.EntityLightningArc;
 import net.narutomod.entity.EntityLightningBeast;
 import net.narutomod.entity.EntityLightningPanther;
+import net.narutomod.entity.EntityLightningRatTremor;
 import net.narutomod.entity.EntityChidori;
 import net.narutomod.entity.EntityFalseDarkness;
 import net.narutomod.entity.EntityKirin;
@@ -52,6 +53,7 @@ public class ItemLightningRelease extends ElementsNarutomodMod.ModElement {
 	public static final ItemJutsu.JutsuEnum GIAN = new ItemJutsu.JutsuEnum(3, "false_darkness", 'B', 100d, new EntityFalseDarkness.EC.Jutsu());
 	public static final ItemJutsu.JutsuEnum KIRIN = new ItemJutsu.JutsuEnum(4, "kirin", 'S', 1500d, new EntityKirin.EC.Jutsu());
 	public static final ItemJutsu.JutsuEnum BLACKPANTHER = new ItemJutsu.JutsuEnum(5, "lightning_panther", 'S', 50d, new EntityLightningPanther.EC.Jutsu());
+	public static final ItemJutsu.JutsuEnum RAT_TREMOR = new ItemJutsu.JutsuEnum(6, "lightning_rat_tremor", 'B', 50d, new EntityLightningRatTremor.EC.Jutsu());
 
 	public ItemLightningRelease(ElementsNarutomodMod instance) {
 		super(instance, 373);
@@ -59,7 +61,7 @@ public class ItemLightningRelease extends ElementsNarutomodMod.ModElement {
 
 	@Override
 	public void initElements() {
-		elements.items.add(() -> new ItemRaiton.RangedItem(CHIDORI, CHAKRAMODE, CHASINGDOG, GIAN, KIRIN, BLACKPANTHER));
+		elements.items.add(() -> new ItemRaiton.RangedItem(CHIDORI, CHAKRAMODE, CHASINGDOG, GIAN, KIRIN, BLACKPANTHER, RAT_TREMOR));
 		elements.entities.add(() -> EntityEntryBuilder.create().entity(EntityChakraMode.class)
 			.id(new ResourceLocation("narutomod", "raitonchakramode"), ENTITYID).name("raitonchakramode").tracker(64, 1, true).build());
 	}

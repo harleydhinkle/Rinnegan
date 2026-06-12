@@ -29,6 +29,7 @@ import net.narutomod.gui.GuiScrollMultiSizeGui;
 import net.narutomod.gui.GuiScrollMultiCloneGui;
 import net.narutomod.gui.GuiScrollMindTransferGui;
 import net.narutomod.gui.GuiScrollLightningPantherGui;
+import net.narutomod.gui.GuiScrollLightningRatTremorGui;
 import net.narutomod.gui.GuiScrollLightningChakraModeGui;
 import net.narutomod.gui.GuiScrollLightningBeastGui;
 import net.narutomod.gui.GuiScrollKirinGui;
@@ -54,6 +55,7 @@ import net.narutomod.gui.GuiScrollEarthWallGui;
 import net.narutomod.gui.GuiScrollEarthSpearsGui;
 import net.narutomod.gui.GuiScrollEarthSandwichGui;
 import net.narutomod.gui.GuiScrollEarthGolemGui;
+import net.narutomod.gui.GuiScrollEarthDragonGui;
 import net.narutomod.gui.GuiScrollChidoriGui;
 import net.narutomod.gui.GuiScrollCellularActivationGui;
 import net.narutomod.gui.GuiScrollBodyReplacementGui;
@@ -231,6 +233,10 @@ public class ElementsNarutomodMod implements IFuelHandler, IWorldGenerator {
         sounds.put(new ResourceLocation("narutomod", "chidori"), new net.minecraft.util.SoundEvent(new ResourceLocation("narutomod", "chidori")));
         sounds.put(new ResourceLocation("narutomod", "bugs"), new net.minecraft.util.SoundEvent(new ResourceLocation("narutomod", "bugs")));
         sounds.put(new ResourceLocation("narutomod", "woodgrow"), new net.minecraft.util.SoundEvent(new ResourceLocation("narutomod", "woodgrow")));
+        sounds.put(new ResourceLocation("narutomod", "maniacal_laughter"),
+                new net.minecraft.util.SoundEvent(new ResourceLocation("narutomod", "maniacal_laughter")));
+        sounds.put(new ResourceLocation("narutomod", "blast_charge"),
+                new net.minecraft.util.SoundEvent(new ResourceLocation("narutomod", "blast_charge")));
         sounds.put(new ResourceLocation("narutomod", "amaterasu2"),
                 new net.minecraft.util.SoundEvent(new ResourceLocation("narutomod", "amaterasu2")));
         sounds.put(new ResourceLocation("narutomod", "throwpunch"),
@@ -511,12 +517,16 @@ public class ElementsNarutomodMod implements IFuelHandler, IWorldGenerator {
                 return new GuiScrollSealing4SymbolsGui.GuiContainerMod(world, x, y, z, player);
             if (id == GuiScrollLightningPantherGui.GUIID)
                 return new GuiScrollLightningPantherGui.GuiContainerMod(world, x, y, z, player);
+            if (id == GuiScrollLightningRatTremorGui.GUIID)
+                return new GuiScrollLightningRatTremorGui.GuiContainerMod(world, x, y, z, player);
             if (id == GuiScrollPuppetGui.GUIID)
                 return new GuiScrollPuppetGui.GuiContainerMod(world, x, y, z, player);
             if (id == GuiScrollKirinGui.GUIID)
                 return new GuiScrollKirinGui.GuiContainerMod(world, x, y, z, player);
             if (id == GuiScrollEarthGolemGui.GUIID)
                 return new GuiScrollEarthGolemGui.GuiContainerMod(world, x, y, z, player);
+            if (id == GuiScrollEarthDragonGui.GUIID)
+                return new GuiScrollEarthDragonGui.GuiContainerMod(world, x, y, z, player);
             if (id == GuiScrollSealingChainsGui.GUIID)
                 return new GuiScrollSealingChainsGui.GuiContainerMod(world, x, y, z, player);
             if (id == GuiScrollHiraishinGui.GUIID)
@@ -622,12 +632,16 @@ public class ElementsNarutomodMod implements IFuelHandler, IWorldGenerator {
                 return new GuiScrollSealing4SymbolsGui.GuiWindow(world, x, y, z, player);
             if (id == GuiScrollLightningPantherGui.GUIID)
                 return new GuiScrollLightningPantherGui.GuiWindow(world, x, y, z, player);
+            if (id == GuiScrollLightningRatTremorGui.GUIID)
+                return new GuiScrollLightningRatTremorGui.GuiWindow(world, x, y, z, player);
             if (id == GuiScrollPuppetGui.GUIID)
                 return new GuiScrollPuppetGui.GuiWindow(world, x, y, z, player);
             if (id == GuiScrollKirinGui.GUIID)
                 return new GuiScrollKirinGui.GuiWindow(world, x, y, z, player);
             if (id == GuiScrollEarthGolemGui.GUIID)
                 return new GuiScrollEarthGolemGui.GuiWindow(world, x, y, z, player);
+            if (id == GuiScrollEarthDragonGui.GUIID)
+                return new GuiScrollEarthDragonGui.GuiWindow(world, x, y, z, player);
             if (id == GuiScrollSealingChainsGui.GUIID)
                 return new GuiScrollSealingChainsGui.GuiWindow(world, x, y, z, player);
             if (id == GuiScrollHiraishinGui.GUIID)

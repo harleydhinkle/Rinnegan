@@ -1194,6 +1194,7 @@ public class ItemJutsu extends ElementsNarutomodMod.ModElement {
 			BLOOD,
 			SHOTON,
             SENNINKA,
+			SWAMP,
 			OTHER;
 		}
 	}

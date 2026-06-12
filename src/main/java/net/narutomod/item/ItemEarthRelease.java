@@ -40,6 +40,7 @@ import net.narutomod.entity.EntityEarthSpears;
 import net.narutomod.entity.EntitySwampPit;
 import net.narutomod.entity.EntityEarthSandwich;
 import net.narutomod.entity.EntityEarthGolem;
+import net.narutomod.entity.EntityEarthDragon;
 import net.narutomod.creativetab.TabModTab;
 import net.narutomod.ElementsNarutomodMod;
 import net.narutomod.procedure.ProcedureUtils;
@@ -66,6 +67,7 @@ public class ItemEarthRelease extends ElementsNarutomodMod.ModElement {
 	public static final ItemJutsu.JutsuEnum SWAMPPIT = new ItemJutsu.JutsuEnum(3, "swamp_pit", 'A', 100d, new EntitySwampPit.EC.Jutsu());
 	public static final ItemJutsu.JutsuEnum SPEARS = new ItemJutsu.JutsuEnum(4, "earth_spears", 'C', 20d, new EntityEarthSpears.EC.Jutsu());
 	public static final ItemJutsu.JutsuEnum GOLEM = new ItemJutsu.JutsuEnum(5, "earth_golem", 'B', 100d, new EntityEarthGolem.EC.Jutsu());
+	public static final ItemJutsu.JutsuEnum DRAGON = new ItemJutsu.JutsuEnum(6, "earth_dragon", 'C', 20d, new EntityEarthDragon.EC.Jutsu());
 
 	public ItemEarthRelease(ElementsNarutomodMod instance) {
 		super(instance, 378);
@@ -73,7 +75,7 @@ public class ItemEarthRelease extends ElementsNarutomodMod.ModElement {
 
 	@Override
 	public void initElements() {
-		elements.items.add(() -> new ItemDoton.RangedItem(HIDINGINROCK, EARTHWALL, SANDWICH, SWAMPPIT, SPEARS, GOLEM));
+		elements.items.add(() -> new ItemDoton.RangedItem(HIDINGINROCK, EARTHWALL, SANDWICH, SWAMPPIT, SPEARS, GOLEM, DRAGON));
 		elements.entities.add(() -> EntityEntryBuilder.create().entity(EntityEarthWall.class)
 				.id(new ResourceLocation("narutomod", "entityearthwall"), ENTITYID).name("entityearthwall").tracker(64, 1, true).build());
 		elements.entities.add(() -> EntityEntryBuilder.create().entity(EntityHidingInRock.class)
