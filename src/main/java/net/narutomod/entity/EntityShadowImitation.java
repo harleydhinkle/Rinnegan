@@ -39,7 +39,7 @@ import net.minecraft.util.math.Vec3d;
 
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemInton;
+import net.narutomod.item.ItemYinRelease;
 import net.narutomod.PlayerInput;
 import net.narutomod.Chakra;
 import net.narutomod.NarutomodModVariables;
@@ -69,7 +69,7 @@ public class EntityShadowImitation extends ElementsNarutomodMod.ModElement {
 				EntityDataManager.<Integer>createKey(EC.class, DataSerializers.VARINT);
 
 		// >>> ADDED FOR TIME LIMIT <<<
-		// Fixed hold duration (ticks) — 200 ticks = 10 seconds.
+		// Fixed hold duration (ticks)  200 ticks = 10 seconds.
 		private static final int MAX_HOLD_TICKS = 600;
 		// >>> END <<<
 
@@ -225,7 +225,7 @@ public class EntityShadowImitation extends ElementsNarutomodMod.ModElement {
 							newintarray[i] = oldintarray[i];
 						}
 						EC entity1 = new EC(entity, (EntityLivingBase)res.entityHit,
-								ItemInton.SHADOW_IMITATION.chakraUsage);
+								ItemYinRelease.SHADOW_IMITATION.chakraUsage);
 						entity.world.spawnEntity(entity1);
 						newintarray[oldintarray.length] = entity1.getEntityId();
 						entity.getEntityData().setIntArray(ECENTITYID, newintarray);
@@ -320,7 +320,7 @@ public class EntityShadowImitation extends ElementsNarutomodMod.ModElement {
 				EntityLivingBase user = entity.getUser();
 				EntityLivingBase target = entity.getTarget();
 				if (user != null && target != null) {
-					// (Rendering code unchanged — omitted here for length)
+					// (Rendering code unchanged  omitted here for length)
 				}
 			}
 

@@ -24,7 +24,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 
 import net.narutomod.potion.PotionParalysis;
 import net.narutomod.item.ItemGourd;
-import net.narutomod.item.ItemJiton;
+import net.narutomod.item.ItemMagnetRelease;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.procedure.ProcedureSync;
 import net.narutomod.procedure.ProcedureUtils;
@@ -76,7 +76,7 @@ public class EntitySandBind extends ElementsNarutomodMod.ModElement {
 	public static class EC extends Entity implements ItemJutsu.IJutsu {
 		private EntityLivingBase user;
 		private EntityLivingBase targetEntity;
-		private ItemJiton.SwarmTarget sandTarget;
+		private ItemMagnetRelease.SwarmTarget sandTarget;
 		private Vec3d capturedVec;
 		private int funeralTime;
 		private final float funeralDamage = 4f; // per tick for 20 ticks
@@ -89,13 +89,13 @@ public class EntitySandBind extends ElementsNarutomodMod.ModElement {
 			this.funeralTime = -1;
 		}
 
-		public EC(EntityLivingBase userIn, EntityLivingBase targetIn, ItemJiton.Type sandType) {
+		public EC(EntityLivingBase userIn, EntityLivingBase targetIn, ItemMagnetRelease.Type sandType) {
 			this(userIn.world);
 			this.user = userIn;
 			this.targetEntity = targetIn;
 			Vec3d vec = this.getGourdMouthPos();
 			this.setPosition(vec.x, vec.y, vec.z);
-			this.sandTarget = new ItemJiton.SwarmTarget(this.world, 100, vec, 
+			this.sandTarget = new ItemMagnetRelease.SwarmTarget(this.world, 100, vec, 
 			 this.getTargetVector(), new Vec3d(0.1d, 0.4d, 0.1d), 0.95f, 0.03f, false, 3f, sandType.getColor());
 		}
 
@@ -250,7 +250,7 @@ public class EntitySandBind extends ElementsNarutomodMod.ModElement {
 								return false;
 							}
 						}
-						EC entity1 = new EC(entity, (EntityLivingBase)result.entityHit, ItemJiton.getSandType(stack));
+						EC entity1 = new EC(entity, (EntityLivingBase)result.entityHit, ItemMagnetRelease.getSandType(stack));
 						entity.world.spawnEntity(entity1);
 						return true;
 					}

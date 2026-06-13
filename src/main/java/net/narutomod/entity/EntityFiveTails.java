@@ -29,9 +29,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 
-import net.narutomod.item.ItemFutton;
-import net.narutomod.item.ItemKaton;
-import net.narutomod.item.ItemSuiton;
+import net.narutomod.item.ItemBoilRelease;
+import net.narutomod.item.ItemFireRelease;
+import net.narutomod.item.ItemWaterRelease;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.ElementsNarutomodMod;
 
@@ -68,13 +68,13 @@ public class EntityFiveTails extends ElementsNarutomodMod.ModElement {
 		@Override
 		public void setVesselEntity(@Nullable Entity player) {
 			super.setVesselEntity(player);
-			if (player instanceof EntityPlayer && !ProcedureUtils.hasItemInInventory((EntityPlayer)player, ItemFutton.block)) {
-				ItemHandlerHelper.giveItemToPlayer((EntityPlayer)player, new ItemStack(ItemFutton.block));
-				if (!ProcedureUtils.hasItemInInventory((EntityPlayer)player, ItemKaton.block)) {
-					ItemHandlerHelper.giveItemToPlayer((EntityPlayer)player, new ItemStack(ItemKaton.block));
+			if (player instanceof EntityPlayer && !ProcedureUtils.hasItemInInventory((EntityPlayer)player, ItemBoilRelease.block)) {
+				ItemHandlerHelper.giveItemToPlayer((EntityPlayer)player, new ItemStack(ItemBoilRelease.block));
+				if (!ProcedureUtils.hasItemInInventory((EntityPlayer)player, ItemFireRelease.block)) {
+					ItemHandlerHelper.giveItemToPlayer((EntityPlayer)player, new ItemStack(ItemFireRelease.block));
 				}
-				if (!ProcedureUtils.hasItemInInventory((EntityPlayer)player, ItemSuiton.block)) {
-					ItemHandlerHelper.giveItemToPlayer((EntityPlayer)player, new ItemStack(ItemSuiton.block));
+				if (!ProcedureUtils.hasItemInInventory((EntityPlayer)player, ItemWaterRelease.block)) {
+					ItemHandlerHelper.giveItemToPlayer((EntityPlayer)player, new ItemStack(ItemWaterRelease.block));
 				}
 			}
 		}

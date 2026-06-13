@@ -32,7 +32,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.BlockLiquid;
 
-import net.narutomod.item.ItemSuiton;
+import net.narutomod.item.ItemWaterRelease;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.procedure.ProcedureAoeCommand;
@@ -193,7 +193,7 @@ public class EntityBloodDragon extends ElementsNarutomodMod.ModElement {
 				return;
 			if (!this.world.isRemote) {
 				float size = this.getEntityScale();
-				this.world.newExplosion(this.shootingEntity, this.posX, this.posY, this.posZ, 5.0F * size, false,
+				this.world.newExplosion(this.shootingEntity, this.posX, this.posY, this.posZ, 10.0F * size, false,
 				  net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this.shootingEntity));
 				ProcedureAoeCommand.set(this, 0.0D, 3.0D).exclude(this.shootingEntity)
 				  .damageEntities(ItemJutsu.causeJutsuDamage(this, this.shootingEntity), 20f * size);
@@ -215,7 +215,7 @@ public class EntityBloodDragon extends ElementsNarutomodMod.ModElement {
 			@Override
 			public boolean createJutsu(ItemStack stack, EntityLivingBase entity, float power) {
 				if (power >= 1.0f && entity.onGround
-				 && (entity.isOverWater() || Chakra.pathway(entity).consume(ItemSuiton.WATERDRAGON.chakraUsage * 2))) {
+				 && (entity.isOverWater() || Chakra.pathway(entity).consume(ItemWaterRelease.WATERDRAGON.chakraUsage * 2))) {
 				 	this.createJutsu(entity, power);
 					return true;
 				}

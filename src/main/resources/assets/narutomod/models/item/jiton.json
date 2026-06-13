@@ -1,6 +1,0 @@
-{
-  "parent": "narutomod:custom/jiton",
-  "textures": {
-    "2": "narutomod:blocks/jiton"
-  }
-}

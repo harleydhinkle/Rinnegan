@@ -3,8 +3,8 @@
   "_type": "gun",
   "definition": {
     "renderType": 1,
-    "texture": "hyoton",
-    "customModelName": "hyoton:default",
+    "texture": "ice_release",
+    "customModelName": "ice_release:default",
     "name": "Hyoton",
     "specialInfo": [],
     "creativeTab": {

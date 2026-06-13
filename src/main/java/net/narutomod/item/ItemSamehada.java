@@ -36,7 +36,8 @@ import net.narutomod.PlayerTracker;
 import net.narutomod.entity.EntityNinjaMob;
 import net.narutomod.creativetab.TabModTab;
 import net.narutomod.ElementsNarutomodMod;
-import net.narutomod.procedure.ProcedureUtils;
+
+import net.narutomod.procedure.ProcedureUtils;
 
 import com.google.common.collect.Multimap;
 import javax.annotation.Nullable;
@@ -83,7 +84,7 @@ public class ItemSamehada extends ElementsNarutomodMod.ModElement {
 				target.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 100, 1));
 			}
 			if (Chakra.pathway(attacker).consume(-CHAKRA_TRANSFER * multiplier, true)) {
-				attacker.heal(4f * multiplier);
+				attacker.heal(2f * multiplier);
 			}
 		}
 	}

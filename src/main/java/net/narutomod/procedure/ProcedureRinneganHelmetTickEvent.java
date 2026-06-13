@@ -3,10 +3,10 @@ package net.narutomod.procedure;
 import net.narutomod.potion.PotionFlight;
 import net.narutomod.item.ItemTenseiganChakraMode;
 import net.narutomod.item.ItemTenseigan;
-import net.narutomod.item.ItemSixPathSenjutsu;
+import net.narutomod.item.ItemSixPathsSageArts;
 import net.narutomod.item.ItemSageStaff;
 import net.narutomod.item.ItemRinnegan;
-import net.narutomod.item.ItemNinjutsu;
+import net.narutomod.item.ItemNinjaArts;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.item.ItemBlackReceiver;
 import net.narutomod.item.ItemAsuraPathArmor;
@@ -92,13 +92,13 @@ public class ProcedureRinneganHelmetTickEvent extends ElementsNarutomodMod.ModEl
 				}
 				if ((!(entity.getEntityData().getBoolean("hasAnyGuiOpen")))) {
 					if ((!((entity instanceof EntityPlayer)
-							? ((EntityPlayer) entity).inventory.hasItemStack(new ItemStack(ItemSixPathSenjutsu.block, (int) (1)))
+							? ((EntityPlayer) entity).inventory.hasItemStack(new ItemStack(ItemSixPathsSageArts.block, (int) (1)))
 							: false))) {
 						if (entity.getEntityData().hasKey("6pSenjutsuItem", 10)) {
 							stack1 = new ItemStack(entity.getEntityData().getCompoundTag("6pSenjutsuItem"));
 							entity.getEntityData().removeTag("6pSenjutsuItem");
 						} else {
-							stack1 = new ItemStack(ItemSixPathSenjutsu.block, (int) (1));
+							stack1 = new ItemStack(ItemSixPathsSageArts.block, (int) (1));
 						}
 						if (entity instanceof EntityPlayer) {
 							ItemStack _setstack = (stack1);
@@ -133,11 +133,11 @@ public class ProcedureRinneganHelmetTickEvent extends ElementsNarutomodMod.ModEl
 										.getAdvancement(new ResourceLocation("narutomod:rinneganawakened")))
 								.isDone()
 						: false)) {
-					stack1 = ItemJutsu.getOwnerMatchingItemstack((EntityPlayer) entity, ItemNinjutsu.block);
-					if ((stack1 != null && (!((ItemNinjutsu.RangedItem) stack1.getItem()).isJutsuEnabled(stack1, ItemNinjutsu.LIMBOCLONE)
-							&& !((ItemNinjutsu.RangedItem) stack1.getItem()).isJutsuEnabled(stack1, ItemNinjutsu.AMENOTEJIKARA)))) {
-						((ItemNinjutsu.RangedItem) stack1.getItem()).enableJutsu(stack1,
-								ProcedureUtils.rngBoolean() ? ItemNinjutsu.LIMBOCLONE : ItemNinjutsu.AMENOTEJIKARA, true);
+					stack1 = ItemJutsu.getOwnerMatchingItemstack((EntityPlayer) entity, ItemNinjaArts.block);
+					if ((stack1 != null && (!((ItemNinjaArts.RangedItem) stack1.getItem()).isJutsuEnabled(stack1, ItemNinjaArts.LIMBOCLONE)
+							&& !((ItemNinjaArts.RangedItem) stack1.getItem()).isJutsuEnabled(stack1, ItemNinjaArts.AMENOTEJIKARA)))) {
+						((ItemNinjaArts.RangedItem) stack1.getItem()).enableJutsu(stack1,
+								ProcedureUtils.rngBoolean() ? ItemNinjaArts.LIMBOCLONE : ItemNinjaArts.AMENOTEJIKARA, true);
 					}
 				}
 				if (((entity.ticksExisted % 20) == 2)) {

@@ -1,13 +1,13 @@
 package net.narutomod.procedure;
 
-import net.narutomod.item.ItemSuiton;
+import net.narutomod.item.ItemWaterRelease;
 import net.narutomod.item.ItemSharingan;
 import net.narutomod.item.ItemRinnegan;
-import net.narutomod.item.ItemNinjutsu;
-import net.narutomod.item.ItemMokuton;
+import net.narutomod.item.ItemNinjaArts;
+import net.narutomod.item.ItemWoodRelease;
 import net.narutomod.item.ItemMangekyoSharinganEternal;
-import net.narutomod.item.ItemDoton;
-import net.narutomod.item.ItemDojutsu;
+import net.narutomod.item.ItemEarthRelease;
+import net.narutomod.item.ItemOcularJutsu;
 import net.narutomod.ElementsNarutomodMod;
 
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -78,7 +78,7 @@ public class ProcedureWhiteZetsuFleshFoodEaten extends ElementsNarutomodMod.ModE
 									: false)))
 							&& (Math.random() < 0.2)))) {
 				rinneganstack = new ItemStack(ItemRinnegan.helmet, (int) (1));
-				((ItemDojutsu.Base) rinneganstack.getItem()).setOwner(rinneganstack, (EntityLivingBase) entity);
+				((ItemOcularJutsu.Base) rinneganstack.getItem()).setOwner(rinneganstack, (EntityLivingBase) entity);
 				if (entity instanceof EntityPlayer) {
 					ItemStack _setstack = (rinneganstack);
 					_setstack.setCount(1);
@@ -102,13 +102,13 @@ public class ProcedureWhiteZetsuFleshFoodEaten extends ElementsNarutomodMod.ModE
 						SoundCategory.NEUTRAL, (float) 1, (float) 1);
 			}
 			if ((((((entity instanceof EntityPlayer)
-					? ((EntityPlayer) entity).inventory.hasItemStack(new ItemStack(ItemSuiton.block, (int) (1)))
+					? ((EntityPlayer) entity).inventory.hasItemStack(new ItemStack(ItemWaterRelease.block, (int) (1)))
 					: false)
 					&& ((entity instanceof EntityPlayer)
-							? ((EntityPlayer) entity).inventory.hasItemStack(new ItemStack(ItemDoton.block, (int) (1)))
+							? ((EntityPlayer) entity).inventory.hasItemStack(new ItemStack(ItemEarthRelease.block, (int) (1)))
 							: false))
 					&& (!((entity instanceof EntityPlayer)
-							? ((EntityPlayer) entity).inventory.hasItemStack(new ItemStack(ItemMokuton.block, (int) (1)))
+							? ((EntityPlayer) entity).inventory.hasItemStack(new ItemStack(ItemWoodRelease.block, (int) (1)))
 							: false)))
 					&& (entity.isEntityAlive()))) {
 				if ((world.getGameRules().getBoolean("keepInventory") || world.getGameRules().getBoolean("keepNinjaXp"))) {
@@ -118,15 +118,15 @@ public class ProcedureWhiteZetsuFleshFoodEaten extends ElementsNarutomodMod.ModE
 				}
 				if ((flag)) {
 					if (entity instanceof EntityPlayer) {
-						ItemStack _setstack = new ItemStack(ItemMokuton.block, (int) (1));
+						ItemStack _setstack = new ItemStack(ItemWoodRelease.block, (int) (1));
 						_setstack.setCount(1);
 						ItemHandlerHelper.giveItemToPlayer(((EntityPlayer) entity), _setstack);
 					}
 					if (((entity instanceof EntityPlayer)
-							? ((EntityPlayer) entity).inventory.hasItemStack(new ItemStack(ItemNinjutsu.block, (int) (1)))
+							? ((EntityPlayer) entity).inventory.hasItemStack(new ItemStack(ItemNinjaArts.block, (int) (1)))
 							: false)) {
-						ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer) entity, ItemNinjutsu.block);
-						((ItemNinjutsu.RangedItem) stack.getItem()).enableJutsu(stack, ItemNinjutsu.KAGEBUNSHIN, true);
+						ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer) entity, ItemNinjaArts.block);
+						((ItemNinjaArts.RangedItem) stack.getItem()).enableJutsu(stack, ItemNinjaArts.KAGEBUNSHIN, true);
 					}
 					if (entity instanceof EntityPlayerMP) {
 						Advancement _adv = ((MinecraftServer) ((EntityPlayerMP) entity).mcServer).getAdvancementManager()

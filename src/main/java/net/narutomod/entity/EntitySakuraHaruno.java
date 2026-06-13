@@ -50,7 +50,7 @@ import net.narutomod.item.ItemScrollHealing;
 import net.narutomod.item.ItemScrollEnhancedStrength;
 import net.narutomod.item.ItemMilitaryRationsPill;
 import net.narutomod.item.ItemMilitaryRationsPillGold;
-import net.narutomod.item.ItemIryoJutsu;
+import net.narutomod.item.ItemMedicalNinjutsu;
 import net.narutomod.item.ItemNinjaArmorSakura1;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.potion.PotionChakraEnhancedStrength;
@@ -130,10 +130,10 @@ public class EntitySakuraHaruno extends ElementsNarutomodMod.ModElement {
 		@Override
 		public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
 			livingdata = super.onInitialSpawn(difficulty, livingdata);
-			ItemStack iryoJutsu = new ItemStack(ItemIryoJutsu.block);
-			ItemIryoJutsu.RangedItem item = (ItemIryoJutsu.RangedItem)iryoJutsu.getItem();
+			ItemStack iryoJutsu = new ItemStack(ItemMedicalNinjutsu.block);
+			ItemMedicalNinjutsu.RangedItem item = (ItemMedicalNinjutsu.RangedItem)iryoJutsu.getItem();
 			item.setOwner(iryoJutsu, this);
-			item.enableJutsu(iryoJutsu, ItemIryoJutsu.HEALING, true);
+			item.enableJutsu(iryoJutsu, ItemMedicalNinjutsu.HEALING, true);
 			item.addCurrentJutsuXp(iryoJutsu, item.getCurrentJutsuRequiredXp(iryoJutsu));
 			this.setItemToInventory(iryoJutsu, 0);
 			this.setItemStackToSlot(EntityEquipmentSlot.CHEST, new ItemStack(ItemNinjaArmorSakura1.body, 1));
@@ -194,7 +194,7 @@ public class EntitySakuraHaruno extends ElementsNarutomodMod.ModElement {
 		}
 
 		public void setHealTarget(@Nullable EntityLivingBase target) {
-			if ((target == null) == (this.getHeldItemMainhand().getItem() == ItemIryoJutsu.block)) {
+			if ((target == null) == (this.getHeldItemMainhand().getItem() == ItemMedicalNinjutsu.block)) {
 				this.resetActiveHand();
 				this.swapWithInventory(EntityEquipmentSlot.MAINHAND, 0);
 			}
@@ -210,7 +210,7 @@ public class EntitySakuraHaruno extends ElementsNarutomodMod.ModElement {
 		}
 
 		public void healTargetEntity() {
-			if (this.healTarget != null && this.getHeldItemMainhand().getItem() == ItemIryoJutsu.block) {
+			if (this.healTarget != null && this.getHeldItemMainhand().getItem() == ItemMedicalNinjutsu.block) {
 				if (this.getDistance(this.healTarget) <= 0.8d * (this.width + this.healTarget.width)) {
 					if (!this.isHandActive()) {
 						this.setActiveHand(EnumHand.MAIN_HAND);

@@ -665,6 +665,24 @@
       }
     ]
   },
+  "maniacal_laughter": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "narutomod:maniacal_laughter",
+        "stream": false
+      }
+    ]
+  },
+  "blast_charge": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "narutomod:blast_charge",
+        "stream": false
+      }
+    ]
+  },
   "amaterasu2": {
     "category": "master",
     "sounds": [
@@ -890,11 +908,11 @@
       }
     ]
   },
-  "dojutsu": {
+  "ocular_jutsu": {
     "category": "master",
     "sounds": [
       {
-        "name": "narutomod:dojutsu",
+        "name": "narutomod:ocular_jutsu",
         "stream": false
       }
     ]

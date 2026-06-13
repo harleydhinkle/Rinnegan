@@ -1,6 +1,0 @@
-{
-  "parent": "narutomod:custom/doton",
-  "textures": {
-    "1": "narutomod:blocks/doton"
-  }
-}

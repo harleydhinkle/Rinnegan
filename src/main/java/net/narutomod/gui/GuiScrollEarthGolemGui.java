@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-import net.narutomod.item.ItemDoton;
+import net.narutomod.item.ItemEarthRelease;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.PlayerTracker;
 import net.narutomod.ElementsNarutomodMod;
@@ -31,7 +31,7 @@ public class GuiScrollEarthGolemGui extends ElementsNarutomodMod.ModElement {
 			// security measure to prevent arbitrary chunk generation
 			if (player.world.isRemote || !player.world.isBlockLoaded(new BlockPos(this.x, this.y, this.z)))
 				return;
-			ItemStack stack = GuiNinjaScroll.enableJutsu(player, (ItemDoton.RangedItem)ItemDoton.block, ItemDoton.GOLEM, true);
+			ItemStack stack = GuiNinjaScroll.enableJutsu(player, (ItemEarthRelease.RangedItem)ItemEarthRelease.block, ItemEarthRelease.GOLEM, true);
 			if (stack != null) {
 				super.handleButtonAction(player, buttonID);
 			}
@@ -46,7 +46,7 @@ public class GuiScrollEarthGolemGui extends ElementsNarutomodMod.ModElement {
 		@Override
 		protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
 			super.drawGuiContainerBackgroundLayer(par1, par2, par3);
-			this.mc.renderEngine.bindTexture(new ResourceLocation("narutomod:textures/blocks/doton.png"));
+			this.mc.renderEngine.bindTexture(new ResourceLocation("narutomod:textures/blocks/earth_release.png"));
 			this.drawModalRectWithCustomSizedTexture(this.guiLeft + 89, this.guiTop + 49, 0, 0, 48, 48, 48, 48);
 			this.mc.renderEngine.bindTexture(new ResourceLocation("narutomod:textures/si_.png"));
 			this.drawModalRectWithCustomSizedTexture(this.guiLeft + 0, this.guiTop + 108, 0, 0, 48, 48, 48, 48);
@@ -54,7 +54,7 @@ public class GuiScrollEarthGolemGui extends ElementsNarutomodMod.ModElement {
 
 		@Override
 		protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-			this.fontRenderer.drawString(ItemDoton.GOLEM.getName(), 38, 13, -16777216);
+			this.fontRenderer.drawString(ItemEarthRelease.GOLEM.getName(), 38, 13, -16777216);
 		}
 	}
 }

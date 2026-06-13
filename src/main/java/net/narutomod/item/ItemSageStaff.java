@@ -94,7 +94,7 @@ public class ItemSageStaff extends ElementsNarutomodMod.ModElement {
 			super.onUpdate(itemstack, world, entity, par4, par5);
 			if (!world.isRemote) {
 				if (!(entity instanceof EntityPlayer) || (!((EntityPlayer)entity).isCreative()
-				 && !ProcedureUtils.hasItemInInventory((EntityPlayer)entity, ItemSixPathSenjutsu.block))) {
+				 && !ProcedureUtils.hasItemInInventory((EntityPlayer)entity, ItemSixPathsSageArts.block))) {
 			 		itemstack.shrink(1);
 			 	}
 			}

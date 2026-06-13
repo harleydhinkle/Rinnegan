@@ -3,7 +3,7 @@ package net.narutomod.entity;
 
 import net.narutomod.ElementsNarutomodMod;
 import net.narutomod.Chakra;
-import net.narutomod.item.ItemNinjutsu;
+import net.narutomod.item.ItemNinjaArts;
 import net.narutomod.potion.*;
 import net.narutomod.procedure.ProcedureUtils;
 
@@ -119,9 +119,9 @@ public class EntityMechWalker extends ElementsNarutomodMod.ModElement {
 		protected void addPassenger(Entity passenger) {
 			super.addPassenger(passenger);
 			if (passenger instanceof EntityPlayer) {
-				ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)passenger, ItemNinjutsu.block);
-				boolean flag = stack != null && ((ItemNinjutsu.RangedItem)stack.getItem())
-				 .canActivateJutsu(stack, ItemNinjutsu.PUPPET, (EntityPlayer)passenger) == EnumActionResult.SUCCESS;
+				ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)passenger, ItemNinjaArts.block);
+				boolean flag = stack != null && ((ItemNinjaArts.RangedItem)stack.getItem())
+				 .canActivateJutsu(stack, ItemNinjaArts.PUPPET, (EntityPlayer)passenger) == EnumActionResult.SUCCESS;
 				this.setOwnerCanSteer(flag, this.driveSpeed);
 			} else if (passenger instanceof EntityNagato.EntityCustom) {
 				this.setOwnerCanSteer(true, this.driveSpeed);
@@ -199,7 +199,7 @@ public class EntityMechWalker extends ElementsNarutomodMod.ModElement {
 			if (!this.world.isRemote && this.ticksExisted % 20 == 1) {
 				Entity passenger = this.getControllingPassenger();
 				if (passenger instanceof EntityLivingBase && this.canBeSteered()
-				 && !Chakra.pathway((EntityLivingBase)passenger).consume(ItemNinjutsu.PUPPET.chakraUsage * 20)) {
+				 && !Chakra.pathway((EntityLivingBase)passenger).consume(ItemNinjaArts.PUPPET.chakraUsage * 20)) {
 					this.setOwnerCanSteer(false, 0);
 					this.world.setEntityState(this, (byte)101);
 				}

@@ -27,7 +27,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.datasync.DataSerializers;
 
-import net.narutomod.item.ItemIryoJutsu;
+import net.narutomod.item.ItemMedicalNinjutsu;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.Particles;
 import net.narutomod.Chakra;
@@ -59,7 +59,7 @@ public class EntityCellularActivation extends ElementsNarutomodMod.ModElement {
 	public static class EC extends Entity implements ItemJutsu.IJutsu {
 		private static final DataParameter<Integer> USER_ID = EntityDataManager.<Integer>createKey(EC.class, DataSerializers.VARINT);
 		private static final DataParameter<Integer> REDUCTION = EntityDataManager.<Integer>createKey(EC.class, DataSerializers.VARINT);
-		private final double chakraBurn = ItemIryoJutsu.MEDMODE.chakraUsage;
+		private final double chakraBurn = ItemMedicalNinjutsu.MEDMODE.chakraUsage;
 
 		public EC(World worldIn) {
 			super(worldIn);

@@ -30,9 +30,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.init.MobEffects;
 
-import net.narutomod.item.ItemYooton;
-import net.narutomod.item.ItemKaton;
-import net.narutomod.item.ItemDoton;
+import net.narutomod.item.ItemLavaRelease;
+import net.narutomod.item.ItemFireRelease;
+import net.narutomod.item.ItemEarthRelease;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.ElementsNarutomodMod;
 
@@ -71,12 +71,12 @@ public class EntityFourTails extends ElementsNarutomodMod.ModElement {
 			super.setVesselEntity(player);
 			if (player instanceof EntityPlayer) {
 				if (net.narutomod.gui.GuiNinjaScroll.enableJutsu((EntityPlayer)player,
-				 (ItemYooton.RangedItem)ItemYooton.block, ItemYooton.CHAKRAMODE, true) != null) {
-					if (!ProcedureUtils.hasItemInInventory((EntityPlayer)player, ItemKaton.block)) {
-						ItemHandlerHelper.giveItemToPlayer((EntityPlayer)player, new ItemStack(ItemKaton.block));
+				 (ItemLavaRelease.RangedItem)ItemLavaRelease.block, ItemLavaRelease.CHAKRAMODE, true) != null) {
+					if (!ProcedureUtils.hasItemInInventory((EntityPlayer)player, ItemFireRelease.block)) {
+						ItemHandlerHelper.giveItemToPlayer((EntityPlayer)player, new ItemStack(ItemFireRelease.block));
 					}
-					if (!ProcedureUtils.hasItemInInventory((EntityPlayer)player, ItemDoton.block)) {
-						ItemHandlerHelper.giveItemToPlayer((EntityPlayer)player, new ItemStack(ItemDoton.block));
+					if (!ProcedureUtils.hasItemInInventory((EntityPlayer)player, ItemEarthRelease.block)) {
+						ItemHandlerHelper.giveItemToPlayer((EntityPlayer)player, new ItemStack(ItemEarthRelease.block));
 					}
 				}
 			}

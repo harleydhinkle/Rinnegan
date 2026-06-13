@@ -1,0 +1,6 @@
+{
+  "parent": "narutomod:custom/sage_arts",
+  "textures": {
+    "1": "narutomod:blocks/sage_arts"
+  }
+}

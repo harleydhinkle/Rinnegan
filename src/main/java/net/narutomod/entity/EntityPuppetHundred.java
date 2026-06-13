@@ -3,7 +3,7 @@ package net.narutomod.entity;
 
 import net.narutomod.item.ItemClaw;
 import net.narutomod.item.ItemKunaiBlade;
-import net.narutomod.item.ItemNinjutsu;
+import net.narutomod.item.ItemNinjaArts;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.ElementsNarutomodMod;
 
@@ -31,7 +31,8 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.network.datasync.DataSerializers;
+
+import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.nbt.NBTTagCompound;
@@ -59,7 +60,7 @@ public class EntityPuppetHundred extends ElementsNarutomodMod.ModElement {
 
 	public static class EntityCustom extends EntityPuppet.Base {
 		private static final DataParameter<Float> MODEL_SCALE = EntityDataManager.<Float>createKey(EntityCustom.class, DataSerializers.FLOAT);
-		public static final float MAXHEALTH = 60.0f;
+		public static final float MAXHEALTH = 60000.0f;
 		private static final Vec3d offsetToOwner = new Vec3d(0.0d, 3.0d, 2.0d);
 		public final int style;
 
@@ -224,7 +225,7 @@ public class EntityPuppetHundred extends ElementsNarutomodMod.ModElement {
 					}
 					this.setInvisible(true);
 				} else if (this.summoner != null && this.spawnedPuppets < this.puppetEntity.length) {
-					this.puppetEntity[this.spawnedPuppets] = new EntityCustom(this.summoner, ItemNinjutsu.PUPPET.chakraUsage * 0.2d);
+					this.puppetEntity[this.spawnedPuppets] = new EntityCustom(this.summoner, ItemNinjaArts.PUPPET.chakraUsage * 0.2d);
 					this.puppetEntity[this.spawnedPuppets].setLocationAndAngles(this.posX, this.posY, this.posZ, this.summoner.rotationYaw, 0f);
 					this.puppetEntity[this.spawnedPuppets].onInitialSpawn(this.world.getDifficultyForLocation(this.getPosition()), null);
 					this.world.spawnEntity(this.puppetEntity[this.spawnedPuppets]);

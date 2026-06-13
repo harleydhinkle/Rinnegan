@@ -13,10 +13,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.IEntityMultiPart;
+import net.minecraft.entity.MultiPartEntityPart;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.Entity;
@@ -28,9 +32,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.item.ItemStack;
 
-import net.narutomod.item.ItemJiton;
-import net.narutomod.item.ItemDoton;
-import net.narutomod.item.ItemFuton;
+import net.narutomod.item.ItemMagnetRelease;
+import net.narutomod.item.ItemEarthRelease;
+import net.narutomod.item.ItemWindRelease;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.ElementsNarutomodMod;
 
@@ -69,15 +73,15 @@ public class EntityOneTail extends ElementsNarutomodMod.ModElement {
 		@Override
 		public void setVesselEntity(@Nullable Entity player, boolean dirty) {
 			super.setVesselEntity(player, dirty);
-			if (player instanceof EntityPlayer && !ProcedureUtils.hasItemInInventory((EntityPlayer)player, ItemJiton.block)) {
-				ItemStack stack = new ItemStack(ItemJiton.block);
-				ItemJiton.setSandType(stack, ItemJiton.Type.SAND);
+			if (player instanceof EntityPlayer && !ProcedureUtils.hasItemInInventory((EntityPlayer)player, ItemMagnetRelease.block)) {
+				ItemStack stack = new ItemStack(ItemMagnetRelease.block);
+				ItemMagnetRelease.setSandType(stack, ItemMagnetRelease.Type.SAND);
 				ItemHandlerHelper.giveItemToPlayer((EntityPlayer)player, stack);
-				if (!ProcedureUtils.hasItemInInventory((EntityPlayer)player, ItemFuton.block)) {
-					ItemHandlerHelper.giveItemToPlayer((EntityPlayer)player, new ItemStack(ItemFuton.block));
+				if (!ProcedureUtils.hasItemInInventory((EntityPlayer)player, ItemWindRelease.block)) {
+					ItemHandlerHelper.giveItemToPlayer((EntityPlayer)player, new ItemStack(ItemWindRelease.block));
 				}
-				if (!ProcedureUtils.hasItemInInventory((EntityPlayer)player, ItemDoton.block)) {
-					ItemHandlerHelper.giveItemToPlayer((EntityPlayer)player, new ItemStack(ItemDoton.block));
+				if (!ProcedureUtils.hasItemInInventory((EntityPlayer)player, ItemEarthRelease.block)) {
+					ItemHandlerHelper.giveItemToPlayer((EntityPlayer)player, new ItemStack(ItemEarthRelease.block));
 				}
 			}
 		}
@@ -135,12 +139,20 @@ public class EntityOneTail extends ElementsNarutomodMod.ModElement {
 	 	}
 	}
 
-	public static class EntityCustom extends EntityTailedBeast.Base {
+	public static class EntityCustom extends EntityTailedBeast.Base implements IEntityMultiPart {
+		private final OneTailPart[] parts = new OneTailPart[4];
+		private float smoothedHeadHitboxYaw;
+
 		public EntityCustom(World world) {
 			super(world);
 			this.setSize(MODELSCALE * 0.4F, MODELSCALE * 1.0625F);
 			this.experienceValue = 12000;
 			this.stepHeight = this.height / 3.0F;
+			this.parts[0] = new OneTailPart(this, "head", MODELSCALE * 0.34F, MODELSCALE * 0.30F);
+			this.parts[1] = new OneTailPart(this, "upper_body", MODELSCALE * 0.34F, MODELSCALE * 0.31F);
+			this.parts[2] = new OneTailPart(this, "lower_body", MODELSCALE * 0.34F, MODELSCALE * 0.30F);
+			this.parts[3] = new OneTailPart(this, "hips", MODELSCALE * 0.30F, MODELSCALE * 0.26F);
+			this.smoothedHeadHitboxYaw = this.renderYawOffset;
 		}
 
 		public EntityCustom(EntityPlayer player) {
@@ -148,6 +160,125 @@ public class EntityOneTail extends ElementsNarutomodMod.ModElement {
 			this.setSize(MODELSCALE * 0.4F, MODELSCALE * 1.0625F);
 			this.experienceValue = 12000;
 			this.stepHeight = this.height / 3.0F;
+			this.parts[0] = new OneTailPart(this, "head", MODELSCALE * 0.34F, MODELSCALE * 0.30F);
+			this.parts[1] = new OneTailPart(this, "upper_body", MODELSCALE * 0.34F, MODELSCALE * 0.31F);
+			this.parts[2] = new OneTailPart(this, "lower_body", MODELSCALE * 0.34F, MODELSCALE * 0.30F);
+			this.parts[3] = new OneTailPart(this, "hips", MODELSCALE * 0.30F, MODELSCALE * 0.26F);
+			this.smoothedHeadHitboxYaw = this.renderYawOffset;
+		}
+
+		@Override
+		public Entity[] getParts() {
+			return this.parts;
+		}
+
+		@Override
+		public World getWorld() {
+			return this.world;
+		}
+
+		@Override
+		public boolean attackEntityFromPart(MultiPartEntityPart part, DamageSource source, float damage) {
+			this.hurtResistantTime = 0;
+			if ("head".equals(part.partName)) {
+				return this.attackEntityFrom(source, damage * 1.1f);
+			}
+			return this.attackEntityFrom(source, damage);
+		}
+
+		@Override
+		public void onUpdate() {
+			super.onUpdate();
+			this.updateHitboxes();
+			this.updatePartCollisions();
+			this.updatePartProjectileHits();
+		}
+
+		private Vec3d rotateByYaw(float yawDeg, double x, double y, double z) {
+			return new Vec3d(x, y, z).rotateYaw(-yawDeg * 0.017453292F);
+		}
+
+		private void setPartPos(OneTailPart part, float yaw, double localX, double localY, double localZ) {
+			Vec3d v = this.rotateByYaw(yaw, localX, localY, localZ);
+			part.setLocationAndAngles(this.posX + v.x, this.posY + v.y, this.posZ + v.z, this.rotationYaw, this.rotationPitch);
+		}
+
+		private void updateHitboxes() {
+			for (OneTailPart part : this.parts) {
+				part.onUpdate();
+			}
+			float bodyYaw = this.renderYawOffset;
+			float headYaw = this.rotationYawHead;
+			float maxHeadOffset = 45.0F;
+			float targetHeadHitboxYaw = bodyYaw + MathHelper.clamp(MathHelper.wrapDegrees(headYaw - bodyYaw), -maxHeadOffset, maxHeadOffset);
+			this.smoothedHeadHitboxYaw += MathHelper.wrapDegrees(targetHeadHitboxYaw - this.smoothedHeadHitboxYaw) * 0.35F;
+			float y = this.isFaceDown() ? MODELSCALE * 0.23F : MODELSCALE * 0.33F;
+			if (this.isFaceDown()) {
+				this.setPartPos(this.parts[0], this.smoothedHeadHitboxYaw, 0.0D, y + MODELSCALE * 0.35F, MODELSCALE * 0.44F);
+				this.setPartPos(this.parts[1], bodyYaw, 0.0D, y + MODELSCALE * 0.05F, MODELSCALE * 0.30F);
+				this.setPartPos(this.parts[2], bodyYaw, 0.0D, y - MODELSCALE * 0.03F, MODELSCALE * 0.02F);
+				this.setPartPos(this.parts[3], bodyYaw, 0.0D, y - MODELSCALE * 0.11F, -MODELSCALE * 0.24F);
+			} else {
+				this.setPartPos(this.parts[0], this.smoothedHeadHitboxYaw, 0.0D, y + MODELSCALE * 0.46F, MODELSCALE * 0.46F);
+				this.setPartPos(this.parts[1], bodyYaw, 0.0D, y + MODELSCALE * 0.12F, MODELSCALE * 0.30F);
+				this.setPartPos(this.parts[2], bodyYaw, 0.0D, y, MODELSCALE * 0.02F);
+				this.setPartPos(this.parts[3], bodyYaw, 0.0D, y - MODELSCALE * 0.12F, -MODELSCALE * 0.24F);
+			}
+		}
+
+		private void updatePartCollisions() {
+			for (OneTailPart part : this.parts) {
+				this.collideWithEntities(part.getEntityBoundingBox().grow(0.02D, 0.0D, 0.02D));
+			}
+		}
+
+		private void collideWithEntities(AxisAlignedBB box) {
+			for (Entity entity : this.world.getEntitiesWithinAABBExcludingEntity(this, box)) {
+				boolean isPart = false;
+				for (OneTailPart part : this.parts) {
+					if (entity == part) {
+						isPart = true;
+						break;
+					}
+				}
+				if (!isPart && entity instanceof EntityLivingBase && !this.isPassenger(entity) && !entity.isBeingRidden()) {
+					this.applyEntityCollision(entity);
+				}
+			}
+		}
+
+		private void updatePartProjectileHits() {
+			if (this.world.isRemote) {
+				return;
+			}
+			for (OneTailPart part : this.parts) {
+				AxisAlignedBB box = part.getEntityBoundingBox().grow(0.35D);
+				for (Entity entity : this.world.getEntitiesWithinAABBExcludingEntity(this, box)) {
+					if (entity instanceof EntityArrow && !entity.isDead && this.didProjectileCrossBox(entity, box)) {
+						this.attackEntityFromPart(part, this.getArrowDamageSource((EntityArrow)entity), this.getArrowDamage((EntityArrow)entity));
+						entity.setDead();
+					}
+				}
+			}
+		}
+
+		private boolean didProjectileCrossBox(Entity entity, AxisAlignedBB box) {
+			Vec3d from = new Vec3d(entity.prevPosX, entity.prevPosY, entity.prevPosZ);
+			Vec3d to = entity.getPositionVector();
+			return box.contains(to) || box.calculateIntercept(from, to) != null;
+		}
+
+		private DamageSource getArrowDamageSource(EntityArrow arrow) {
+			return DamageSource.causeArrowDamage(arrow, arrow.shootingEntity != null ? arrow.shootingEntity : arrow);
+		}
+
+		private float getArrowDamage(EntityArrow arrow) {
+			float speed = MathHelper.sqrt(arrow.motionX * arrow.motionX + arrow.motionY * arrow.motionY + arrow.motionZ * arrow.motionZ);
+			int damage = MathHelper.ceil((double)speed * arrow.getDamage());
+			if (arrow.getIsCritical()) {
+				damage += this.rand.nextInt(damage / 2 + 2);
+			}
+			return (float)damage;
 		}
 
 		@Override
@@ -230,6 +361,35 @@ public class EntityOneTail extends ElementsNarutomodMod.ModElement {
 		@Override
 		public SoundEvent getDeathSound() {
 			return SoundEvent.REGISTRY.getObject(new ResourceLocation(""));
+		}
+	}
+
+	public static class OneTailPart extends MultiPartEntityPart {
+		private final EntityCustom parent;
+
+		public OneTailPart(EntityCustom parentIn, String partName, float width, float height) {
+			super(parentIn, partName, width, height);
+			this.parent = parentIn;
+		}
+
+		@Override
+		public boolean processInitialInteract(EntityPlayer player, net.minecraft.util.EnumHand hand) {
+			return this.parent.processInitialInteract(player, hand);
+		}
+
+		@Override
+		public boolean canBeCollidedWith() {
+			return true;
+		}
+
+		@Override
+		public boolean canBeAttackedWithItem() {
+			return true;
+		}
+
+		@Override
+		public boolean attackEntityFrom(DamageSource source, float amount) {
+			return this.parent.attackEntityFromPart(this, source, amount);
 		}
 	}
 

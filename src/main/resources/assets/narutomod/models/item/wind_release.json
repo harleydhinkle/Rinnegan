@@ -1,0 +1,6 @@
+{
+  "parent": "narutomod:custom/wind_release",
+  "textures": {
+    "1": "narutomod:blocks/wind_release"
+  }
+}

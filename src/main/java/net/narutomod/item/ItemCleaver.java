@@ -121,7 +121,7 @@ public class ItemCleaver extends ElementsNarutomodMod.ModElement {
 
 		private boolean canUseRaiton(EntityLivingBase entity) {
 			if (entity instanceof EntityPlayer) {
-				ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)entity, ItemRaiton.block);
+				ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)entity, ItemLightningRelease.block);
 				return stack != null && (((EntityPlayer)entity).isCreative() || ((ItemJutsu.Base)stack.getItem()).canUseAnyJutsu(stack));
 			}
 			return false;

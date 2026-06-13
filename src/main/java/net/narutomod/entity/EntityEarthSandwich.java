@@ -37,7 +37,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.block.Block;
 
 import net.narutomod.procedure.ProcedureUtils;
-import net.narutomod.item.ItemDoton;
+import net.narutomod.item.ItemEarthRelease;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.Particles;
 import net.narutomod.ElementsNarutomodMod;
@@ -224,7 +224,7 @@ public class EntityEarthSandwich extends ElementsNarutomodMod.ModElement {
 	}
 
 	/*public static class EC extends Entity {
-		private ItemDoton.EntityEarthWall[] wall = new ItemDoton.EntityEarthWall[2];
+		private ItemEarthRelease.EntityEarthWall[] wall = new ItemEarthRelease.EntityEarthWall[2];
 		private float[] orientation = new float[2];
 		private EntityEarthBlocks.BlocksMoveHelper[] moveHelper = new EntityEarthBlocks.BlocksMoveHelper[2];
 		private int moveTick;
@@ -241,7 +241,7 @@ public class EntityEarthSandwich extends ElementsNarutomodMod.ModElement {
 			Vec3d[] vec1 = {target.getPositionVector().add(Vec3d.fromPitchYaw(0f, yaw - 90f).scale(widthIn)),
 			                target.getPositionVector().add(Vec3d.fromPitchYaw(0f, yaw + 90f).scale(widthIn))};
 			for (int i = 0; i < 2; i++) {
-				this.wall[i] = new ItemDoton.EntityEarthWall(user.world, vec1[i].x, vec1[i].y, vec1[i].z,
+				this.wall[i] = new ItemEarthRelease.EntityEarthWall(user.world, vec1[i].x, vec1[i].y, vec1[i].z,
 				  yaw + 90f, widthIn, widthIn, widthIn * 0.6d, false);
 				this.world.spawnEntity(this.wall[i]);
 			}

@@ -1,6 +1,0 @@
-{
-  "parent": "narutomod:custom/suiton",
-  "textures": {
-    "0": "narutomod:blocks/suiton"
-  }
-}

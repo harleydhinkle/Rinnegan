@@ -93,6 +93,7 @@ public class WorldKamuiDimension extends ElementsNarutomodMod.ModElement {
 		public void init() {
 			this.biomeProvider = new BiomeProviderCustom(this.world.getSeed());
 			this.nether = NETHER_TYPE;
+            this.world.getGameRules().setOrCreateGameRule("mobGriefing" , "false");
 		}
 
 		@Override

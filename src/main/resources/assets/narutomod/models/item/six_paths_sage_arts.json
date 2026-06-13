@@ -1,0 +1,6 @@
+{
+  "parent": "narutomod:custom/six_paths_sage_arts",
+  "textures": {
+    "0": "narutomod:blocks/sixpaths"
+  }
+}

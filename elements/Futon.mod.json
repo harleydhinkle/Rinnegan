@@ -3,8 +3,8 @@
   "_type": "gun",
   "definition": {
     "renderType": 1,
-    "texture": "futon",
-    "customModelName": "futon:default",
+    "texture": "wind_release",
+    "customModelName": "wind_release:default",
     "name": "Futon",
     "specialInfo": [],
     "creativeTab": {

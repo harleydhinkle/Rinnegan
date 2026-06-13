@@ -57,7 +57,7 @@ public class ItemSharingan extends ElementsNarutomodMod.ModElement {
 		super(instance, 56);
 	}
 
-	public static class Base extends ItemDojutsu.Base {
+	public static class Base extends ItemOcularJutsu.Base {
 		private boolean canDamage;
 
 		public Base(ItemArmor.ArmorMaterial material) {
@@ -65,8 +65,8 @@ public class ItemSharingan extends ElementsNarutomodMod.ModElement {
 		}
 
 		@Override
-		public ItemDojutsu.Type getType() {
-			return ItemDojutsu.Type.SHARINGAN;
+		public ItemOcularJutsu.Type getType() {
+			return ItemOcularJutsu.Type.SHARINGAN;
 		}
 
 		public Type getSubType() {
@@ -84,7 +84,7 @@ public class ItemSharingan extends ElementsNarutomodMod.ModElement {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public ModelBiped getArmorModel(EntityLivingBase living, ItemStack stack, EntityEquipmentSlot slot, ModelBiped defaultModel) {
-			ItemDojutsu.ClientModel.ModelHelmetSnug armorModel = (ItemDojutsu.ClientModel.ModelHelmetSnug)super.getArmorModel(living, stack, slot, defaultModel);
+			ItemOcularJutsu.ClientModel.ModelHelmetSnug armorModel = (ItemOcularJutsu.ClientModel.ModelHelmetSnug)super.getArmorModel(living, stack, slot, defaultModel);
 			armorModel.highlightHide = isBlinded(stack);
 			return armorModel;
 		}
@@ -235,7 +235,7 @@ public class ItemSharingan extends ElementsNarutomodMod.ModElement {
 			return false;
 		}
 		int i = 0;
-		List<ItemStack> list = ProcedureUtils.getAllItemsOfSubType(entity, ItemDojutsu.Base.class);
+		List<ItemStack> list = ProcedureUtils.getAllItemsOfSubType(entity, ItemOcularJutsu.Base.class);
 		for (ItemStack stack : list) {
 			if (isBlinded(stack)) {
 				++i;

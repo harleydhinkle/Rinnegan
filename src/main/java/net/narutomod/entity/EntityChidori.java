@@ -46,10 +46,10 @@ import net.narutomod.procedure.ProcedureSync;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.procedure.ProcedureRenderView;
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemRaiton;
-import net.narutomod.item.ItemFuton;
-import net.narutomod.item.ItemKaton;
-import net.narutomod.item.ItemNinjutsu;
+import net.narutomod.item.ItemLightningRelease;
+import net.narutomod.item.ItemWindRelease;
+import net.narutomod.item.ItemFireRelease;
+import net.narutomod.item.ItemNinjaArts;
 import net.narutomod.item.ItemSharingan;
 import net.narutomod.block.BlockLightSource;
 
@@ -148,10 +148,10 @@ public class EntityChidori extends ElementsNarutomodMod.ModElement {
 			if (!this.world.isRemote && this.summoner != null) {
 				ProcedureSync.EntityNBTTag.removeAndSync(this.summoner, NarutomodModVariables.forceBowPose);
 				if (this.getClass() == EC.class) {
-					ItemJutsu.IJutsuCallback.JutsuData jd = ItemRaiton.CHIDORI.jutsu.getData(this.summoner);
+					ItemJutsu.IJutsuCallback.JutsuData jd = ItemLightningRelease.CHIDORI.jutsu.getData(this.summoner);
 					if (jd != null) {
 						ItemJutsu.Base item = (ItemJutsu.Base)jd.stack.getItem();
-						item.setJutsuCooldown(jd.stack, ItemRaiton.CHIDORI,
+						item.setJutsuCooldown(jd.stack, ItemLightningRelease.CHIDORI,
 						 (long)((float)this.ticksExisted * item.getModifier(jd.stack, this.summoner)) + 100);
 						jd.stack.getTagCompound().removeTag(Jutsu.ID_KEY);
 					}
@@ -201,7 +201,7 @@ public class EntityChidori extends ElementsNarutomodMod.ModElement {
 						this.launchAtTarget((EntityLivingBase)this.target);
 					}
 					if (this.target.getDistanceSq(this.summoner) < 25d) {
-						float damage = flag ? (float)ProcedureUtils.getMainhandItemDamage(this.summoner) * 1.2f : 25f;
+						float damage = flag ? (float)ProcedureUtils.getMainhandItemDamage(this.summoner) * 1.2f : 50f;
 						EntityLightningArc.onStruck(this.target,
 						 ItemJutsu.causeJutsuDamage(this, this.summoner), damage * this.damageMultiplier());
 						this.target = null;
@@ -283,11 +283,11 @@ public class EntityChidori extends ElementsNarutomodMod.ModElement {
 					entity.world.spawnEntity(new Spear(entity, CHAKRA_BURN));
 					return true;
 				} else if (!entity.isRiding()) {
-					if (ItemFuton.CHAKRAFLOW.jutsu.isActivated(entity)) {
-						ItemFuton.CHAKRAFLOW.jutsu.deactivate(entity);
+					if (ItemWindRelease.CHAKRAFLOW.jutsu.isActivated(entity)) {
+						ItemWindRelease.CHAKRAFLOW.jutsu.deactivate(entity);
 					}
-					if (ItemKaton.FLAMESLICE.jutsu.isActivated(entity)) {
-						ItemKaton.FLAMESLICE.jutsu.deactivate(entity);
+					if (ItemFireRelease.FLAMESLICE.jutsu.isActivated(entity)) {
+						ItemFireRelease.FLAMESLICE.jutsu.deactivate(entity);
 					}
 					entity.world.playSound(null, entity.posX, entity.posY, entity.posZ,
 					 SoundEvent.REGISTRY.getObject(new ResourceLocation("narutomod:chidori")), 
@@ -328,7 +328,7 @@ public class EntityChidori extends ElementsNarutomodMod.ModElement {
 			@Nullable
 			public ItemJutsu.IJutsuCallback.JutsuData getData(EntityLivingBase entity) {
 				if (entity instanceof EntityPlayer) {
-					ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)entity, ItemRaiton.block);
+					ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)entity, ItemLightningRelease.block);
 					if (stack != null && stack.hasTagCompound() && stack.getTagCompound().hasKey(ID_KEY)) {
 						Entity entity1 = entity.world.getEntityByID(stack.getTagCompound().getInteger(ID_KEY));
 						return entity1 instanceof EC ? new JutsuData(entity1, stack) : null;
@@ -369,7 +369,8 @@ public class EntityChidori extends ElementsNarutomodMod.ModElement {
 					if (this.rand.nextFloat() < 0.5f) {
 						this.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("narutomod:electricity")), 1.2f, this.rand.nextFloat() * 2.0f + 1.5f);
 					}
-					for (Entity entity1 : this.world.getEntitiesWithinAABBExcludingEntity(this.summoner, this.summoner.getEntityBoundingBox().grow(5d))) {
+					for (Entity entity1 : ProcedureUtils.getEntitiesWithinAABBIncludingMultipartParts(this.world,
+					 this.summoner.getEntityBoundingBox().grow(5d), this.summoner, p -> !(p instanceof EntityLightningArc.Base))) {
 						if (!(entity1 instanceof EntityLightningArc.Base) && this.rand.nextInt(3) == 0) {
 							EntityLightningArc.Base entity2 = new EntityLightningArc.Base(this.world,
 							 this.summoner.getPositionVector().addVector(0d, 1d, 0d),

@@ -27,7 +27,7 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 
-import net.narutomod.item.ItemIryoJutsu;
+import net.narutomod.item.ItemMedicalNinjutsu;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.potion.PotionChakraEnhancedStrength;
 import net.narutomod.procedure.ProcedureUtils;
@@ -100,12 +100,12 @@ public class EntityEnhancedStrength extends ElementsNarutomodMod.ModElement {
 			if (!this.world.isRemote && this.user != null) {
 				ItemStack stack = null;
 				if (this.user instanceof EntityPlayer) {
-					stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)this.user, ItemIryoJutsu.block);
+					stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)this.user, ItemMedicalNinjutsu.block);
 				} else {
 					stack = this.user.getHeldItemMainhand();
-					if (stack.getItem() != ItemIryoJutsu.block) {
+					if (stack.getItem() != ItemMedicalNinjutsu.block) {
 						stack = this.user.getHeldItemOffhand();
-						if (stack.getItem() != ItemIryoJutsu.block) {
+						if (stack.getItem() != ItemMedicalNinjutsu.block) {
 							stack = null;
 						}
 					}
@@ -121,7 +121,7 @@ public class EntityEnhancedStrength extends ElementsNarutomodMod.ModElement {
 			if (this.user != null) {
 				this.setPosition(this.user.posX, this.user.posY, this.user.posZ);
 				ItemStack stack = this.user.getHeldItemMainhand();
-				if (this.ticksExisted % 10 == 2 && (stack.isEmpty() || stack.getItem() == ItemIryoJutsu.block)) {
+				if (this.ticksExisted % 10 == 2 && (stack.isEmpty() || stack.getItem() == ItemMedicalNinjutsu.block)) {
 					this.user.addPotionEffect(new PotionEffect(PotionChakraEnhancedStrength.potion, 12, this.amplifier, true, false));
 				}
 			} else if (!this.world.isRemote) {

@@ -23,6 +23,7 @@ import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.Minecraft;
 
 import net.narutomod.item.ItemEightGates;
+import net.narutomod.entity.EntityOneTail;
 import net.narutomod.NarutomodMod;
 import net.narutomod.ElementsNarutomodMod;
 
@@ -86,12 +87,11 @@ public class ProcedureOnMouseEvent extends ElementsNarutomodMod.ModElement {
 		EntityLivingBase attacker = mc.player.isRiding() && mc.player.getRidingEntity() instanceof EntityLivingBase
 		 ? (EntityLivingBase)mc.player.getRidingEntity() : mc.player;
 		double reach = ProcedureUtils.getReachDistance(attacker);
-		if (reach > 5.0D) {
-			RayTraceResult rtr = ProcedureUtils.objectEntityLookingAt(mc.player, reach, 3.0d);
-			if (rtr != null && rtr.entityHit != null
-			 && (mc.objectMouseOver == null || mc.objectMouseOver.entityHit == null || rtr.entityHit != mc.objectMouseOver.entityHit)) {
-				NarutomodMod.PACKET_HANDLER.sendToServer(new Message(attacker.getEntityId(), rtr.entityHit.getEntityId()));
-			}
+		RayTraceResult rtr = ProcedureUtils.objectEntityLookingAt(mc.player, reach, 3.0d);
+		if (rtr != null && rtr.entityHit != null
+		 && (reach > 5.0D || rtr.entityHit instanceof EntityOneTail.EntityCustom)
+		 && (mc.objectMouseOver == null || mc.objectMouseOver.entityHit == null || rtr.entityHit != mc.objectMouseOver.entityHit)) {
+			NarutomodMod.PACKET_HANDLER.sendToServer(new Message(attacker.getEntityId(), rtr.entityHit.getEntityId()));
 		}
 	}
 

@@ -126,7 +126,7 @@ public class ItemFoldingFan extends ElementsNarutomodMod.ModElement {
 				// Convert ticks to seconds for power
 				float power = useTime / 20.0f; // 20 ticks = 1 second
 
-				// Clamp to Wind Blade's range (1.0F – 5.0F)
+				// Clamp to Wind Blade's range (1.0F - 5.0F)
 				power = Math.max(1.0f, Math.min(5.0f, power));
 
 				// Cast Wind Blade

@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "shinobiaddon:dynamic_ketsuryugan"
+    },
+    "title": {
+      "translate": "advancement.shinobiaddon.ketsuryugan_acquired.title"
+    },
+    "description": {
+      "translate": "advancement.shinobiaddon.ketsuryugan_acquired.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "narutomod:ninjaachievement",
+  "criteria": {
+    "mud_release": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

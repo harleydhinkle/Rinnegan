@@ -3,8 +3,8 @@
   "_type": "gun",
   "definition": {
     "renderType": 1,
-    "texture": "doton",
-    "customModelName": "doton:default",
+    "texture": "earth_release",
+    "customModelName": "earth_release:default",
     "name": "Doton",
     "specialInfo": [],
     "creativeTab": {

@@ -41,6 +41,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.MultiPartEntityPart;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.client.Minecraft;
@@ -50,7 +51,8 @@ import net.minecraft.block.Block;
 import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.init.Items;
-import net.minecraft.potion.Potion;
+
+import net.minecraft.potion.Potion;
 
 import net.narutomod.entity.EntityNinjaMob;
 import net.narutomod.item.ItemJutsu;
@@ -530,14 +532,15 @@ public class ProcedureUtils extends ElementsNarutomodMod.ModElement {
 		}
 	}
 
-	public static boolean purgeHarmfulEffects(EntityLivingBase entity) {
-		List<PotionEffect> list = Lists.newArrayList();
-		for (PotionEffect effect : entity.getActivePotionEffects()) {
-			if (effect.getPotion().isBadEffect())
-				list.add(effect);
+	public static boolean purgeHarmfulEffects(EntityLivingBase entityLivingBase) {
+        ArrayList<PotionEffect> list = Lists.newArrayList();
+		for (PotionEffect effect : entityLivingBase.getActivePotionEffects()) {
+			if (effect.getPotion().isBadEffect()) {
+                list.add(effect);
+            }
 		}
 		for (PotionEffect effect : list) {
-			entity.removePotionEffect(effect.getPotion());
+            entityLivingBase.removePotionEffect(effect.getPotion());
 		}
 		return list.isEmpty();
 	}
@@ -749,7 +752,8 @@ public class ProcedureUtils extends ElementsNarutomodMod.ModElement {
 		RayTraceResult entityTrace = null;
 		for (int j = 0; j < list.size(); ++j) {
 			Entity entity1 = list.get(j);
-			if (entity1.getLowestRidingEntity() == entity.getLowestRidingEntity())
+			Entity target = resolveMultipartTarget(entity1);
+			if (target.getLowestRidingEntity() == entity.getLowestRidingEntity())
 				continue;
 			AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().grow(bbGrow * vec3d.distanceTo(entity1.getPositionVector()) / 32d);
 			RayTraceResult raytraceresult = axisalignedbb.calculateIntercept(vec3d, vec3d2);
@@ -757,7 +761,7 @@ public class ProcedureUtils extends ElementsNarutomodMod.ModElement {
 				if (d2 >= 0.0) {
 					entityTrace = raytraceresult != null ? raytraceresult : new RayTraceResult(vec3d, EnumFacing.UP, null);
 					entityTrace.typeOfHit = RayTraceResult.Type.ENTITY;
-					entityTrace.entityHit = entity1;
+					entityTrace.entityHit = target;
 					d2 = 0.0;
 				}
 			} else if (raytraceresult != null) {
@@ -765,8 +769,39 @@ public class ProcedureUtils extends ElementsNarutomodMod.ModElement {
 				if (d3 < d2 || d2 == 0.0) {
 					entityTrace = raytraceresult;
 					entityTrace.typeOfHit = RayTraceResult.Type.ENTITY;
-					entityTrace.entityHit = entity1;
+					entityTrace.entityHit = target;
 					d2 = d3;
+				}
+			}
+		}
+		for (Entity entity1 : entity.world.loadedEntityList) {
+			if (entity1.getParts() != null && entity1.getLowestRidingEntity() != entity.getLowestRidingEntity()) {
+				Entity[] parts = entity1.getParts();
+				if (parts != null) {
+					for (Entity part : parts) {
+						if (part != null
+						 && (trackall || (part.canBeCollidedWith() && !part.noClip))
+						 && (filter == null || filter.apply(part))) {
+							AxisAlignedBB axisalignedbb = part.getEntityBoundingBox().grow(bbGrow * vec3d.distanceTo(part.getPositionVector()) / 32d);
+							RayTraceResult raytraceresult = axisalignedbb.calculateIntercept(vec3d, vec3d2);
+							if (axisalignedbb.contains(vec3d)) {
+								if (d2 >= 0.0) {
+									entityTrace = raytraceresult != null ? raytraceresult : new RayTraceResult(vec3d, EnumFacing.UP, null);
+									entityTrace.typeOfHit = RayTraceResult.Type.ENTITY;
+									entityTrace.entityHit = entity1;
+									d2 = 0.0;
+								}
+							} else if (raytraceresult != null) {
+								double d3 = vec3d.distanceTo(raytraceresult.hitVec);
+								if (d3 < d2 || d2 == 0.0) {
+									entityTrace = raytraceresult;
+									entityTrace.typeOfHit = RayTraceResult.Type.ENTITY;
+									entityTrace.entityHit = entity1;
+									d2 = d3;
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -780,6 +815,82 @@ public class ProcedureUtils extends ElementsNarutomodMod.ModElement {
 			objectMouseOver = entityTrace;
 		}
 		return objectMouseOver;
+	}
+
+	private static Entity resolveMultipartTarget(Entity entity) {
+		if (entity instanceof MultiPartEntityPart && ((MultiPartEntityPart)entity).parent instanceof Entity) {
+			return (Entity)((MultiPartEntityPart)entity).parent;
+		}
+		return entity;
+	}
+
+	public static List<Entity> getEntitiesWithinAABBIncludingMultipartParts(World world, AxisAlignedBB bb, @Nullable Entity excludedEntity, @Nullable Predicate<? super Entity> filter) {
+		List<Entity> list = Lists.newArrayList(world.getEntitiesWithinAABB(Entity.class, bb, filter));
+		if (excludedEntity != null) {
+			list.remove(excludedEntity);
+		}
+		for (Entity entity : world.loadedEntityList) {
+			if (entity == null || entity.equals(excludedEntity) || list.contains(entity)) {
+				continue;
+			}
+			Entity[] parts = entity.getParts();
+			if (parts != null && (filter == null || filter.apply(entity))) {
+				for (Entity part : parts) {
+					if (part != null && !part.equals(excludedEntity) && part.canBeCollidedWith() && !part.noClip
+					 && part.getEntityBoundingBox().intersects(bb)) {
+						list.add(entity);
+						break;
+					}
+				}
+			}
+		}
+		return list;
+	}
+
+	public static boolean multipartPartsIntersectRay(Entity entity, Vec3d fromVec, Vec3d toVec, double bbGrow) {
+		Entity[] parts = entity.getParts();
+		if (parts != null) {
+			for (Entity part : parts) {
+				if (part != null && part.canBeCollidedWith() && !part.noClip
+				 && part.getEntityBoundingBox().grow(bbGrow).calculateIntercept(fromVec, toVec) != null) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	@Nullable
+	public static RayTraceResult rayTraceMultipartParts(World world, @Nullable Entity excludedEntity, Vec3d fromVec, Vec3d toVec, double bbGrow) {
+		Entity hitEntity = null;
+		Vec3d hitVec = null;
+		double hitDistance = 0.0D;
+		for (Entity entity : world.loadedEntityList) {
+			if (entity != null && !entity.equals(excludedEntity)) {
+				Entity[] parts = entity.getParts();
+				if (parts != null) {
+					for (Entity part : parts) {
+						if (part != null && !part.equals(excludedEntity) && part.canBeCollidedWith() && !part.noClip) {
+							RayTraceResult result = part.getEntityBoundingBox().grow(bbGrow).calculateIntercept(fromVec, toVec);
+							if (result != null) {
+								double distance = fromVec.distanceTo(result.hitVec);
+								if (distance < hitDistance || hitDistance == 0.0D) {
+									hitEntity = entity;
+									hitVec = result.hitVec;
+									hitDistance = distance;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return hitEntity != null ? new RayTraceResult(hitEntity, hitVec) : null;
+	}
+
+	@Nullable
+	public static RayTraceResult rayTraceOneTailParts(World world, @Nullable Entity excludedEntity, Vec3d fromVec, Vec3d toVec, double bbGrow) {
+		return rayTraceMultipartParts(world, excludedEntity, fromVec, toVec, bbGrow);
 	}
 
 	public static EntityItem breakBlockAndDropWithChance(World world, BlockPos pos, float hardnessLimit, float breakChance, float dropChance) {

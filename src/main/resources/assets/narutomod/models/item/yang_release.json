@@ -1,0 +1,6 @@
+{
+  "parent": "narutomod:custom/yang_release",
+  "textures": {
+    "1": "narutomod:blocks/yang_release"
+  }
+}

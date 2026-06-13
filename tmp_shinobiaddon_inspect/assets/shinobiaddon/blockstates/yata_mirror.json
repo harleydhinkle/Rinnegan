@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "inventory": {
+      "model": "shinobiaddon:item/yata_mirror"
+    }
+  }
+}

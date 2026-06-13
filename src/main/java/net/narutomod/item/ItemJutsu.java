@@ -5,8 +5,12 @@ package net.narutomod.item;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -39,19 +43,37 @@ import net.narutomod.procedure.ProcedureUpdateworldtick;
 import net.narutomod.Chakra;
 import net.narutomod.Particles;
 import net.narutomod.PlayerTracker;
+import net.narutomod.ElementsNarutomodMod.ModElement.Tag;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.io.File;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import javax.annotation.Nullable;
 
-@ElementsNarutomodMod.ModElement.Tag
+@Tag
 public class ItemJutsu extends ElementsNarutomodMod.ModElement {
-	public static final String NINJUTSU_TYPE = "ninjutsu";
-	public static final String SENJUTSU_TYPE = "senjutsu";
+	public static final String NINJUTSU_TYPE = "ninja_arts";
+	public static final String SENJUTSU_TYPE = "sage_arts";
+	public static final String LEGACY_NINJUTSU_TYPE = "ninjutsu";
+	public static final String LEGACY_SENJUTSU_TYPE = "senjutsu";
 	public static final DamageSource NINJUTSU_DAMAGE = new DamageSource(NINJUTSU_TYPE);
 	public static final DamageSource SENJUTSU_DAMAGE = new DamageSource(SENJUTSU_TYPE);
+	private static final Map<String, JutsuEnum.Type> JUTSU_TYPE_ALIASES = new HashMap<>();
+	private static final Map<String, String> RELEASE_ITEM_ALIASES = new HashMap<>();
+	private static final Map<JutsuEnum.Type, List<JutsuEnum>> EXTRA_JUTSUS = new HashMap<>();
+	private static final Set<String> SYNCED_EXTERNAL_JUTSU_FIELDS = new HashSet<>();
+	private static boolean externalInjectedJutsuFieldsScanned;
+	private static boolean shinobiAddonJutsusInjected;
 
 	public ItemJutsu(ElementsNarutomodMod instance) {
 		super(instance, 369);
@@ -60,6 +82,11 @@ public class ItemJutsu extends ElementsNarutomodMod.ModElement {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(new Base.EquipmentHook());
+	}
+
+	public void postInit(FMLPostInitializationEvent event) {
+		injectShinobiAddonReleaseJutsus();
+		syncExternalInjectedJutsuFields();
 	}
 	
 	public static DamageSource causeJutsuDamage(Entity source, @Nullable Entity indirectEntityIn) {
@@ -73,11 +100,11 @@ public class ItemJutsu extends ElementsNarutomodMod.ModElement {
 	}
 
 	public static boolean isDamageSourceNinjutsu(DamageSource source) {
-		return source.getDamageType().equals(NINJUTSU_TYPE);
+		return source.getDamageType().equals(NINJUTSU_TYPE) || source.getDamageType().equals(LEGACY_NINJUTSU_TYPE);
 	}
 
 	public static boolean isDamageSourceSenjutsu(DamageSource source) {
-		return source.getDamageType().equals(SENJUTSU_TYPE);
+		return source.getDamageType().equals(SENJUTSU_TYPE) || source.getDamageType().equals(LEGACY_SENJUTSU_TYPE);
 	}
 
 	public static boolean isDamageSourceJutsu(DamageSource source) {
@@ -147,7 +174,283 @@ public class ItemJutsu extends ElementsNarutomodMod.ModElement {
 	}
 
 	public static double getMaxPower(EntityLivingBase entity, double jutsuCkakraUsage) {
-		return Chakra.pathway(entity).getAmount() / jutsuCkakraUsage * 0.9999d;
+		return Chakra.pathway(entity).getAmount() / jutsuCkakraUsage * 0.9999;
+	}
+
+	public static JutsuEnum.Type getCompatibleJutsuType(String typeName) {
+		if (typeName == null) {
+			return JutsuEnum.Type.OTHER;
+		}
+		String key = normalizeJutsuTypeName(typeName);
+		JutsuEnum.Type type = JUTSU_TYPE_ALIASES.get(key);
+		if (type != null) {
+			return type;
+		}
+		try {
+			return JutsuEnum.Type.valueOf(key.toUpperCase());
+		} catch (IllegalArgumentException e) {
+			return JutsuEnum.Type.OTHER;
+		}
+	}
+
+	public static JutsuEnum.Type getCompatibleJutsuType(JutsuEnum.Type typeIn) {
+		return typeIn != null ? typeIn : JutsuEnum.Type.OTHER;
+	}
+
+	public static String getCompatibleReleaseItemId(String itemId) {
+		if (itemId == null) {
+			return null;
+		}
+		String key = normalizeJutsuTypeName(itemId);
+		String alias = RELEASE_ITEM_ALIASES.get(key);
+		return alias != null ? alias : key;
+	}
+
+	@Nullable
+	public static Item getCompatibleReleaseItem(String itemId) {
+		String compatibleId = getCompatibleReleaseItemId(itemId);
+		return compatibleId != null ? Item.REGISTRY.getObject(new ResourceLocation("narutomod", compatibleId)) : null;
+	}
+
+	public static void registerJutsu(String typeName, JutsuEnum... jutsuListIn) {
+		registerJutsu(getCompatibleJutsuType(typeName), jutsuListIn);
+	}
+
+	public static void registerJutsu(JutsuEnum.Type typeIn, JutsuEnum... jutsuListIn) {
+		JutsuEnum.Type type = getCompatibleJutsuType(typeIn);
+		if (jutsuListIn == null || jutsuListIn.length == 0) {
+			return;
+		}
+		List<JutsuEnum> list = EXTRA_JUTSUS.get(type);
+		if (list == null) {
+			list = Lists.newArrayList();
+			EXTRA_JUTSUS.put(type, list);
+		}
+		for (JutsuEnum jutsu : jutsuListIn) {
+			if (jutsu != null && !list.contains(jutsu)) {
+				list.add(jutsu);
+			}
+		}
+		for (Item item : Item.REGISTRY) {
+			if (item instanceof Base && ((Base)item).getJutsuType() == type) {
+				((Base)item).addCompatibleJutsus(jutsuListIn);
+			}
+		}
+	}
+
+	@Deprecated
+	public static void addJutsu(String typeName, JutsuEnum... jutsuListIn) {
+		registerJutsu(typeName, jutsuListIn);
+	}
+
+	@Deprecated
+	public static void addJutsu(JutsuEnum.Type typeIn, JutsuEnum... jutsuListIn) {
+		registerJutsu(typeIn, jutsuListIn);
+	}
+
+	private static JutsuEnum[] appendRegisteredJutsus(JutsuEnum.Type typeIn, JutsuEnum[] jutsuListIn) {
+		List<JutsuEnum> extras = EXTRA_JUTSUS.get(getCompatibleJutsuType(typeIn));
+		if (extras == null || extras.isEmpty()) {
+			return jutsuListIn;
+		}
+		List<JutsuEnum> merged = Lists.newArrayList();
+		for (JutsuEnum jutsu : jutsuListIn) {
+			merged.add(jutsu);
+		}
+		for (JutsuEnum jutsu : extras) {
+			if (!merged.contains(jutsu)) {
+				merged.add(jutsu);
+			}
+		}
+		return merged.toArray(new JutsuEnum[merged.size()]);
+	}
+
+	private static String normalizeJutsuTypeName(String typeName) {
+		String key = typeName.toLowerCase().replace("narutomod:", "").replace('-', '_').replace(' ', '_');
+		while (key.contains("__")) {
+			key = key.replace("__", "_");
+		}
+		return key;
+	}
+
+	private static void addJutsuTypeAlias(JutsuEnum.Type type, String... aliases) {
+		for (String alias : aliases) {
+			JUTSU_TYPE_ALIASES.put(normalizeJutsuTypeName(alias), type);
+		}
+	}
+
+	private static void addReleaseItemAlias(String canonicalId, String... aliases) {
+		RELEASE_ITEM_ALIASES.put(normalizeJutsuTypeName(canonicalId), normalizeJutsuTypeName(canonicalId));
+		for (String alias : aliases) {
+			RELEASE_ITEM_ALIASES.put(normalizeJutsuTypeName(alias), normalizeJutsuTypeName(canonicalId));
+		}
+	}
+
+	private static void injectShinobiAddonReleaseJutsus() {
+		if (shinobiAddonJutsusInjected) {
+			syncExternalInjectedJutsuFields();
+			return;
+		}
+		try {
+			Class.forName("com.leolifeless.shinobiaddon.ShinobiAddon");
+		} catch (ClassNotFoundException e) {
+			syncExternalInjectedJutsuFields();
+			return;
+		}
+		addExternalJutsuToItem("fire_release", "com.leolifeless.shinobiaddon.jutsu.ShinobiAddonInjectedJutsu",
+		 "PHOENIX_SAGE_FIRE", "phoenix_sage_fire", 'C', 25d,
+		 "com.leolifeless.shinobiaddon.jutsu.fire.PhoenixSageFireJutsu");
+		addExternalJutsuToItem("fire_release", "com.leolifeless.shinobiaddon.jutsu.ShinobiAddonInjectedJutsu",
+		 "FIRE_DRAGON_BULLET", "fire_dragon_bullet", 'B', 450d,
+		 "com.leolifeless.shinobiaddon.jutsu.fire.FireDragonBullet");
+		addExternalJutsuToItem("fire_release", "com.leolifeless.shinobiaddon.jutsu.ShinobiAddonInjectedJutsu",
+		 "FIRE_CHAKRA_MODE", "fire_chakra_mode", 'B', 20d,
+		 "com.leolifeless.shinobiaddon.jutsu.fire.FireChakraMode");
+		addExternalJutsuToItem("fire_release", "com.leolifeless.shinobiaddon.jutsu.ShinobiAddonInjectedJutsu",
+		 "FLAME_RASENGAN", "flame_rasengan", 'A', 800d,
+		 "com.leolifeless.shinobiaddon.jutsu.fire.FlameRasenganJutsu");
+		addExternalJutsuToItem("water_release", "com.leolifeless.shinobiaddon.jutsu.ShinobiAddonInjectedJutsu",
+		 "GREAT_WATERFALL", "great_waterfall", 'A', 300d,
+		 "com.leolifeless.shinobiaddon.jutsu.water.GreatWaterfallJutsu");
+		addExternalJutsuToItem("water_release", "com.leolifeless.shinobiaddon.jutsu.ShinobiAddonInjectedJutsu",
+		 "WATER_BEAST", "water_beast", 'B', 200d,
+		 "com.leolifeless.shinobiaddon.jutsu.water.WaterBeastJutsu");
+		addExternalJutsuToItem("water_release", "com.leolifeless.shinobiaddon.jutsu.ShinobiAddonInjectedJutsu",
+		 "WATER_QUAKING_PILLAR", "water_quaking_pillar", 'B', 120d,
+		 "com.leolifeless.shinobiaddon.jutsu.water.WaterQuakingPillarJutsu");
+		addExternalJutsuToItem("crystal_release", "com.leolifeless.shinobiaddon.jutsu.ShinobiAddonInjectedJutsu",
+		 "TEARING_CRSYTAL_FALLING_DRAGON", "tearing_crystal_falling_dragon", 'A', 1250d,
+		 "com.leolifeless.shinobiaddon.jutsu.crystal.CrystalFallingDragonJutsu");
+		shinobiAddonJutsusInjected = true;
+		syncExternalInjectedJutsuFields();
+	}
+
+	private static void syncExternalInjectedJutsuFields() {
+		if (externalInjectedJutsuFieldsScanned) {
+			return;
+		}
+		externalInjectedJutsuFieldsScanned = true;
+		for (String className : findInjectedJutsuHolderClasses()) {
+			try {
+				Class<?> holderClass = Class.forName(className, false, ItemJutsu.class.getClassLoader());
+				for (Field field : holderClass.getFields()) {
+					if (!Modifier.isStatic(field.getModifiers()) || field.getType() != JutsuEnum.class) {
+						continue;
+					}
+					JutsuEnum jutsu = (JutsuEnum)field.get(null);
+					if (jutsu == null) {
+						continue;
+					}
+					String itemId = inferInjectedJutsuTargetItem(field, jutsu);
+					if (itemId == null) {
+						continue;
+					}
+					Item item = getCompatibleReleaseItem(itemId);
+					if (!(item instanceof Base)) {
+						continue;
+					}
+					Base base = (Base)item;
+					String syncKey = holderClass.getName() + "#" + field.getName() + "->" + itemId;
+					if (SYNCED_EXTERNAL_JUTSU_FIELDS.contains(syncKey)) {
+						continue;
+					}
+					JutsuEnum added = base.addCompatibleJutsu(jutsu);
+					if (added != null) {
+						field.set(null, added);
+						SYNCED_EXTERNAL_JUTSU_FIELDS.add(syncKey);
+					}
+				}
+			} catch (Throwable e) {
+				System.err.println("Failed to sync injected jutsu holder " + className + ": " + e.getMessage());
+			}
+		}
+	}
+
+	private static Set<String> findInjectedJutsuHolderClasses() {
+		Set<String> classes = new HashSet<>();
+		for (ModContainer mod : Loader.instance().getActiveModList()) {
+			File source = mod.getSource();
+			if (source == null || !source.isFile() || !source.getName().endsWith(".jar")) {
+				continue;
+			}
+			JarFile jar = null;
+			try {
+				jar = new JarFile(source);
+				java.util.Enumeration<JarEntry> entries = jar.entries();
+				while (entries.hasMoreElements()) {
+					JarEntry entry = entries.nextElement();
+					String name = entry.getName();
+					if (!name.endsWith(".class") || name.indexOf('$') >= 0) {
+						continue;
+					}
+					String simpleName = name.substring(name.lastIndexOf('/') + 1, name.length() - ".class".length());
+					if (simpleName.toLowerCase().contains("injectedjutsu")) {
+						classes.add(name.substring(0, name.length() - ".class".length()).replace('/', '.'));
+					}
+				}
+			} catch (Exception e) {
+				System.err.println("Failed to scan injected jutsu classes in " + source + ": " + e.getMessage());
+			} finally {
+				if (jar != null) {
+					try {
+						jar.close();
+					} catch (Exception ignored) {
+					}
+				}
+			}
+		}
+		return classes;
+	}
+
+	@Nullable
+	private static String inferInjectedJutsuTargetItem(Field field, JutsuEnum jutsu) {
+		String text = (field.getName() + " " + jutsu.unlocalizedName + " "
+		 + jutsu.jutsu.getClass().getName() + " " + String.valueOf(jutsu.getType())).toLowerCase();
+		if (text.contains("suiton") || text.contains("water")) return "water_release";
+		if (text.contains("katon") || text.contains("fire") || text.contains("flame") || text.contains("phoenix")) return "fire_release";
+		if (text.contains("doton") || text.contains("earth")) return "earth_release";
+		if (text.contains("futon") || text.contains("wind")) return "wind_release";
+		if (text.contains("raiton") || text.contains("lightning") || text.contains("thunder")) return "lightning_release";
+		if (text.contains("mokuton") || text.contains("wood")) return "wood_release";
+		if (text.contains("hyoton") || text.contains("ice")) return "ice_release";
+		if (text.contains("bakuton") || text.contains("explosion")) return "explosion_release";
+		if (text.contains("shakuton") || text.contains("scorch")) return "scorch_release";
+		if (text.contains("shoton") || text.contains("crystal")) return "crystal_release";
+		if (text.contains("ranton") || text.contains("storm")) return "storm_release";
+		if (text.contains("jiton") || text.contains("magnet")) return "magnet_release";
+		if (text.contains("futton") || text.contains("boil")) return "boil_release";
+		if (text.contains("yooton") || text.contains("lava")) return "lava_release";
+		if (text.contains("jinton") || text.contains("dust")) return "dust_release";
+		if (text.contains("senjutsu") || text.contains("sage")) return "sage_arts";
+		if (text.contains("ninjutsu") || text.contains("ninja")) return "ninja_arts";
+		if (text.contains("inton") || text.contains("yin")) return "yin_release";
+		if (text.contains("yoton") || text.contains("yang")) return "yang_release";
+		if (text.contains("iryo") || text.contains("medical")) return "medical_ninjutsu";
+		return null;
+	}
+
+	private static void addExternalJutsuToItem(String itemId, String holderClassName, String fieldName,
+			String jutsuName, char rank, double chakraUsage, String callbackClassName) {
+		Item item = getCompatibleReleaseItem(itemId);
+		if (!(item instanceof Base)) {
+			return;
+		}
+		Base base = (Base)item;
+		try {
+			Class<?> holderClass = Class.forName(holderClassName);
+			Field field = holderClass.getField(fieldName);
+			JutsuEnum jutsu = (JutsuEnum)field.get(null);
+			if (jutsu == null) {
+				Object callback = Class.forName(callbackClassName).newInstance();
+				if (!(callback instanceof IJutsuCallback)) {
+					return;
+				}
+				jutsu = new JutsuEnum(base.getJutsuCount(), jutsuName, rank, chakraUsage, (IJutsuCallback)callback);
+			}
+			field.set(null, base.addCompatibleJutsu(jutsu));
+		} catch (Exception e) {
+			System.err.println("Failed to add external jutsu " + fieldName + " to " + itemId + ": " + e.getMessage());
+		}
 	}
 	
 	public abstract static class Base extends Item {
@@ -156,34 +459,114 @@ public class ItemJutsu extends ElementsNarutomodMod.ModElement {
 		private static final String XPMAP_KEY = "JutsuExperienceMapKey";
 		private static final String OWNER_ID_KEY = "OwnerIdKey";
 		private static final String AFFINITY_KEY = "IsNatureAffinityKey";
-		private final ImmutableList<JutsuEnum> jutsuList;
-		protected final long[] defaultCooldownMap;
-		private final int[] jutsuXpMap;
+		private final JutsuEnum.Type jutsuType;
+		private ImmutableList<JutsuEnum> jutsuList;
+		protected long[] defaultCooldownMap;
+		private int[] jutsuXpMap;
 	
 		public Base(JutsuEnum.Type typeIn, JutsuEnum... jutsuListIn) {
 			super();
+			typeIn = ItemJutsu.getCompatibleJutsuType(typeIn);
+			this.jutsuType = typeIn;
 			if (jutsuListIn.length > 0) {
 				this.setMaxDamage(0);
 				this.setFull3D();
 				this.maxStackSize = 1;
-				this.defaultCooldownMap = new long[jutsuListIn.length];
-				this.jutsuXpMap = new int[jutsuListIn.length];
-				for (int i = 0; i < jutsuListIn.length; i++) {
-					this.defaultCooldownMap[i] = -1;
-					this.jutsuXpMap[i] = 0;
-					jutsuListIn[i].setType(typeIn);
+				this.setCompatibleJutsuList(jutsuListIn);
+				List<JutsuEnum> extras = EXTRA_JUTSUS.get(this.jutsuType);
+				if (extras != null && !extras.isEmpty()) {
+					this.addCompatibleJutsus(extras.toArray(new JutsuEnum[extras.size()]));
 				}
-				this.jutsuList = ImmutableList.copyOf(jutsuListIn);
 			} else {
 				throw new IllegalArgumentException("Empty jutsu list!");
 			}
 		}
 
+		public JutsuEnum.Type getJutsuType() {
+			return this.jutsuType;
+		}
+
+		public JutsuEnum[] getCompatibleJutsus() {
+			return this.jutsuList.toArray(new JutsuEnum[this.jutsuList.size()]);
+		}
+
+		public int getJutsuCount() {
+			return this.jutsuList.size();
+		}
+
+		private void setCompatibleJutsuList(JutsuEnum... jutsuListIn) {
+			this.defaultCooldownMap = new long[jutsuListIn.length];
+			this.jutsuXpMap = new int[jutsuListIn.length];
+			for (int i = 0; i < jutsuListIn.length; i++) {
+				this.defaultCooldownMap[i] = -1L;
+				this.jutsuXpMap[i] = 0;
+				jutsuListIn[i].setType(this.jutsuType);
+			}
+			this.jutsuList = ImmutableList.copyOf(jutsuListIn);
+		}
+
+		public void addCompatibleJutsus(JutsuEnum... jutsuListIn) {
+			for (JutsuEnum jutsu : jutsuListIn) {
+				this.addCompatibleJutsu(jutsu);
+			}
+		}
+
+		public JutsuEnum addCompatibleJutsu(JutsuEnum jutsuIn) {
+			if (jutsuIn == null) {
+				return null;
+			}
+			for (JutsuEnum existing : this.jutsuList) {
+				if (existing == jutsuIn || existing.unlocalizedName.equals(jutsuIn.unlocalizedName)) {
+					return existing;
+				}
+			}
+			JutsuEnum copy = jutsuIn.copyForIndex(this.jutsuList.size());
+			copy.setType(this.jutsuType);
+			List<JutsuEnum> merged = Lists.newArrayList(this.jutsuList);
+			merged.add(copy);
+			long[] oldCooldownMap = this.defaultCooldownMap;
+			int[] oldJutsuXpMap = this.jutsuXpMap;
+			this.jutsuList = ImmutableList.copyOf(merged);
+			this.defaultCooldownMap = new long[merged.size()];
+			this.jutsuXpMap = new int[merged.size()];
+			for (int i = 0; i < this.defaultCooldownMap.length; i++) {
+				this.defaultCooldownMap[i] = i < oldCooldownMap.length ? oldCooldownMap[i] : -1L;
+				this.jutsuXpMap[i] = i < oldJutsuXpMap.length ? oldJutsuXpMap[i] : 0;
+			}
+			return copy;
+		}
+
+		/*public void addCompatibleJutsus(JutsuEnum... jutsuListIn) {
+			if (jutsuListIn == null || jutsuListIn.length == 0) {
+				return;
+			}
+			List<JutsuEnum> merged = Lists.newArrayList(this.jutsuList);
+			for (JutsuEnum jutsu : jutsuListIn) {
+				if (jutsu != null && !merged.contains(jutsu)) {
+					JutsuEnum copy = jutsu.copyForIndex(merged.size());
+					copy.setType(this.jutsuType);
+					merged.add(copy);
+				}
+			}
+			if (merged.size() == this.jutsuList.size()) {
+				return;
+			}
+			long[] oldCooldownMap = this.defaultCooldownMap;
+			int[] oldJutsuXpMap = this.jutsuXpMap;
+			this.jutsuList = ImmutableList.copyOf(merged);
+			this.defaultCooldownMap = new long[merged.size()];
+			this.jutsuXpMap = new int[merged.size()];
+			for (int i = 0; i < this.defaultCooldownMap.length; i++) {
+				this.defaultCooldownMap[i] = i < oldCooldownMap.length ? oldCooldownMap[i] : -1L;
+				this.jutsuXpMap[i] = i < oldJutsuXpMap.length ? oldJutsuXpMap[i] : 0;
+			}
+		}*/
+
 		protected boolean executeJutsu(ItemStack stack, EntityLivingBase entity, float power) {
 			JutsuEnum jutsuEnum = this.getCurrentJutsu(stack);
 			Chakra.Pathway pw = Chakra.pathway(entity);
-			double d = jutsuEnum.chakraUsage * power;
-			if (power <= 0f || pw.getAmount() < d) {
+			double d = jutsuEnum.chakraUsage * (double)power;
+			if (power <= 0.0f || pw.getAmount() < d) {
 				return false;
 			}
 			if (jutsuEnum.jutsu.createJutsu(stack, entity, power)) {
@@ -194,11 +577,10 @@ public class ItemJutsu extends ElementsNarutomodMod.ModElement {
 		}
 
 		public float getPower(ItemStack stack, EntityLivingBase entity, int timeLeft) {
-			JutsuEnum jutsuEnum = this.getCurrentJutsu(stack);
-			if (jutsuEnum.jutsu.getPowerupDelay() > 0.0f) {
-				return this.getPower(stack, entity, timeLeft, jutsuEnum.jutsu.getBasePower(), jutsuEnum.jutsu.getPowerupDelay());
-			}
-			return jutsuEnum.jutsu.getBasePower();
+            JutsuEnum jutsuEnum = this.getCurrentJutsu(stack);
+            float base = jutsuEnum.jutsu.getBasePower();
+            float delay = jutsuEnum.jutsu.getPowerupDelay(stack, entity);
+            return delay > 0.0F ? this.getPower(stack, entity, timeLeft, base, delay) : base;
 		}
 
 		protected float getPower(ItemStack stack, EntityLivingBase entity, int timeLeft, float basePower, float powerupDelay) {
@@ -536,10 +918,18 @@ public class ItemJutsu extends ElementsNarutomodMod.ModElement {
 
 		public static class EquipmentHook {
 			@SubscribeEvent
+			public void onServerTick(TickEvent.ServerTickEvent event) {
+				if (event.phase == TickEvent.Phase.END) {
+					ItemJutsu.injectShinobiAddonReleaseJutsus();
+				}
+			}
+
+			@SubscribeEvent
 			public void onEquipmentChange(LivingEquipmentChangeEvent event) {
 				EntityLivingBase entity = event.getEntityLiving();
 				ItemStack stack = event.getTo();
-				if (entity instanceof EntityPlayer && !entity.world.isRemote && stack.getItem() instanceof Base
+				if (entity instanceof EntityPlayer && !entity.world.isRemote
+ && stack.getItem() instanceof Base
 				 && event.getSlot().getSlotType() == EntityEquipmentSlot.Type.HAND && stack.getItem() != event.getFrom().getItem()) {
 					if (event.getSlot() == EntityEquipmentSlot.MAINHAND || !(entity.getHeldItemMainhand().getItem() instanceof Base)) {
 						ProcedureUtils.sendStatusMessage((EntityPlayer)entity, ItemJutsu.getCurrentJutsu(stack).getName(), true);
@@ -642,9 +1032,14 @@ public class ItemJutsu extends ElementsNarutomodMod.ModElement {
 			return 1.0f;
 		}
 
+        @Deprecated
 		default float getPowerupDelay() {
 			return 0.0f;
 		}
+
+        default float getPowerupDelay(ItemStack stack, EntityLivingBase entity) {
+            return this.getPowerupDelay();
+        }
 		
 		@Deprecated // use entity sensitive version below
 		default float getMaxPower() {
@@ -760,6 +1155,10 @@ public class ItemJutsu extends ElementsNarutomodMod.ModElement {
 			return this;
 		}
 
+		private JutsuEnum copyForIndex(int indexIn) {
+			return new JutsuEnum(indexIn, this.unlocalizedName, this.rank, this.requiredXP, this.chakraUsage, this.jutsu);
+		}
+
 		public String toString() {
 			return "\nJutsu - " + this.type + ": " + this.getName() + ", rank:" + this.rank + ", callback:" + this.jutsu.getClass();
 		}
@@ -794,8 +1193,59 @@ public class ItemJutsu extends ElementsNarutomodMod.ModElement {
 			KEKKEIMORA,
 			BLOOD,
 			SHOTON,
+            SENNINKA,
+			SWAMP,
 			OTHER;
 		}
+	}
+
+	static {
+		addJutsuTypeAlias(JutsuEnum.Type.NINJUTSU, "ninjutsu", "ninja_arts", "ninjaarts", "ninja art", "ninja arts");
+		addReleaseItemAlias("ninja_arts", "ninjutsu");
+		addJutsuTypeAlias(JutsuEnum.Type.SENJUTSU, "senjutsu", "sage_arts", "sagearts", "sage art", "sage arts");
+		addReleaseItemAlias("sage_arts", "senjutsu");
+		addJutsuTypeAlias(JutsuEnum.Type.SIXPATHSENJUTSU, "six_path_senjutsu", "six_paths_sage_arts",
+		 "sixpaths_sage_arts", "six path senjutsu", "six paths sage arts", "rikudo_senjutsu");
+		addReleaseItemAlias("six_paths_sage_arts", "six_path_senjutsu", "rikudo_senjutsu");
+		addJutsuTypeAlias(JutsuEnum.Type.KEKKEIMORA, "kekkei_mora", "all_encompassing_bloodline",
+		 "all encompassing bloodline");
+		addReleaseItemAlias("all_encompassing_bloodline", "kekkei_mora");
+		addJutsuTypeAlias(JutsuEnum.Type.IRYO, "iryo", "iryo_jutsu", "medical_ninjutsu", "medical ninjutsu");
+		addReleaseItemAlias("medical_ninjutsu", "iryo_jutsu", "iryo");
+		addJutsuTypeAlias(JutsuEnum.Type.KATON, "katon", "fire_release", "fire release");
+		addReleaseItemAlias("fire_release", "katon");
+		addJutsuTypeAlias(JutsuEnum.Type.SUITON, "suiton", "water_release", "water release");
+		addReleaseItemAlias("water_release", "suiton");
+		addJutsuTypeAlias(JutsuEnum.Type.DOTON, "doton", "earth_release", "earth release");
+		addReleaseItemAlias("earth_release", "doton");
+		addJutsuTypeAlias(JutsuEnum.Type.FUTON, "futon", "wind_release", "wind release");
+		addReleaseItemAlias("wind_release", "futon");
+		addJutsuTypeAlias(JutsuEnum.Type.RAITON, "raiton", "lightning_release", "lightning release");
+		addReleaseItemAlias("lightning_release", "raiton");
+		addJutsuTypeAlias(JutsuEnum.Type.MOKUTON, "mokuton", "wood_release", "wood release");
+		addReleaseItemAlias("wood_release", "mokuton");
+		addJutsuTypeAlias(JutsuEnum.Type.YOTON, "yoton", "yang_release", "yang release");
+		addReleaseItemAlias("yang_release", "yoton");
+		addJutsuTypeAlias(JutsuEnum.Type.INTON, "inton", "yin_release", "yin release");
+		addReleaseItemAlias("yin_release", "inton");
+		addJutsuTypeAlias(JutsuEnum.Type.JINTON, "jinton", "dust_release", "dust release");
+		addReleaseItemAlias("dust_release", "jinton");
+		addJutsuTypeAlias(JutsuEnum.Type.BAKUTON, "bakuton", "explosion_release", "explosion release");
+		addReleaseItemAlias("explosion_release", "bakuton");
+		addJutsuTypeAlias(JutsuEnum.Type.SHAKUTON, "shakuton", "scorch_release", "scorch release");
+		addReleaseItemAlias("scorch_release", "shakuton");
+		addJutsuTypeAlias(JutsuEnum.Type.SHOTON, "shoton", "crystal_release", "crystal release");
+		addReleaseItemAlias("crystal_release", "shoton");
+		addJutsuTypeAlias(JutsuEnum.Type.HYOTON, "hyoton", "ice_release", "ice release");
+		addReleaseItemAlias("ice_release", "hyoton");
+		addJutsuTypeAlias(JutsuEnum.Type.RANTON, "ranton", "storm_release", "storm release");
+		addReleaseItemAlias("storm_release", "ranton");
+		addJutsuTypeAlias(JutsuEnum.Type.JITON, "jiton", "magnet_release", "magnet release");
+		addReleaseItemAlias("magnet_release", "jiton");
+		addJutsuTypeAlias(JutsuEnum.Type.FUTTON, "futton", "boil_release", "boil release");
+		addReleaseItemAlias("boil_release", "futton");
+		addJutsuTypeAlias(JutsuEnum.Type.YOOTON, "yooton", "lava_release", "lava release");
+		addReleaseItemAlias("lava_release", "yooton");
 	}
 }
 

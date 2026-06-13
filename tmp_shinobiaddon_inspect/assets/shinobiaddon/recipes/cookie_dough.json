@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " W ",
+    "WDW",
+    " W "
+  ],
+  "key": {
+    "D": {
+      "item": "minecraft:milk_bucket"
+    },
+    "W": {
+      "item": "minecraft:wheat"
+    }
+  },
+  "result": {
+    "item": "shinobiaddon:cookie_dough",
+    "count": 2
+  }
+}

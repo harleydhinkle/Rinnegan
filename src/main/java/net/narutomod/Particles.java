@@ -52,8 +52,9 @@ import com.google.common.collect.Lists;
 import org.lwjgl.util.glu.Sphere;
 import org.lwjgl.util.glu.GLU;
 import javax.annotation.Nullable;
+import net.narutomod.ElementsNarutomodMod.ModElement.Tag;
 
-@ElementsNarutomodMod.ModElement.Tag
+@Tag
 public class Particles extends ElementsNarutomodMod.ModElement {
 	private static final Random RAND = new Random();
 	
@@ -322,7 +323,8 @@ public class Particles extends ElementsNarutomodMod.ModElement {
 		private int viewerId;
 
 		protected Smoke(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, 
-		 double motionX, double motionY, double motionZ, int color, float scale, int maxAge, int brightness, 
+		 double motionX, double motionY, double motionZ, int color,
+ float scale, int maxAge, int brightness, 
 		 int playerId, double floatSpeed, double bounceMotionIn) {
 			super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0D, 0.0D, 0.0D);
 			//super(worldIn, xCoordIn, yCoordIn, zCoordIn);
@@ -401,7 +403,8 @@ public class Particles extends ElementsNarutomodMod.ModElement {
 			this.prevPosX = this.posX;
 			this.prevPosY = this.posY;
 			this.prevPosZ = this.posZ;
-			if (this.particleMaxAge == 0 || this.particleAge++ >= this.particleMaxAge) {
+			if (this.particleMaxAge == 0 || this.particleAge++ >= this.particleMaxAge)
+ {
 				this.setExpired();
 				return;
 			}
@@ -662,7 +665,8 @@ public class Particles extends ElementsNarutomodMod.ModElement {
 			this.prevPosX = this.posX;
 			this.prevPosY = this.posY;
 			this.prevPosZ = this.posZ;
-			if (this.particleAge++ >= this.particleMaxAge) {
+			if (this.particleAge++ >= this.particleMaxAge)
+ {
 				this.setExpired();
 			}
 			this.particleTextureIndexX = (this.particleAge / 2) % 8;

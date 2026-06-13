@@ -1,6 +1,6 @@
 package net.narutomod.procedure;
 
-import net.narutomod.item.ItemDojutsu;
+import net.narutomod.item.ItemOcularJutsu;
 import net.narutomod.entity.EntityBijuManager;
 import net.narutomod.NarutomodModVariables;
 import net.narutomod.ElementsNarutomodMod;
@@ -50,8 +50,8 @@ public class ProcedureSpecialJutsu2OnKeyPressed extends ElementsNarutomodMod.Mod
 		}
 		stack = ((entity instanceof EntityLivingBase) ? ((EntityLivingBase) entity).getHeldItemMainhand() : ItemStack.EMPTY);
 		helmet = ((entity instanceof EntityPlayer) ? ((EntityPlayer) entity).inventory.armorInventory.get(3) : ItemStack.EMPTY);
-		if ((helmet.getItem() instanceof ItemDojutsu.Base
-				&& ((ItemDojutsu.Base) helmet.getItem()).onJutsuKey2(is_pressed, helmet, (EntityPlayer) entity))) {
+		if ((helmet.getItem() instanceof ItemOcularJutsu.Base
+				&& ((ItemOcularJutsu.Base) helmet.getItem()).onJutsuKey2(is_pressed, helmet, (EntityPlayer) entity))) {
 			return;
 		} else if (EntityBijuManager.isJinchuriki((EntityPlayer) entity)) {
 			if ((!(is_pressed))) {

@@ -41,7 +41,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.procedure.ProcedureSync;
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemHyoton;
+import net.narutomod.item.ItemIceRelease;
 import net.narutomod.Chakra;
 import net.narutomod.NarutomodMod;
 import net.narutomod.ElementsNarutomodMod;
@@ -177,7 +177,7 @@ public class EntityIceDome extends ElementsNarutomodMod.ModElement {
 				}
 			}
 			if (!this.world.isRemote && this.ticksExisted % 20 == 0 && summoner != null
-			 && !Chakra.pathway(summoner).consume(ItemHyoton.ICEDOME.chakraUsage * 0.05d)) {
+			 && !Chakra.pathway(summoner).consume(ItemIceRelease.ICEDOME.chakraUsage * 0.05d)) {
 				this.setDead();
 			}
 			this.clearActivePotions();

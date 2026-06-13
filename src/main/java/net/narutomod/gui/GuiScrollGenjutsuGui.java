@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-import net.narutomod.item.ItemInton;
+import net.narutomod.item.ItemYinRelease;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.PlayerTracker;
 import net.narutomod.ElementsNarutomodMod;
@@ -38,7 +38,7 @@ public class GuiScrollGenjutsuGui extends ElementsNarutomodMod.ModElement {
 	}
 
 	public static ItemStack giveGenjutsu(EntityPlayer player) {
-		return GuiNinjaScroll.enableJutsu(player, (ItemInton.RangedItem)ItemInton.block, ItemInton.GENJUTSU, true);
+		return GuiNinjaScroll.enableJutsu(player, (ItemYinRelease.RangedItem)ItemYinRelease.block, ItemYinRelease.GENJUTSU, true);
 	}
 
 	public static class GuiWindow extends GuiNinjaScroll.GuiWindow {
@@ -49,7 +49,7 @@ public class GuiScrollGenjutsuGui extends ElementsNarutomodMod.ModElement {
 		@Override
 		protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
 			super.drawGuiContainerBackgroundLayer(par1, par2, par3);
-			this.mc.renderEngine.bindTexture(new ResourceLocation("narutomod:textures/blocks/inton.png"));
+			this.mc.renderEngine.bindTexture(new ResourceLocation("narutomod:textures/blocks/yin_release.png"));
 			this.drawModalRectWithCustomSizedTexture(this.guiLeft + 89, this.guiTop + 49, 0, 0, 48, 48, 48, 48);
 			this.mc.renderEngine.bindTexture(new ResourceLocation("narutomod:textures/xu_.png"));
 			this.drawModalRectWithCustomSizedTexture(this.guiLeft + 0, this.guiTop + 108, 0, 0, 48, 48, 48, 48);
@@ -63,7 +63,7 @@ public class GuiScrollGenjutsuGui extends ElementsNarutomodMod.ModElement {
 
 		@Override
 		protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-			this.fontRenderer.drawString(ItemInton.GENJUTSU.getName(), 38, 13, -16777216);
+			this.fontRenderer.drawString(ItemYinRelease.GENJUTSU.getName(), 38, 13, -16777216);
 		}
 	}
 }

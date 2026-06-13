@@ -39,7 +39,7 @@ import net.minecraft.potion.PotionEffect;
 
 import net.narutomod.potion.PotionFeatherFalling;
 import net.narutomod.procedure.ProcedureUtils;
-import net.narutomod.item.ItemSenjutsu;
+import net.narutomod.item.ItemSageArts;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.Chakra;
 import net.narutomod.Particles;
@@ -155,8 +155,8 @@ public class EntitySnake8Heads extends ElementsNarutomodMod.ModElement {
 
 		private boolean isSageModeActive(EntityLivingBase summoner) {
 			if (summoner instanceof EntityPlayer) {
-				ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)summoner, ItemSenjutsu.block);
-				return stack != null && ItemSenjutsu.isSageModeActivated(stack);
+				ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)summoner, ItemSageArts.block);
+				return stack != null && ItemSageArts.isSageModeActivated(stack);
 			}
 			return false;
 		}
@@ -189,8 +189,8 @@ public class EntitySnake8Heads extends ElementsNarutomodMod.ModElement {
 			@Override
 			public boolean createJutsu(ItemStack stack, EntityLivingBase entity, float power) {
 				if (!(entity.getRidingEntity() instanceof EC)) {
-					entity.world.spawnEntity(new EC(entity, ItemSenjutsu.SNAKE8H.chakraUsage * 0.02d *
-					 ((ItemSenjutsu.RangedItem)stack.getItem()).getCurrentJutsuXpModifier(stack, entity)));
+					entity.world.spawnEntity(new EC(entity, ItemSageArts.SNAKE8H.chakraUsage * 0.02d *
+					 ((ItemSageArts.RangedItem)stack.getItem()).getCurrentJutsuXpModifier(stack, entity)));
 					return true;
 				}
 				return false;

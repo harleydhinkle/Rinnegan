@@ -3,7 +3,7 @@ package net.narutomod.entity;
 
 import net.narutomod.item.ItemKunaiHiraishin;
 import net.narutomod.item.ItemKunai3prong;
-import net.narutomod.item.ItemNinjutsu;
+import net.narutomod.item.ItemNinjaArts;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.procedure.ProcedureOnLivingUpdate;
 import net.narutomod.procedure.ProcedureSync;
@@ -61,6 +61,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
+import net.narutomod.justuconfig;
 
 import java.util.Map;
 import java.util.UUID;
@@ -79,7 +80,7 @@ public class EntityHiraishin extends ElementsNarutomodMod.ModElement {
 	public static final int ENTITYID_RANGED = 420;
 	private static final Map<UUID, Map<UUID, Vector4d>> serverMarkerMap = Maps.newHashMap();
 	private static final Map<UUID, Vector4d> clientMarkerList = Maps.newHashMap();
-
+    public static  double distents = justuconfig.Flying_Thunder_God_distents;
 	public EntityHiraishin(ElementsNarutomodMod instance) {
 		super(instance, 841);
 	}
@@ -120,9 +121,9 @@ public class EntityHiraishin extends ElementsNarutomodMod.ModElement {
 	}
 
 	public static boolean canUseJutsu(EntityPlayer player) {
-		ItemStack stack = ProcedureUtils.getMatchingItemStack(player, ItemNinjutsu.block);
-		return stack != null && ((ItemNinjutsu.RangedItem)stack.getItem())
-		 .canActivateJutsu(stack, ItemNinjutsu.HIRAISHIN, player) == EnumActionResult.SUCCESS;
+		ItemStack stack = ProcedureUtils.getMatchingItemStack(player, ItemNinjaArts.block);
+		return stack != null && ((ItemNinjaArts.RangedItem)stack.getItem())
+		 .canActivateJutsu(stack, ItemNinjaArts.HIRAISHIN, player) == EnumActionResult.SUCCESS;
 	}
 
 	public static class EC extends Entity implements ItemJutsu.IJutsu {
@@ -219,12 +220,7 @@ public class EntityHiraishin extends ElementsNarutomodMod.ModElement {
 		@Override
 		public void onUpdate() {
 			super.onUpdate();
-			  // Lifetime control (example: 1200 ticks = 60 seconds)
-			  if (!this.world.isRemote && this.ticksExisted > 1200) {
-			  	this.setDead();
-			  	return;
-			  	}
-			  	
+
 			if (!this.world.isRemote && this.userUuid != null) {
 				if (((WorldServer)this.world).getEntityFromUuid(this.userUuid) != null) {
 					boolean update = false;
@@ -568,8 +564,8 @@ public class EntityHiraishin extends ElementsNarutomodMod.ModElement {
 						double d = vec.subtract(vec1).lengthVector();
 						Vec3d vec2 = vec1.add(player.getLookVec().scale(d + 10d));
 						AxisAlignedBB aabb = new AxisAlignedBB(vec.x-0.5d, vec.y, vec.z-0.5d, vec.x+0.5d, vec.y+1.0d, vec.z+0.5d);
-						if (d > 100.0D) {
-							continue; // skip marks farther than 100 blocks
+						if (d >= distents) {
+							continue;
 							}
 						if (aabb.grow(d * 0.05d).calculateIntercept(vec1, vec2) != null) {
 							Chakra.Pathway chakra = Chakra.pathway(player);

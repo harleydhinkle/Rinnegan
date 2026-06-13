@@ -2,6 +2,7 @@
 package net.narutomod.item;
 
 import net.narutomod.potion.PotionParalysis;
+import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.creativetab.TabModTab;
 import net.narutomod.Particles;
 import net.narutomod.ElementsNarutomodMod;
@@ -81,6 +82,7 @@ public class ItemSoundGaunlet extends ElementsNarutomodMod.ModElement {
 				}
 				vec1 = vec1.scale(15d);
 				vec2 = vec1.add(vec0);
+				java.util.List<Entity> affectedEntities = com.google.common.collect.Lists.newArrayList();
 				for (EntityLivingBase entity1 : entity.world.getEntitiesWithinAABB(EntityLivingBase.class, entity.getEntityBoundingBox().expand(vec1.x, vec1.y, vec1.z))) {
 					double d = vec0.distanceTo(entity1.getPositionVector());
 					if (!entity1.equals(entity) && ItemJutsu.canTarget(entity1)
@@ -90,6 +92,21 @@ public class ItemSoundGaunlet extends ElementsNarutomodMod.ModElement {
 						entity1.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, (int)d1 + 5, 0));
 						entity1.hurtResistantTime = 10;
 						entity1.attackEntityFrom(ItemJutsu.causeJutsuDamage(entity, null).setDamageBypassesArmor(), (float)d1 * 0.15f);
+						affectedEntities.add(entity1);
+					}
+				}
+				for (Entity entity1 : ProcedureUtils.getEntitiesWithinAABBIncludingMultipartParts(entity.world,
+				 entity.getEntityBoundingBox().expand(vec1.x, vec1.y, vec1.z), entity, p -> p instanceof EntityLivingBase)) {
+					if (!affectedEntities.contains(entity1) && entity1 instanceof EntityLivingBase && ItemJutsu.canTarget(entity1)) {
+						double d = vec0.distanceTo(entity1.getPositionVector());
+						if (ProcedureUtils.multipartPartsIntersectRay(entity1, vec0, vec2, 4d * d / 15d)) {
+							EntityLivingBase living = (EntityLivingBase)entity1;
+							double d1 = (20d - d) * 10d / living.height;
+							living.addPotionEffect(new PotionEffect(PotionParalysis.potion, (int)d1, 0));
+							living.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, (int)d1 + 5, 0));
+							living.hurtResistantTime = 10;
+							living.attackEntityFrom(ItemJutsu.causeJutsuDamage(entity, null).setDamageBypassesArmor(), (float)d1 * 0.15f);
+						}
 					}
 				}
 				if (!(entity instanceof EntityPlayer) || !((EntityPlayer)entity).isCreative()) {

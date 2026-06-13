@@ -1,9 +1,9 @@
 package net.narutomod.entity;
 
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemKaton;
-import net.narutomod.item.ItemFuton;
-import net.narutomod.item.ItemRaiton;
+import net.narutomod.item.ItemFireRelease;
+import net.narutomod.item.ItemWindRelease;
+import net.narutomod.item.ItemLightningRelease;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.Particles;
 import net.narutomod.PlayerTracker;
@@ -62,8 +62,8 @@ public class EntityFlameSlice extends ElementsNarutomodMod.ModElement {
 
 		public EC(EntityLivingBase user, ItemStack itemstack) {
 			super(user);
-			if (itemstack.getItem() == ItemKaton.block) {
-				float f = ((ItemKaton.RangedItem)itemstack.getItem()).getCurrentJutsuXpModifier(itemstack, user);
+			if (itemstack.getItem() == ItemFireRelease.block) {
+				float f = ((ItemFireRelease.RangedItem)itemstack.getItem()).getCurrentJutsuXpModifier(itemstack, user);
 				if (f > 0.0f) {
 					this.damageModifier = (1.0f / f) * 3;
 				}
@@ -102,7 +102,7 @@ public class EntityFlameSlice extends ElementsNarutomodMod.ModElement {
 					} else if (this.rand.nextFloat() < 0.05f) {
 						this.playSound(SoundEvents.BLOCK_FIRE_AMBIENT, 0.4f, this.rand.nextFloat() * 0.4f + 0.7f);
 					}
-					if (this.ticksExisted % 10 == 1 && !net.narutomod.Chakra.pathway(this.getUser()).consume(ItemKaton.FLAMESLICE.chakraUsage * 0.1d)) {
+					if (this.ticksExisted % 10 == 1 && !net.narutomod.Chakra.pathway(this.getUser()).consume(ItemFireRelease.FLAMESLICE.chakraUsage * 0.1d)) {
 						this.setDead();
 					}
 				}
@@ -130,14 +130,14 @@ public class EntityFlameSlice extends ElementsNarutomodMod.ModElement {
 					}
 					return false;
 				} else {
-					if (ItemRaiton.CHAKRAMODE.jutsu.isActivated(entity)) {
-						ItemRaiton.CHAKRAMODE.jutsu.deactivate(entity);
+					if (ItemLightningRelease.CHAKRAMODE.jutsu.isActivated(entity)) {
+						ItemLightningRelease.CHAKRAMODE.jutsu.deactivate(entity);
 					}
-					if (ItemRaiton.CHIDORI.jutsu.isActivated(entity)) {
-						ItemRaiton.CHIDORI.jutsu.deactivate(entity);
+					if (ItemLightningRelease.CHIDORI.jutsu.isActivated(entity)) {
+						ItemLightningRelease.CHIDORI.jutsu.deactivate(entity);
 					}
-					if (ItemFuton.CHAKRAFLOW.jutsu.isActivated(entity)) {
-						ItemFuton.CHAKRAFLOW.jutsu.deactivate(entity);
+					if (ItemWindRelease.CHAKRAFLOW.jutsu.isActivated(entity)) {
+						ItemWindRelease.CHAKRAFLOW.jutsu.deactivate(entity);
 					}
 					entity1 = new EC(entity, stack);
 					entity.world.spawnEntity(entity1);
@@ -167,7 +167,7 @@ public class EntityFlameSlice extends ElementsNarutomodMod.ModElement {
 			@Nullable
 			public JutsuData getData(EntityLivingBase entity) {
 				if (entity instanceof EntityPlayer) {
-					ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)entity, ItemKaton.block);
+					ItemStack stack = ProcedureUtils.getMatchingItemStack((EntityPlayer)entity, ItemFireRelease.block);
 					if (stack != null && stack.hasTagCompound() && stack.getTagCompound().hasKey(ID_KEY)) {
 						Entity entity1 = entity.world.getEntityByID(stack.getTagCompound().getInteger(ID_KEY));
 						return entity1 instanceof EC ? new JutsuData(entity1, stack) : null;

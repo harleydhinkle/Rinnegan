@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-import net.narutomod.item.ItemSuiton;
+import net.narutomod.item.ItemWaterRelease;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.PlayerTracker;
 import net.narutomod.ElementsNarutomodMod;
@@ -31,7 +31,7 @@ public class GuiScrollWaterSharkGui extends ElementsNarutomodMod.ModElement {
 			// security measure to prevent arbitrary chunk generation
 			if (player.world.isRemote || !player.world.isBlockLoaded(new BlockPos(this.x, this.y, this.z)))
 				return;
-			ItemStack stack = GuiNinjaScroll.enableJutsu(player, (ItemSuiton.RangedItem)ItemSuiton.block, ItemSuiton.WATERSHARK, true);
+			ItemStack stack = GuiNinjaScroll.enableJutsu(player, (ItemWaterRelease.RangedItem)ItemWaterRelease.block, ItemWaterRelease.WATERSHARK, true);
 			if (stack != null) {
 				super.handleButtonAction(player, buttonID);
 			}
@@ -46,7 +46,7 @@ public class GuiScrollWaterSharkGui extends ElementsNarutomodMod.ModElement {
 		@Override
 		protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
 			super.drawGuiContainerBackgroundLayer(par1, par2, par3);
-			this.mc.renderEngine.bindTexture(new ResourceLocation("narutomod:textures/blocks/suiton.png"));
+			this.mc.renderEngine.bindTexture(new ResourceLocation("narutomod:textures/blocks/water_release.png"));
 			this.drawModalRectWithCustomSizedTexture(this.guiLeft + 89, this.guiTop + 49, 0, 0, 48, 48, 48, 48);
 			this.mc.renderEngine.bindTexture(new ResourceLocation("narutomod:textures/yin_.png"));
 			this.drawModalRectWithCustomSizedTexture(this.guiLeft - 8, this.guiTop + 116, 0, 0, 28, 28, 28, 28);
@@ -70,7 +70,7 @@ public class GuiScrollWaterSharkGui extends ElementsNarutomodMod.ModElement {
 
 		@Override
 		protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-			this.fontRenderer.drawString(ItemSuiton.WATERSHARK.getName(), 38, 13, -16777216);
+			this.fontRenderer.drawString(ItemWaterRelease.WATERSHARK.getName(), 38, 13, -16777216);
 		}
 	}
 }

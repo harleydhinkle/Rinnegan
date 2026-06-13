@@ -2,7 +2,7 @@
 package net.narutomod.entity;
 
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemYooton;
+import net.narutomod.item.ItemLavaRelease;
 import net.narutomod.potion.PotionHeaviness;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.Particles;
@@ -138,8 +138,8 @@ public class EntityQuicklime extends ElementsNarutomodMod.ModElement {
 
 			@Override
 			public boolean createJutsu(ItemStack stack, EntityLivingBase entityIn, float power) {
-				if (stack.getItem() instanceof ItemYooton.RangedItem) {
-					power = 1.0f / ((ItemYooton.RangedItem)stack.getItem()).getCurrentJutsuXpModifier(stack, entityIn);
+				if (stack.getItem() instanceof ItemLavaRelease.RangedItem) {
+					power = 1.0f / ((ItemLavaRelease.RangedItem)stack.getItem()).getCurrentJutsuXpModifier(stack, entityIn);
 					return this.createJutsu(entityIn, 2.0d, power) != null;
 				}
 				return false;

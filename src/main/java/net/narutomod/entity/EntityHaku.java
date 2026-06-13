@@ -32,7 +32,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 
 import net.narutomod.item.ItemIceSenbon;
-import net.narutomod.item.ItemHyoton;
+import net.narutomod.item.ItemIceRelease;
 import net.narutomod.item.ItemMaskAnbu2;
 import net.narutomod.ElementsNarutomodMod;
 
@@ -63,8 +63,8 @@ public class EntityHaku extends ElementsNarutomodMod.ModElement {
 		private final int DOME_SPEARS_CD = 160;
 		private final int DOME_CD = 500;
 		private final int MAX_DOME_USAGE = DOME_SPEARS_CD + 180;
-		private final double ICE_SPEARS_CHAKRA = ItemHyoton.ICESPEARS.chakraUsage;
-		private final double ICE_DOME_CHAKRA = ItemHyoton.ICEDOME.chakraUsage;
+		private final double ICE_SPEARS_CHAKRA = ItemIceRelease.ICESPEARS.chakraUsage;
+		private final double ICE_DOME_CHAKRA = ItemIceRelease.ICEDOME.chakraUsage;
 		private EntityIceDome.EC domeEntity;
 		private int domeSpearsLastUsed;
 		private int domeLastUsed;

@@ -38,7 +38,7 @@ public class ItemCurryandRice extends ElementsNarutomodMod.ModElement {
 	}
 	public static class ItemFoodCustom extends ItemFood {
 		public ItemFoodCustom() {
-			super(10, 2f, false);
+			super(10, 1f, false);
 			setUnlocalizedName("curryand_rice");
 			setRegistryName("curryand_rice");
 			setCreativeTab(CreativeTabs.FOOD);

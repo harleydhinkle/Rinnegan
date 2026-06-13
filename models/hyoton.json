@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"2": "minecraft/hyoton",
-		"particle": "minecraft/hyoton"
+		"2": "minecraft/ice_release",
+		"particle": "minecraft/ice_release"
 	},
 	"elements": [
 		{

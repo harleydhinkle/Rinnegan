@@ -4,7 +4,7 @@ package net.narutomod.entity;
 import net.narutomod.ElementsNarutomodMod;
 import net.narutomod.Particles;
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemJiton;
+import net.narutomod.item.ItemMagnetRelease;
 import net.narutomod.potion.PotionParalysis;
 import net.narutomod.potion.PotionHeaviness;
 import net.narutomod.procedure.ProcedureOnLivingUpdate;
@@ -66,7 +66,7 @@ public class EntityPaperBind extends ElementsNarutomodMod.ModElement {
 		private static final DataParameter<Integer> TARGET_ID = EntityDataManager.<Integer>createKey(EC.class, DataSerializers.VARINT);
 		private EntityLivingBase user;
 		private EntityLivingBase targetEntity;
-		private ItemJiton.SwarmTarget swarmTarget;
+		private ItemMagnetRelease.SwarmTarget swarmTarget;
 		private ProcedureSync.PositionRotationPacket capturedPRP;
 		private static final int MAXTIME = 600;
 
@@ -81,7 +81,7 @@ public class EntityPaperBind extends ElementsNarutomodMod.ModElement {
 			this.user = userIn;
 			this.targetEntity = targetIn;
 			this.setPosition(userIn.posX, userIn.posY, userIn.posZ);
-			this.swarmTarget = new ItemJiton.SwarmTarget<EntityPaper>(this.world, 250, userIn.getEntityBoundingBox(),
+			this.swarmTarget = new ItemMagnetRelease.SwarmTarget<EntityPaper>(this.world, 250, userIn.getEntityBoundingBox(),
 			 targetIn.getEntityBoundingBox(), new Vec3d(0.5d, 0.0d, 0.5d), 0.6f, 0.05f, false, 1f, -1) {
 				@Override
 				protected EntityPaper createParticle(double x, double y, double z, double mx, double my, double mz, int c, float sc, int life) {
@@ -252,7 +252,7 @@ public class EntityPaperBind extends ElementsNarutomodMod.ModElement {
 		}
 	}
 
-	public static class EntityPaper extends Entity implements ItemJiton.ISwarmEntity {
+	public static class EntityPaper extends Entity implements ItemMagnetRelease.ISwarmEntity {
 		private EntityLivingBase host;
 		private int maxAge;
 		public float prevRotationRoll;

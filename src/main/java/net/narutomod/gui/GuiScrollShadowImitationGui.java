@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-import net.narutomod.item.ItemInton;
+import net.narutomod.item.ItemYinRelease;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.PlayerTracker;
 import net.narutomod.ElementsNarutomodMod;
@@ -31,7 +31,7 @@ public class GuiScrollShadowImitationGui extends ElementsNarutomodMod.ModElement
 			// security measure to prevent arbitrary chunk generation
 			if (player.world.isRemote || !player.world.isBlockLoaded(new BlockPos(this.x, this.y, this.z)))
 				return;
-			ItemStack stack = GuiNinjaScroll.enableJutsu(player, (ItemInton.RangedItem)ItemInton.block, ItemInton.SHADOW_IMITATION, true);
+			ItemStack stack = GuiNinjaScroll.enableJutsu(player, (ItemYinRelease.RangedItem)ItemYinRelease.block, ItemYinRelease.SHADOW_IMITATION, true);
 			if (stack != null) {
 				super.handleButtonAction(player, buttonID);
 			}
@@ -46,7 +46,7 @@ public class GuiScrollShadowImitationGui extends ElementsNarutomodMod.ModElement
 		@Override
 		protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
 			super.drawGuiContainerBackgroundLayer(par1, par2, par3);
-			this.mc.renderEngine.bindTexture(new ResourceLocation("narutomod:textures/blocks/inton.png"));
+			this.mc.renderEngine.bindTexture(new ResourceLocation("narutomod:textures/blocks/yin_release.png"));
 			this.drawModalRectWithCustomSizedTexture(this.guiLeft + 89, this.guiTop + 49, 0, 0, 48, 48, 48, 48);
 			this.mc.renderEngine.bindTexture(new ResourceLocation("narutomod:textures/zi_.png"));
 			this.drawModalRectWithCustomSizedTexture(this.guiLeft + 0, this.guiTop + 108, 0, 0, 48, 48, 48, 48);
@@ -54,7 +54,7 @@ public class GuiScrollShadowImitationGui extends ElementsNarutomodMod.ModElement
 
 		@Override
 		protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-			this.fontRenderer.drawString(ItemInton.SHADOW_IMITATION.getName(), 38, 13, -16777216);
+			this.fontRenderer.drawString(ItemYinRelease.SHADOW_IMITATION.getName(), 38, 13, -16777216);
 		}
 	}
 }

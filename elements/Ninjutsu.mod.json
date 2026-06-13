@@ -3,8 +3,8 @@
   "_type": "gun",
   "definition": {
     "renderType": 1,
-    "texture": "ninjutsu",
-    "customModelName": "ninjutsu:default",
+    "texture": "ninja_arts",
+    "customModelName": "ninja_arts:default",
     "name": "Ninjutsu",
     "specialInfo": [],
     "creativeTab": {

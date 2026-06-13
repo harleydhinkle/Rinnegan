@@ -4,7 +4,7 @@ package net.narutomod.entity;
 import net.narutomod.ElementsNarutomodMod;
 import net.narutomod.Particles;
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemShoton;
+import net.narutomod.item.ItemCrystalRelease;
 import net.narutomod.procedure.ProcedureAoeCommand;
 import net.narutomod.procedure.ProcedureUtils;
 
@@ -134,9 +134,9 @@ public class EntityCrystalRay extends ElementsNarutomodMod.ModElement {
 				EntityLivingBase user = this.getSummoner();
 				if (user != null) {
 					user.getEntityData().removeTag(ENTITYID_KEY);
-					ItemStack stack = ProcedureUtils.getMatchingItemStack(user, ItemShoton.block);
+					ItemStack stack = ProcedureUtils.getMatchingItemStack(user, ItemCrystalRelease.block);
 					if (stack != null) {
-						ItemJutsu.setJutsuCooldown(stack, user, ItemShoton.RAY, 1800);
+						ItemJutsu.setJutsuCooldown(stack, user, ItemCrystalRelease.RAY, 1800);
 					}
 				}
 				this.playSound(SoundEvent.REGISTRY.getObject(new ResourceLocation("narutomod:ice_shoot_small")),

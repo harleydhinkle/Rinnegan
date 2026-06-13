@@ -32,7 +32,7 @@ public class ProcedureAddNinjaXpCommandExecuted extends ElementsNarutomodMod.Mod
 		}
 		Entity entity = (Entity) dependencies.get("entity");
 		HashMap cmdparams = (HashMap) dependencies.get("cmdparams");
-		double xp = 0;
+		double xp =(double)0.0F;
 		String username = "";
 		String param1 = "";
 		if (cmdparams.values().size() < 2) {

@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "item": "narutomod:water_release"
+    },
+    "title": {
+      "text": "Water Release"
+    },
+    "description": {
+      "text": "Water Style"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "acquired_water_release": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "narutomod:water_release",
+            "count": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {},
+  "parent": "narutomodaddon:acquired_ninjutsu"
+}

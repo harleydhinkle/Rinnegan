@@ -42,7 +42,7 @@ public class ItemCurryofLife extends ElementsNarutomodMod.ModElement {
 	}
 	public static class ItemFoodCustom extends ItemFood {
 		public ItemFoodCustom() {
-			super(20, 4f, false);
+			super(10, 4f, false);
 			setUnlocalizedName("curryof_life");
 			setRegistryName("curryof_life");
 			setAlwaysEdible();

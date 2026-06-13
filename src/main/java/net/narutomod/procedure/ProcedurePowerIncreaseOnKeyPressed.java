@@ -1,7 +1,7 @@
 package net.narutomod.procedure;
 
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemDojutsu;
+import net.narutomod.item.ItemOcularJutsu;
 import net.narutomod.item.ItemBijuCloak;
 import net.narutomod.entity.EntityBijuManager;
 import net.narutomod.ElementsNarutomodMod;
@@ -52,8 +52,8 @@ public class ProcedurePowerIncreaseOnKeyPressed extends ElementsNarutomodMod.Mod
 				if ((!(is_pressed))) {
 					ItemJutsu.Base.switchNextJutsu(itemoffhand, (EntityLivingBase) entity);
 				}
-			} else if ((helmet.getItem() instanceof ItemDojutsu.Base
-					&& ((ItemDojutsu.Base) helmet.getItem()).onSwitchJutsuKey(is_pressed, helmet, (EntityPlayer) entity))) {
+			} else if ((helmet.getItem() instanceof ItemOcularJutsu.Base
+					&& ((ItemOcularJutsu.Base) helmet.getItem()).onSwitchJutsuKey(is_pressed, helmet, (EntityPlayer) entity))) {
 				return;
 			} else if ((((helmet).getItem() == new ItemStack(ItemBijuCloak.helmet, (int) (1)).getItem())
 					&& ((((entity instanceof EntityPlayer) ? ((EntityPlayer) entity).inventory.armorInventory.get(2) : ItemStack.EMPTY)

@@ -26,7 +26,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
 
 import net.narutomod.procedure.ProcedureUtils;
-import net.narutomod.item.ItemBakuton;
+import net.narutomod.item.ItemExplosionRelease;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.ElementsNarutomodMod;
 
@@ -42,10 +42,11 @@ public class EntityC2 extends ElementsNarutomodMod.ModElement {
 	@Override
 	public void initElements() {
 		elements.entities.add(() -> EntityEntryBuilder.create().entity(EC.class)
-		 .id(new ResourceLocation("narutomod", "c_2"), ENTITYID).name("c_2").tracker(64, 3, true).build());
+		 .id(new ResourceLocation("narutomod", "c_2"), ENTITYID)
+.name("c_2").tracker(64, 3, true).build());
 	}
 
-	public static class EC extends ItemBakuton.ExplosiveClay {
+	public static class EC extends ItemExplosionRelease.ExplosiveClay {
 		protected static final float WIDTH = 3.0F;
 		protected static final float HEIGHT = 1.6F;
 		private Vec3d forceFlyTo;

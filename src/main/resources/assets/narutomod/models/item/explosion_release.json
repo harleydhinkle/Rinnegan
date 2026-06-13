@@ -1,0 +1,6 @@
+{
+  "parent": "narutomod:custom/explosion_release",
+  "textures": {
+    "2": "narutomod:blocks/explosion_release"
+  }
+}

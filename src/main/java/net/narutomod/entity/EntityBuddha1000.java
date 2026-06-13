@@ -51,7 +51,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 
 import net.narutomod.potion.PotionFeatherFalling;
-import net.narutomod.item.ItemSenjutsu;
+import net.narutomod.item.ItemSageArts;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.procedure.ProcedureAoeCommand;
 import net.narutomod.procedure.ProcedureUtils;
@@ -276,7 +276,7 @@ public class EntityBuddha1000 extends ElementsNarutomodMod.ModElement {
 		}
 
 		private boolean isSageModeActive(EntityLivingBase summoner) {
-			return ItemSenjutsu.isSageModeActivated(summoner);
+			return ItemSageArts.isSageModeActivated(summoner);
 		}
 
 		public void shootArms() {
@@ -346,8 +346,8 @@ public class EntityBuddha1000 extends ElementsNarutomodMod.ModElement {
 					entity.world.playSound(null, entity.posX, entity.posY, entity.posZ, 
 					 SoundEvent.REGISTRY.getObject(new ResourceLocation("narutomod:shinsusenju")),
 					 SoundCategory.PLAYERS, 5f, 1f);
-					entity.world.spawnEntity(new EC(entity, ItemSenjutsu.WOODBUDDHA.chakraUsage * 0.02d *
-					 ((ItemSenjutsu.RangedItem)stack.getItem()).getCurrentJutsuXpModifier(stack, entity)));
+					entity.world.spawnEntity(new EC(entity, ItemSageArts.WOODBUDDHA.chakraUsage * 0.02d *
+					 ((ItemSageArts.RangedItem)stack.getItem()).getCurrentJutsuXpModifier(stack, entity)));
 					ItemJutsu.setCurrentJutsuCooldown(stack, 3600);
 					return true;
 				}

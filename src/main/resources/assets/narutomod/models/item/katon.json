@@ -1,6 +1,0 @@
-{
-  "parent": "narutomod:custom/katon",
-  "textures": {
-    "0": "narutomod:blocks/katon"
-  }
-}

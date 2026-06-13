@@ -25,14 +25,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.Iterator;
 import com.google.common.collect.Maps;
+import net.narutomod.ElementsNarutomodMod.ModElement.Tag;
 
-@ElementsNarutomodMod.ModElement.Tag
+@Tag
 public class EntityTracker extends ElementsNarutomodMod.ModElement {
 	private static final Map<UUID, SessionDataHolder> entityMap = Maps.newHashMap();
-
-	/**
-	 * Do not remove this constructor
-	 */
 	public EntityTracker(ElementsNarutomodMod instance) {
 		super(instance, 532);
 	}
@@ -51,7 +48,7 @@ public class EntityTracker extends ElementsNarutomodMod.ModElement {
 	public static void clearRemovedData() {
 		Iterator<SessionDataHolder> iter = entityMap.values().iterator();
 		while (iter.hasNext()) {
-			if (!iter.next().entity.isAddedToWorld()) {
+			if (!((SessionDataHolder)iter.next()).entity.isAddedToWorld()) {
 				iter.remove();
 			}
 		}

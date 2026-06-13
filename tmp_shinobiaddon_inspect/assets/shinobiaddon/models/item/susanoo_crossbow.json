@@ -1,0 +1,20 @@
+{
+  "parent": "shinobiaddon:custom/susanoo_crossbow",
+  "textures": {
+    "layer0": "shinobiaddon:items/susanoo_crossbow"
+  },
+  "overrides": [
+    {
+      "predicate": { "pulling": 1 },
+      "model": "shinobiaddon:item/susanoo_crossbow_pulling_0"
+    },
+    {
+      "predicate": { "pulling": 1, "pull": 0.65 },
+      "model": "shinobiaddon:item/susanoo_crossbow_pulling_1"
+    },
+    {
+      "predicate": { "pulling": 1, "pull": 1.0 },
+      "model": "shinobiaddon:item/susanoo_crossbow_pulling_2"
+    }
+  ]
+}

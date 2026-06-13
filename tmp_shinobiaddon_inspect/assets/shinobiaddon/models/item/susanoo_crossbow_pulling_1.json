@@ -1,0 +1,6 @@
+{
+  "parent": "shinobiaddon:custom/susanoo_crossbow_pulling_1",
+  "textures": {
+    "layer0": "shinobiaddon:items/susanoo_crossbow_pulling_0"
+  }
+}

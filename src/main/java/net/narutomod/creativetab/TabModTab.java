@@ -1,7 +1,7 @@
 
 package net.narutomod.creativetab;
 
-import net.narutomod.item.ItemNinjutsu;
+import net.narutomod.item.ItemNinjaArts;
 import net.narutomod.ElementsNarutomodMod;
 
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -22,7 +22,7 @@ public class TabModTab extends ElementsNarutomodMod.ModElement {
 			@SideOnly(Side.CLIENT)
 			@Override
 			public ItemStack getTabIconItem() {
-				return new ItemStack(ItemNinjutsu.block, (int) (1));
+				return new ItemStack(ItemNinjaArts.block, (int) (1));
 			}
 
 			@SideOnly(Side.CLIENT)

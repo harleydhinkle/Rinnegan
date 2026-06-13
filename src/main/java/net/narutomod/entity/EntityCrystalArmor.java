@@ -4,7 +4,7 @@ package net.narutomod.entity;
 import net.narutomod.ElementsNarutomodMod;
 import net.narutomod.Chakra;
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemShoton;
+import net.narutomod.item.ItemCrystalRelease;
 import net.narutomod.procedure.ProcedureUtils;
 
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -125,7 +125,7 @@ public class EntityCrystalArmor extends ElementsNarutomodMod.ModElement {
 			if (user != null) {
 				this.setPosition(user.posX, user.posY, user.posZ);
 				if (this.ticksExisted % 20 == 19 && !this.world.isRemote) {
-					if (!Chakra.pathway(user).consume(ItemShoton.ARMOR.chakraUsage)) {
+					if (!Chakra.pathway(user).consume(ItemCrystalRelease.ARMOR.chakraUsage)) {
 						this.setDead();
 					} else {
 						IAttributeInstance aInstance = user.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);

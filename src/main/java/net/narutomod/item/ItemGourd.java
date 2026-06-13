@@ -28,7 +28,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.nbt.NBTTagCompound;
 
 import net.narutomod.entity.EntityBijuManager;
-import net.narutomod.item.ItemJiton;
+import net.narutomod.item.ItemMagnetRelease;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.creativetab.TabModTab;
 import net.narutomod.ElementsNarutomodMod;
@@ -85,7 +85,7 @@ public class ItemGourd extends ElementsNarutomodMod.ModElement {
 
 			@Override
 			public void onArmorTick(World world, EntityPlayer entity, ItemStack itemstack) {
-				if (!world.isRemote && ProcedureUtils.hasItemInInventory(entity, ItemJiton.block)) {
+				if (!world.isRemote && ProcedureUtils.hasItemInInventory(entity, ItemMagnetRelease.block)) {
 					entity.extinguish();
 					if (entity.ticksExisted % 20 == 3) {
 						entity.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 22, 2, false, false));
@@ -101,7 +101,7 @@ public class ItemGourd extends ElementsNarutomodMod.ModElement {
 			public void onUpdate(ItemStack itemstack, World world, Entity entity, int par4, boolean par5) {
 				super.onUpdate(itemstack, world, entity, par4, par5);
 				if (!world.isRemote && entity instanceof EntityPlayer 
-				 && !ProcedureUtils.hasItemInInventory((EntityPlayer)entity, ItemJiton.block)) {
+				 && !ProcedureUtils.hasItemInInventory((EntityPlayer)entity, ItemMagnetRelease.block)) {
 					itemstack.shrink(1);
 				}
 			}
@@ -114,8 +114,8 @@ public class ItemGourd extends ElementsNarutomodMod.ModElement {
 					Entity entity = FMLCommonHandler.instance().getMinecraftServerInstance().getEntityFromUuid(stack.getTagCompound().getUniqueId("LAST_WEARER_ID"));
 					if (entity instanceof EntityPlayer) {
 						EntityPlayer player = (EntityPlayer)entity;
-						if (ProcedureUtils.hasItemInInventory(player, ItemJiton.block)) {
-							player.getCooldownTracker().setCooldown(ItemJiton.block, (int)ProcedureUtils.modifiedCooldown(1200, player));
+						if (ProcedureUtils.hasItemInInventory(player, ItemMagnetRelease.block)) {
+							player.getCooldownTracker().setCooldown(ItemMagnetRelease.block, (int)ProcedureUtils.modifiedCooldown(1200, player));
 						}
 					}
 				}
@@ -123,15 +123,15 @@ public class ItemGourd extends ElementsNarutomodMod.ModElement {
 		}.setUnlocalizedName("gourdbody").setRegistryName("gourdbody").setCreativeTab(TabModTab.tab));
 	}
 
-	public static void setMaterial(ItemStack stack, ItemJiton.Type type) {
+	public static void setMaterial(ItemStack stack, ItemMagnetRelease.Type type) {
 		if (!stack.hasTagCompound()) {
 			stack.setTagCompound(new NBTTagCompound());
 		}
 		stack.getTagCompound().setInteger("MaterialType", type.getID());
 	}
 
-	protected static ItemJiton.Type getMaterial(ItemStack stack) {
-		return stack.hasTagCompound() ? ItemJiton.Type.getTypeFromId(stack.getTagCompound().getInteger("MaterialType")) : ItemJiton.Type.IRON;
+	protected static ItemMagnetRelease.Type getMaterial(ItemStack stack) {
+		return stack.hasTagCompound() ? ItemMagnetRelease.Type.getTypeFromId(stack.getTagCompound().getInteger("MaterialType")) : ItemMagnetRelease.Type.IRON;
 	}
 	
 	public static Vec3d getMouthPos(EntityLivingBase lb) {

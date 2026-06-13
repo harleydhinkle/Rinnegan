@@ -1,0 +1,6 @@
+{
+  "parent": "shinobiaddon:custom/dark_release",
+  "textures": {
+    "0": "shinobiaddon:items/dark_release"
+  }
+}

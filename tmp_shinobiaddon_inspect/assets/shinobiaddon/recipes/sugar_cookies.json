@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "WDW",
+    " W "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:sugar"
+    },
+    "D": {
+      "item": "shinobiaddon:cookie_dough"
+    },
+    "W": {
+      "item": "minecraft:wheat"
+    }
+  },
+  "result": {
+    "item": "shinobiaddon:sugar_cookies",
+    "count": 9
+  }
+}

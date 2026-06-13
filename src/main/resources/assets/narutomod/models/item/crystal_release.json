@@ -1,0 +1,6 @@
+{
+  "parent": "narutomod:custom/crystal_release",
+  "textures": {
+    "1": "narutomod:blocks/crystal_release"
+  }
+}

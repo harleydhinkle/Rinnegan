@@ -43,215 +43,238 @@ import net.minecraft.util.SoundEvent;
 
 @ElementsNarutomodMod.ModElement.Tag
 public class ItemScrollKarasu extends ElementsNarutomodMod.ModElement {
-	@GameRegistry.ObjectHolder("narutomod:scroll_karasu")
-	public static final Item block = null;
-	public static final int ENTITYID = 388;
+    @GameRegistry.ObjectHolder("narutomod:scroll_karasu")
+    public static final Item block = null;
+    public static final int ENTITYID = 388;
 
-	public ItemScrollKarasu(ElementsNarutomodMod instance) {
-		super(instance, 767);
-	}
+    public ItemScrollKarasu(ElementsNarutomodMod instance) {
+        super(instance, 767);
+    }
 
-	@Override
-	public void initElements() {
-		elements.items.add(() -> new RangedItem());
-		elements.entities.add(() -> EntityEntryBuilder.create().entity(EntityArrowCustom.class)
-				.id(new ResourceLocation("narutomod", "entitybulletscroll_karasu"), ENTITYID).name("entitybulletscroll_karasu").tracker(64, 1, true)
-				.build());
-	}
+    @Override
+    public void initElements() {
+        elements.items.add(() -> new RangedItem());
+        elements.entities.add(() -> EntityEntryBuilder.create().entity(EntityArrowCustom.class)
+                .id(new ResourceLocation("narutomod", "entitybulletscroll_karasu"), ENTITYID).name("entitybulletscroll_karasu").tracker(64, 1, true)
+                .build());
+    }
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerModels(ModelRegistryEvent event) {
-		ModelLoader.setCustomModelResourceLocation(block, 0, new ModelResourceLocation("narutomod:scroll_karasu", "inventory"));
-	}
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerModels(ModelRegistryEvent event) {
+        ModelLoader.setCustomModelResourceLocation(block, 0, new ModelResourceLocation("narutomod:scroll_karasu", "inventory"));
+    }
 
-	@Override
-	public void init(FMLInitializationEvent event) {
-		ProcedureOnLeftClickEmpty.addQualifiedItem(block, EnumHand.MAIN_HAND);
-	}
+    @Override
+    public void init(FMLInitializationEvent event) {
+        ProcedureOnLeftClickEmpty.addQualifiedItem(block, EnumHand.MAIN_HAND);
+    }
 
-	public static class RangedItem extends Item implements ItemOnBody.Interface {
-		public RangedItem() {
-			super();
-			this.setMaxDamage((int)EntityPuppetKarasu.EntityCustom.MAXHEALTH);
-			this.setFull3D();
-			this.setUnlocalizedName("scroll_karasu");
-			this.setRegistryName("scroll_karasu");
-			this.maxStackSize = 1;
-			this.setCreativeTab(TabModTab.tab);
-		}
+    public static class RangedItem extends Item implements ItemOnBody.Interface {
+        public RangedItem() {
+            super();
 
-		@Override
-		public EnumActionResult onItemUse(EntityPlayer entity, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-			if (!world.isRemote && world.getBlockState(pos).isTopSolid() && facing == EnumFacing.UP) {
-				ItemStack stack = entity.getHeldItem(hand);
-				if (!stack.hasTagCompound()
-				 || (!stack.getTagCompound().getBoolean("isScrollOpening") && stack.getTagCompound().getInteger("puppetId") == 0)) {
-					world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.BLOCK_CLOTH_PLACE,
-							SoundCategory.NEUTRAL, 1, 1f / (itemRand.nextFloat() * 0.5f + 1f) + 0.5f);
-					EntityArrowCustom entityarrow = new EntityArrowCustom(entity, this.getMaxDamage() - this.getDamage(stack), stack);
-					entityarrow.setLocationAndAngles(0.5d + pos.getX(), 1.1d + pos.getY(), 0.5d + pos.getZ(), entity.rotationYaw, 0f);
-					world.spawnEntity(entityarrow);
-					if (!stack.hasTagCompound()) {
-						stack.setTagCompound(new NBTTagCompound());
-					}
-					stack.getTagCompound().setBoolean("isScrollOpening", true);
-				}
-			}
-			return EnumActionResult.PASS;
-		}
+            // ? No durability bar / no damage tracking puppet HP
+            this.setMaxDamage(0);
 
-		@Override
-		public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
-			if (target instanceof EntityPuppetKarasu.EntityCustom && !playerIn.world.isRemote) {
-				ItemStack stack1 = playerIn.getHeldItem(hand);
-				if (stack1.hasTagCompound() && stack1.getTagCompound().getInteger("puppetId") > 0) {
-					ProcedureUtils.poofWithSmoke(target);
-					this.setDamage(stack1, (int)(target.getMaxHealth() - target.getHealth()));
-					target.setDead();
-					stack1.getTagCompound().setInteger("puppetId", 0);
-					return true;
-				}
-			}
-			return false;
-		}
+            this.setFull3D();
+            this.setUnlocalizedName("scroll_karasu");
+            this.setRegistryName("scroll_karasu");
+            this.maxStackSize = 1;
+            this.setCreativeTab(TabModTab.tab);
+        }
 
-		@Override
-		public boolean onLeftClickEntity(ItemStack itemstack, EntityPlayer attacker, Entity target) {
-			EntityPuppetKarasu.EntityCustom puppet = this.getPuppetEntity(itemstack, attacker.world);
-			if (attacker.equals(target)) {
-				target = ProcedureUtils.objectEntityLookingAt(attacker, 50d, 3d, puppet == null || puppet.getAttackTarget() == null ? puppet : null).entityHit;
-			}
-			if (target != null && target.equals(puppet)) {
-				puppet.setAttackTarget(null);
-				return true;
-			}
-			if (target instanceof EntityLivingBase && puppet != null) {
-				puppet.setAttackTarget((EntityLivingBase)target);
-			}
-			return super.onLeftClickEntity(itemstack, attacker, target);
-		}
+        @Override
+        public EnumActionResult onItemUse(EntityPlayer entity, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+            if (!world.isRemote && world.getBlockState(pos).isTopSolid() && facing == EnumFacing.UP) {
+                ItemStack stack = entity.getHeldItem(hand);
+                if (!stack.hasTagCompound()
+                        || (!stack.getTagCompound().getBoolean("isScrollOpening") && stack.getTagCompound().getInteger("puppetId") == 0)) {
+                    world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.BLOCK_CLOTH_PLACE,
+                            SoundCategory.NEUTRAL, 1, 1f / (itemRand.nextFloat() * 0.5f + 1f) + 0.5f);
 
-		@Override
-		public void onUpdate(ItemStack stack, World world, Entity entity, int par4, boolean par5) {
-			super.onUpdate(stack, world, entity, par4, par5);
-			if (!world.isRemote && entity.ticksExisted % 20 == 3) {
-				EntityPuppetKarasu.EntityCustom puppet = this.getPuppetEntity(stack, world);
-				if (puppet != null && puppet.isEntityAlive()) {
-					this.setDamage(stack, (int)(puppet.getMaxHealth() - puppet.getHealth()));
-				}
-			}
-		}
+                    // ? Always summon at full health now
+                    float fullHealth = (float) EntityPuppetKarasu.EntityCustom.MAXHEALTH;
 
-		public EntityPuppetKarasu.EntityCustom getPuppetEntity(ItemStack stack, World world) {
-			if (stack.hasTagCompound() && stack.getTagCompound().getInteger("puppetId") > 0) {
-				Entity entity = world.getEntityByID(stack.getTagCompound().getInteger("puppetId"));
-				return entity instanceof EntityPuppetKarasu.EntityCustom ? (EntityPuppetKarasu.EntityCustom)entity : null;
-			}
-			return null;
-		}
+                    EntityArrowCustom entityarrow = new EntityArrowCustom(entity, fullHealth, stack);
+                    entityarrow.setLocationAndAngles(0.5d + pos.getX(), 1.1d + pos.getY(), 0.5d + pos.getZ(), entity.rotationYaw, 0f);
+                    world.spawnEntity(entityarrow);
 
-		@Override
-		public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entity, EnumHand hand) {
-			entity.setActiveHand(hand);
-			return new ActionResult(EnumActionResult.SUCCESS, entity.getHeldItem(hand));
-		}
+                    if (!stack.hasTagCompound()) {
+                        stack.setTagCompound(new NBTTagCompound());
+                    }
+                    stack.getTagCompound().setBoolean("isScrollOpening", true);
+                }
+            }
+            return EnumActionResult.PASS;
+        }
 
-		@Override
-		public EnumAction getItemUseAction(ItemStack itemstack) {
-			return EnumAction.BOW;
-		}
+        @Override
+        public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
+            if (target instanceof EntityPuppetKarasu.EntityCustom && !playerIn.world.isRemote) {
+                ItemStack stack1 = playerIn.getHeldItem(hand);
+                if (stack1.hasTagCompound() && stack1.getTagCompound().getInteger("puppetId") > 0) {
+                    ProcedureUtils.poofWithSmoke(target);
 
-		@Override
-		public int getMaxItemUseDuration(ItemStack itemstack) {
-			return 72000;
-		}
-	}
+                    // ? Removed: scroll durability storing puppet HP
+                    // this.setDamage(stack1, (int)(target.getMaxHealth() - target.getHealth()));
 
-	public static class EntityArrowCustom extends Entity {
-		private final int openScrollTime = 30;
-		private EntityLivingBase summoner;
-		private float puppetHealth;
-		private ItemStack scrollStack;
-		
-		public EntityArrowCustom(World a) {
-			super(a);
-			this.setSize(1.0f, 0.2f);
-		}
+                    target.setDead();
+                    stack1.getTagCompound().setInteger("puppetId", 0);
+                    return true;
+                }
+            }
+            return false;
+        }
 
-		public EntityArrowCustom(EntityLivingBase summonerIn, float health, ItemStack stack) {
-			this(summonerIn.world);
-			this.summoner = summonerIn;
-			this.puppetHealth = health;
-			this.scrollStack = stack;
-		}
+        @Override
+        public boolean onLeftClickEntity(ItemStack itemstack, EntityPlayer attacker, Entity target) {
+            EntityPuppetKarasu.EntityCustom puppet = this.getPuppetEntity(itemstack, attacker.world);
+            if (attacker.equals(target)) {
+                target = ProcedureUtils.objectEntityLookingAt(attacker, 50d, 3d, puppet == null || puppet.getAttackTarget() == null ? puppet : null).entityHit;
+            }
+            if (target != null && target.equals(puppet)) {
+                puppet.setAttackTarget(null);
+                return true;
+            }
+            if (target instanceof EntityLivingBase && puppet != null) {
+                puppet.setAttackTarget((EntityLivingBase)target);
+            }
+            return super.onLeftClickEntity(itemstack, attacker, target);
+        }
 
-		@Override
-		protected void entityInit() {
-		}
+        @Override
+        public void onUpdate(ItemStack stack, World world, Entity entity, int par4, boolean par5) {
+            super.onUpdate(stack, world, entity, par4, par5);
 
-		@Override
-		public void onUpdate() {
-			super.onUpdate();
-			if (!this.world.isRemote && this.summoner == null) {
-				this.setDead();
-			} else if (this.ticksExisted > this.openScrollTime) {
-				if (this.summoner != null) {
-					EntityPuppetKarasu.EntityCustom entity = new EntityPuppetKarasu.EntityCustom(this.summoner, ItemNinjutsu.PUPPET.chakraUsage);
-					entity.setLocationAndAngles(this.posX, this.posY, this.posZ, this.summoner.rotationYaw, 0f);
-					entity.setHealth(this.puppetHealth);
-					this.world.spawnEntity(entity);
-					ProcedureUtils.poofWithSmoke(entity);
-					if (this.scrollStack != null) {
-						ItemStack stack = this.summoner instanceof EntityPlayer
-						 ? ProcedureUtils.getMatchingItemStack((EntityPlayer)this.summoner, this.scrollStack)
-						 : this.scrollStack;
-						if (!stack.hasTagCompound()) {
-							stack.setTagCompound(new NBTTagCompound());
-						}
-						stack.getTagCompound().setInteger("puppetId", entity.getEntityId());
-						stack.getTagCompound().removeTag("isScrollOpening");
-					}
-				}
-				this.setDead();
-			}
-		}
+            // ? Removed: durability syncing to puppet HP every second
+            // if (!world.isRemote && entity.ticksExisted % 20 == 3) {
+            //     EntityPuppetKarasu.EntityCustom puppet = this.getPuppetEntity(stack, world);
+            //     if (puppet != null && puppet.isEntityAlive()) {
+            //         this.setDamage(stack, (int)(puppet.getMaxHealth() - puppet.getHealth()));
+            //     }
+            // }
+        }
 
-		@Override
-		protected void readEntityFromNBT(NBTTagCompound compound) {
-		}
+        public EntityPuppetKarasu.EntityCustom getPuppetEntity(ItemStack stack, World world) {
+            if (stack.hasTagCompound() && stack.getTagCompound().getInteger("puppetId") > 0) {
+                Entity entity = world.getEntityByID(stack.getTagCompound().getInteger("puppetId"));
+                return entity instanceof EntityPuppetKarasu.EntityCustom ? (EntityPuppetKarasu.EntityCustom)entity : null;
+            }
+            return null;
+        }
 
-		@Override
-		protected void writeEntityToNBT(NBTTagCompound compound) {
-		}
-	}
+        @Override
+        public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer entity, EnumHand hand) {
+            entity.setActiveHand(hand);
+            return new ActionResult(EnumActionResult.SUCCESS, entity.getHeldItem(hand));
+        }
 
-	@Override
-	public void preInit(FMLPreInitializationEvent event) {
-		new Renderer().register();
-	}
+        @Override
+        public EnumAction getItemUseAction(ItemStack itemstack) {
+            return EnumAction.BOW;
+        }
 
-	public class Renderer extends EntityRendererRegister {
-		@SideOnly(Side.CLIENT)
-		@Override
-		public void register() {
-			RenderingRegistry.registerEntityRenderingHandler(EntityArrowCustom.class, renderManager -> {
-				return new RenderCustom(renderManager);
-			});
-		}
+        @Override
+        public int getMaxItemUseDuration(ItemStack itemstack) {
+            return 72000;
+        }
 
-		@SideOnly(Side.CLIENT)
-		public class RenderCustom extends EntityPuppet.ClientClass.RenderScroll<EntityArrowCustom> {
-			private final ResourceLocation texture = new ResourceLocation("narutomod:textures/scroll_karasu.png");
-	
-			public RenderCustom(RenderManager renderManager) {
-				super(renderManager);
-			}
-	
-			@Override
-			protected ResourceLocation getEntityTexture(EntityArrowCustom entity) {
-				return this.texture;
-			}
-		}
-	}
+        @Override
+        public int getMaxDamage() {
+            // ? No durability
+            return 0;
+        }
+    }
+
+    public static class EntityArrowCustom extends Entity {
+        private final int openScrollTime = 30;
+        private EntityLivingBase summoner;
+        private float puppetHealth;
+        private ItemStack scrollStack;
+
+        public EntityArrowCustom(World a) {
+            super(a);
+            this.setSize(1.0f, 0.2f);
+        }
+
+        public EntityArrowCustom(EntityLivingBase summonerIn, float health, ItemStack stack) {
+            this(summonerIn.world);
+            this.summoner = summonerIn;
+            this.puppetHealth = health;
+            this.scrollStack = stack;
+        }
+
+        @Override
+        protected void entityInit() {
+        }
+
+        @Override
+        public void onUpdate() {
+            super.onUpdate();
+            if (!this.world.isRemote && this.summoner == null) {
+                this.setDead();
+            } else if (this.ticksExisted > this.openScrollTime) {
+                if (this.summoner != null) {
+                    EntityPuppetKarasu.EntityCustom entity = new EntityPuppetKarasu.EntityCustom(this.summoner, ItemNinjaArts.PUPPET.chakraUsage);
+                    entity.setLocationAndAngles(this.posX, this.posY, this.posZ, this.summoner.rotationYaw, 0f);
+
+                    // ? will now always be fullHealth (from onItemUse)
+                    entity.setHealth(this.puppetHealth);
+
+                    this.world.spawnEntity(entity);
+                    ProcedureUtils.poofWithSmoke(entity);
+                    if (this.scrollStack != null) {
+                        ItemStack stack = this.summoner instanceof EntityPlayer
+                                ? ProcedureUtils.getMatchingItemStack((EntityPlayer)this.summoner, this.scrollStack)
+                                : this.scrollStack;
+                        if (!stack.hasTagCompound()) {
+                            stack.setTagCompound(new NBTTagCompound());
+                        }
+                        stack.getTagCompound().setInteger("puppetId", entity.getEntityId());
+                        stack.getTagCompound().removeTag("isScrollOpening");
+                    }
+                }
+                this.setDead();
+            }
+        }
+
+        @Override
+        protected void readEntityFromNBT(NBTTagCompound compound) {
+        }
+
+        @Override
+        protected void writeEntityToNBT(NBTTagCompound compound) {
+        }
+    }
+
+    @Override
+    public void preInit(FMLPreInitializationEvent event) {
+        new Renderer().register();
+    }
+
+    public class Renderer extends EntityRendererRegister {
+        @SideOnly(Side.CLIENT)
+        @Override
+        public void register() {
+            RenderingRegistry.registerEntityRenderingHandler(EntityArrowCustom.class, renderManager -> {
+                return new RenderCustom(renderManager);
+            });
+        }
+
+        @SideOnly(Side.CLIENT)
+        public class RenderCustom extends EntityPuppet.ClientClass.RenderScroll<EntityArrowCustom> {
+            private final ResourceLocation texture = new ResourceLocation("narutomod:textures/scroll_karasu.png");
+
+            public RenderCustom(RenderManager renderManager) {
+                super(renderManager);
+            }
+
+            @Override
+            protected ResourceLocation getEntityTexture(EntityArrowCustom entity) {
+                return this.texture;
+            }
+        }
+
+    }
 }

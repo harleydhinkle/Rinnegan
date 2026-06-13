@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "shinobiaddon:items/anbu_robe_blue_body"
+  }
+}

@@ -45,8 +45,8 @@ import net.narutomod.ElementsNarutomodMod;
 import net.narutomod.Particles;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.procedure.ProcedureSync;
-import net.narutomod.item.ItemSenjutsu;
-import net.narutomod.item.ItemNinjutsu;
+import net.narutomod.item.ItemSageArts;
+import net.narutomod.item.ItemNinjaArts;
 import net.narutomod.item.ItemJutsu;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.init.MobEffects;
@@ -128,7 +128,7 @@ public class EntityRasengan extends ElementsNarutomodMod.ModElement {
 			if (!this.world.isRemote) {
 				if (this.shootingEntity != null) {
 					ProcedureSync.EntityNBTTag.removeAndSync(this.shootingEntity, NarutomodModVariables.forceBowPose);
-					ItemNinjutsu.RASENGAN.jutsu.deactivate(this.shootingEntity);
+					ItemNinjaArts.RASENGAN.jutsu.deactivate(this.shootingEntity);
 				}
 			}
 		}
@@ -301,8 +301,8 @@ public void applyEntityCollision(Entity entityIn) {
 			public void onAttack(LivingAttackEvent event) {
 				if (!event.getEntity().world.isRemote && !ItemJutsu.isDamageSourceJutsu(event.getSource())) {
 					Entity attacker = event.getSource().getImmediateSource();
-					if (attacker instanceof EntityLivingBase && ItemNinjutsu.RASENGAN.jutsu.isActivated((EntityLivingBase)attacker)) {
-						Entity jutsuEntity = ItemNinjutsu.RASENGAN.jutsu.getJutsu((EntityLivingBase)attacker);
+					if (attacker instanceof EntityLivingBase && ItemNinjaArts.RASENGAN.jutsu.isActivated((EntityLivingBase)attacker)) {
+						Entity jutsuEntity = ItemNinjaArts.RASENGAN.jutsu.getJutsu((EntityLivingBase)attacker);
 						if (jutsuEntity instanceof EC) {
 							event.setCanceled(true);
 							jutsuEntity.applyEntityCollision(event.getEntity());
@@ -321,10 +321,10 @@ public void applyEntityCollision(Entity entityIn) {
 				Entity entity1 = stack.hasTagCompound() ? entity.world.getEntityByID(stack.getTagCompound().getInteger(ID_KEY)) : null;
 				if (entity1 instanceof EC && entity instanceof EntityPlayer) {
 					entity1.setDead();
-				} else if ((stack.getItem() == ItemNinjutsu.block && power >= 0.5f)
-				 || (stack.getItem() == ItemSenjutsu.block && power >= 3.0f)) {
+				} else if ((stack.getItem() == ItemNinjaArts.block && power >= 0.5f)
+				 || (stack.getItem() == ItemSageArts.block && power >= 3.0f)) {
 					EC entity2 = this.createJutsu(entity, power);
-					if (stack.getItem() == ItemSenjutsu.block) {
+					if (stack.getItem() == ItemSageArts.block) {
 						entity2.damageSource = ItemJutsu.causeSenjutsuDamage(entity2, entity);
 					}
 					stack.getTagCompound().setInteger(ID_KEY, entity2.getEntityId());
@@ -395,7 +395,7 @@ public void applyEntityCollision(Entity entityIn) {
 
 			@Override @Nullable
 			public ItemJutsu.IJutsuCallback.JutsuData getData(EntityLivingBase entity) {
-				ItemStack stack = ProcedureUtils.getMatchingItemStack(entity, ItemNinjutsu.block);
+				ItemStack stack = ProcedureUtils.getMatchingItemStack(entity, ItemNinjaArts.block);
 				if (stack != null && stack.hasTagCompound() && stack.getTagCompound().hasKey(ID_KEY)) {
 					Entity entity1 = entity.world.getEntityByID(stack.getTagCompound().getInteger(ID_KEY));
 					return entity1 instanceof EC ? new JutsuData(entity1, stack) : null;

@@ -27,7 +27,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemFuton;
+import net.narutomod.item.ItemWindRelease;
 import net.narutomod.Chakra;
 import net.narutomod.Particles;
 import net.narutomod.ElementsNarutomodMod;
@@ -92,7 +92,7 @@ public class EntityFutonGreatBreakthrough extends ElementsNarutomodMod.ModElemen
 				}
 				boolean canfly = this.user instanceof EntityPlayer && !this.user.onGround;
 				this.shoot(this.power, this.power * 0.25d, canfly);
-				if (canfly && Chakra.pathway(this.user).consume(ItemFuton.BIGBLOW.chakraUsage * this.power * 0.0025d)) {
+				if (canfly && Chakra.pathway(this.user).consume(ItemWindRelease.BIGBLOW.chakraUsage * this.power * 0.0025d)) {
 					++this.duration;
 					ProcedureUtils.addVelocity(this.user, Vec3d.fromPitchYaw(this.user.rotationPitch, this.user.rotationYawHead).scale(-this.power * 0.003f));
 				}
@@ -231,7 +231,7 @@ public class EntityFutonGreatBreakthrough extends ElementsNarutomodMod.ModElemen
 			this.prevPosZ = this.posZ;
 			this.motionY += 0.004d;
 			EntityLivingBase shooter = this.getShooter();
-			RayTraceResult res = ProjectileHelper.forwardsRaycast(this, true, true, shooter);
+			RayTraceResult res = EntityScalableProjectile.forwardsRaycast(this, true, true, shooter);
 			if (res != null && shooter != null) {
 				if (res.entityHit != null) {
 					ProcedureUtils.pushEntity(shooter, res.entityHit, this.getRange(), 3.0F);

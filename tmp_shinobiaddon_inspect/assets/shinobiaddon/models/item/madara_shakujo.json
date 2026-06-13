@@ -1,0 +1,6 @@
+{
+  "parent": "shinobiaddon:custom/shakujo_madara",
+  "textures": {
+    "layer0": "shinobiaddon:items/sagestaff"
+  }
+}

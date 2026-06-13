@@ -2,7 +2,7 @@
 package net.narutomod.entity;
 
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemJiton;
+import net.narutomod.item.ItemMagnetRelease;
 import net.narutomod.item.ItemGourd;
 import net.narutomod.procedure.ProcedureAoeCommand;
 import net.narutomod.procedure.ProcedureUtils;
@@ -55,7 +55,7 @@ public class EntitySandGathering extends ElementsNarutomodMod.ModElement {
 		private static final DataParameter<Integer> DEATH_TICKS = EntityDataManager.<Integer>createKey(EC.class, DataSerializers.VARINT);
 		private final int duration = 300;
 		private EntityLivingBase summoner;
-		private ItemJiton.SwarmTarget sandCloud;
+		private ItemMagnetRelease.SwarmTarget sandCloud;
 		private final int waitTime = 40;
 		private boolean riseAgain;
 		private double accelX;
@@ -75,8 +75,8 @@ public class EntitySandGathering extends ElementsNarutomodMod.ModElement {
 			vec = summonerIn.getPositionVector().addVector(vec.x, 3.0d, vec.z);
 			this.setPosition(vec.x, vec.y, vec.z);
 			this.setPuppetMouthOpen(true);
-			this.sandCloud = new ItemJiton.SwarmTarget(this.world, 50, this.getMouthPos(), 
-			 this.getEntityBoundingBox(), new Vec3d(0.4d, 0.0d, 0.4d), 0.5f, 0.03f, false, 2f, ItemJiton.Type.IRON.getColor());
+			this.sandCloud = new ItemMagnetRelease.SwarmTarget(this.world, 50, this.getMouthPos(), 
+			 this.getEntityBoundingBox(), new Vec3d(0.4d, 0.0d, 0.4d), 0.5f, 0.03f, false, 2f, ItemMagnetRelease.Type.IRON.getColor());
 		}
 
 		@Override
@@ -126,8 +126,8 @@ public class EntitySandGathering extends ElementsNarutomodMod.ModElement {
 				}
 			} else if (!this.world.isRemote && i > 0) {
 				this.setPuppetMouthOpen(true);
-				this.sandCloud = new ItemJiton.SwarmTarget(this.world, 50, this.getEntityBoundingBox(),
-			 	 this.getMouthPos(), new Vec3d(0.2d, -0.1d, 0.2d), 0.8f, 0.03f, true, 2f, ItemJiton.Type.IRON.getColor());
+				this.sandCloud = new ItemMagnetRelease.SwarmTarget(this.world, 50, this.getEntityBoundingBox(),
+			 	 this.getMouthPos(), new Vec3d(0.2d, -0.1d, 0.2d), 0.8f, 0.03f, true, 2f, ItemMagnetRelease.Type.IRON.getColor());
 			}
 		}
 

@@ -75,62 +75,62 @@ public class ItemRinnegan extends ElementsNarutomodMod.ModElement {
 	public static double getShinratenseiChakraUsage(EntityLivingBase entity) {
 		ItemStack stack = entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
 		return stack.getItem() instanceof Base
-		 ? ((ItemDojutsu.Base)stack.getItem()).isOwner(stack, entity)
+		 ? ((ItemOcularJutsu.Base)stack.getItem()).isOwner(stack, entity)
 		  ? SHINRATENSEI_CHAKRA_USAGE : SHINRATENSEI_CHAKRA_USAGE * 2 : (Double.MAX_VALUE * 0.001d);
 	}
 
 	public static double getBanshoteninChakraUsage(EntityLivingBase entity) {
 		ItemStack stack = entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
 		return stack.getItem() instanceof Base
-		 ? ((ItemDojutsu.Base)stack.getItem()).isOwner(stack, entity)
+		 ? ((ItemOcularJutsu.Base)stack.getItem()).isOwner(stack, entity)
 		  ? BANSHOTENIN_CHAKRA_USAGE : BANSHOTENIN_CHAKRA_USAGE * 2 : (Double.MAX_VALUE * 0.001d);
 	}
 
 	public static double getChibaukutenseiChakraUsage(EntityLivingBase entity) {
 		ItemStack stack = entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
 		return stack.getItem() instanceof Base
-		 ? ((ItemDojutsu.Base)stack.getItem()).isOwner(stack, entity)
+		 ? ((ItemOcularJutsu.Base)stack.getItem()).isOwner(stack, entity)
 		  ? CHIBAKUTENSEI_CHAKRA_USAGE : CHIBAKUTENSEI_CHAKRA_USAGE * 2 : (Double.MAX_VALUE * 0.001d);
 	}
 
 	public static double getNarakaPathChakraUsage(EntityLivingBase entity) {
 		ItemStack stack = entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
 		return stack.getItem() instanceof Base
-		 ? ((ItemDojutsu.Base)stack.getItem()).isOwner(stack, entity)
+		 ? ((ItemOcularJutsu.Base)stack.getItem()).isOwner(stack, entity)
 		  ? NARAKAPATH_CHAKRA_USAGE : NARAKAPATH_CHAKRA_USAGE * 2 : (Double.MAX_VALUE * 0.001d);
 	}
 
 	public static double getPretaPathChakraUsage(EntityLivingBase entity) {
 		ItemStack stack = entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
 		return stack.getItem() instanceof Base
-		 ? ((ItemDojutsu.Base)stack.getItem()).isOwner(stack, entity)
+		 ? ((ItemOcularJutsu.Base)stack.getItem()).isOwner(stack, entity)
 		  ? PRETAPATH_CHAKRA_USAGE : PRETAPATH_CHAKRA_USAGE * 2 : (Double.MAX_VALUE * 0.001d);
 	}
 
 	public static double getAnimalPathChakraUsage(EntityLivingBase entity) {
 		ItemStack stack = entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
 		return stack.getItem() instanceof Base
-		 ? ((ItemDojutsu.Base)stack.getItem()).isOwner(stack, entity)
+		 ? ((ItemOcularJutsu.Base)stack.getItem()).isOwner(stack, entity)
 		  ? ANIMALPATH_CHAKRA_USAGE : ANIMALPATH_CHAKRA_USAGE * 2 : (Double.MAX_VALUE * 0.001d);
 	}
 
 	public static double getOuterPathChakraUsage(EntityLivingBase entity) {
 		ItemStack stack = entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
 		return stack.getItem() instanceof Base
-		 ? ((ItemDojutsu.Base)stack.getItem()).isOwner(stack, entity)
+		 ? ((ItemOcularJutsu.Base)stack.getItem()).isOwner(stack, entity)
 		  ? OUTERPATH_CHAKRA_USAGE : OUTERPATH_CHAKRA_USAGE * 2 : (Double.MAX_VALUE * 0.001d);
 	}
 
 	public static double getTengaishinseiChakraUsage(EntityLivingBase entity) {
 		ItemStack stack = entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
 		return stack.getItem() instanceof Base
-		 ? ((ItemDojutsu.Base)stack.getItem()).isOwner(stack, entity)
+		 ? ((ItemOcularJutsu.Base)stack.getItem()).isOwner(stack, entity)
 		  ? TENGAISHINSEI_CHAKRA_USAGE : TENGAISHINSEI_CHAKRA_USAGE * 2 : (Double.MAX_VALUE * 0.001d);
 	}
 
 	public void initElements() {
 		ItemArmor.ArmorMaterial enuma = EnumHelper.addArmorMaterial("RINNEGAN", "narutomod:rinnegan_", 25, new int[]{2, 5, 6, 15}, 0,
-		 net.minecraft.util.SoundEvent.REGISTRY.getObject(new ResourceLocation("narutomod:dojutsu")), 2.0F);
+		 net.minecraft.util.SoundEvent.REGISTRY.getObject(new ResourceLocation("narutomod:ocular_jutsu")), 2.0F);
 
 		this.elements.items.add(() -> new Base(enuma).setUnlocalizedName("rinneganhelmet")
 		 .setRegistryName("rinneganhelmet").setCreativeTab(TabModTab.tab));
@@ -225,14 +225,14 @@ public class ItemRinnegan extends ElementsNarutomodMod.ModElement {
 		}.setUnlocalizedName("rinneganlegs").setRegistryName("rinneganlegs").setCreativeTab(null));
 	}
 
-	public static class Base extends ItemDojutsu.Base {
+	public static class Base extends ItemOcularJutsu.Base {
 		public Base(ItemArmor.ArmorMaterial material) {
 			super(material);
 		}
 
 		@Override
-		public ItemDojutsu.Type getType() {
-			return ItemDojutsu.Type.RINNE_TENSEI;
+		public ItemOcularJutsu.Type getType() {
+			return ItemOcularJutsu.Type.RINNE_TENSEI;
 		}
 
 		public boolean isTenseigan() {
@@ -242,7 +242,7 @@ public class ItemRinnegan extends ElementsNarutomodMod.ModElement {
 		@SideOnly(Side.CLIENT)
 		@Override
 		public ModelBiped getArmorModel(EntityLivingBase living, ItemStack stack, EntityEquipmentSlot slot, ModelBiped defaultModel) {
-			ItemDojutsu.ClientModel.ModelHelmetSnug model = (ItemDojutsu.ClientModel.ModelHelmetSnug)super.getArmorModel(living, stack, slot, defaultModel);
+			ItemOcularJutsu.ClientModel.ModelHelmetSnug model = (ItemOcularJutsu.ClientModel.ModelHelmetSnug)super.getArmorModel(living, stack, slot, defaultModel);
 			model.hornMiddle.showModel = false;
 			model.onface.showModel = false;
 			if (living.ticksExisted % 20 == 6) {
@@ -296,9 +296,9 @@ public class ItemRinnegan extends ElementsNarutomodMod.ModElement {
 		public void onUpdatePost(EntityPlayer player) {
 			if (!player.world.isRemote && player.ticksExisted % 20 == 3) {
 				ItemStack helmetStack = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-				GuiNinjaScroll.enableJutsu(player, (ItemJutsu.Base)ItemYoton.block, ItemYoton.SEALING9D, helmetStack.getItem() == helmet);
-				GuiNinjaScroll.enableJutsu(player, (ItemJutsu.Base)ItemYoton.block,
-				 ItemYoton.SEALING10, helmetStack.getItem() == helmet && EntityTenTails.getBijuManager().isAddedToWorld(player.world));
+				GuiNinjaScroll.enableJutsu(player, (ItemJutsu.Base)ItemYangRelease.block, ItemYangRelease.SEALING9D, helmetStack.getItem() == helmet);
+				GuiNinjaScroll.enableJutsu(player, (ItemJutsu.Base)ItemYangRelease.block,
+				 ItemYangRelease.SEALING10, helmetStack.getItem() == helmet && EntityTenTails.getBijuManager().isAddedToWorld(player.world));
 				if (!(helmetStack.getItem() instanceof Base)) {
 					player.inventory.clearMatchingItems(ItemAsuraCanon.block, -1, -1, null);
 					if (player.getRidingEntity() instanceof EntityPretaShield.EntityCustom) {

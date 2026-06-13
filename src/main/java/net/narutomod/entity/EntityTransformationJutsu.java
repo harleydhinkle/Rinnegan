@@ -3,7 +3,7 @@ package net.narutomod.entity;
 
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.procedure.ProcedureOnLivingUpdate;
-import net.narutomod.item.ItemNinjutsu;
+import net.narutomod.item.ItemNinjaArts;
 import net.narutomod.item.ItemJutsu;
 import net.narutomod.PlayerInput;
 import net.narutomod.PlayerRender;
@@ -180,7 +180,7 @@ public class EntityTransformationJutsu extends ElementsNarutomodMod.ModElement {
 				} else {
 					RayTraceResult res = ProcedureUtils.objectEntityLookingAt(entity, 30d);
 					if (res != null && res.entityHit instanceof EntityLivingBase) {
-						entity1 = new EC(entity, (EntityLivingBase)res.entityHit, ItemNinjutsu.TRANSFORM.chakraUsage * 0.1d);
+						entity1 = new EC(entity, (EntityLivingBase)res.entityHit, ItemNinjaArts.TRANSFORM.chakraUsage * 0.1d);
 						entity.world.spawnEntity(entity1);
 						entity.getEntityData().setInteger(ECENTITYID, entity1.getEntityId());
 						return true;

@@ -1,0 +1,6 @@
+{
+  "parent": "narutomod:custom/lightning_release",
+  "textures": {
+    "1": "narutomod:blocks/lightning_release"
+  }
+}

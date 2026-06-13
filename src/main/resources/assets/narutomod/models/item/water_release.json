@@ -1,0 +1,6 @@
+{
+  "parent": "narutomod:custom/water_release",
+  "textures": {
+    "0": "narutomod:blocks/water_release"
+  }
+}

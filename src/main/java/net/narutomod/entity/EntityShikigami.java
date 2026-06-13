@@ -5,7 +5,7 @@ import net.narutomod.ElementsNarutomodMod;
 import net.narutomod.Chakra;
 import net.narutomod.NarutomodModVariables;
 import net.narutomod.item.ItemJutsu;
-import net.narutomod.item.ItemNinjutsu;
+import net.narutomod.item.ItemNinjaArts;
 import net.narutomod.potion.PotionFlight;
 import net.narutomod.procedure.ProcedureUtils;
 
@@ -196,7 +196,7 @@ public class EntityShikigami extends ElementsNarutomodMod.ModElement {
 			public boolean createJutsu(ItemStack stack, EntityLivingBase entity, float power) {
 			 	Entity entity1 = entity.world.getEntityByID(entity.getEntityData().getInteger(ENTITYID_KEY));
 				if (!(entity1 instanceof EC)) {
-					this.createJutsu(entity, ItemNinjutsu.SHIKIGAMI.chakraUsage);
+					this.createJutsu(entity, ItemNinjaArts.SHIKIGAMI.chakraUsage);
 					return true;
 				} else {
 					entity1.setDead();

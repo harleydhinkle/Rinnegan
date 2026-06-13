@@ -9,7 +9,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-import net.narutomod.item.ItemIryoJutsu;
+import net.narutomod.item.ItemMedicalNinjutsu;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.PlayerTracker;
 import net.narutomod.ElementsNarutomodMod;
@@ -32,9 +32,9 @@ public class GuiScrollCellularActivationGui extends ElementsNarutomodMod.ModElem
 			// security measure to prevent arbitrary chunk generation
 			if (player.world.isRemote || !player.world.isBlockLoaded(new BlockPos(this.x, this.y, this.z)))
 				return;
-			ItemStack stack = ProcedureUtils.getMatchingItemStack(player, ItemIryoJutsu.block);
+			ItemStack stack = ProcedureUtils.getMatchingItemStack(player, ItemMedicalNinjutsu.block);
 			if (stack != null && PlayerTracker.isNinja(player)) {
-				((ItemIryoJutsu.RangedItem)stack.getItem()).enableJutsu(stack, ItemIryoJutsu.MEDMODE, true);
+				((ItemMedicalNinjutsu.RangedItem)stack.getItem()).enableJutsu(stack, ItemMedicalNinjutsu.MEDMODE, true);
 				super.handleButtonAction(player, buttonID);
 			} else {
 				player.sendStatusMessage(new TextComponentTranslation("chattext.medicalgui.notmedninja"), false);
@@ -56,7 +56,7 @@ public class GuiScrollCellularActivationGui extends ElementsNarutomodMod.ModElem
 
 		@Override
 		protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-			this.fontRenderer.drawString(ItemIryoJutsu.MEDMODE.getName(), 38, 13, -16777216);
+			this.fontRenderer.drawString(ItemMedicalNinjutsu.MEDMODE.getName(), 38, 13, -16777216);
 		}
 	}
 }

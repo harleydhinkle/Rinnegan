@@ -20,6 +20,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.init.MobEffects;
 
 import net.narutomod.ElementsNarutomodMod;
+import net.narutomod.procedure.ProcedureUtils;
 
 import java.util.List;
 import com.google.common.collect.Lists;
@@ -75,7 +76,7 @@ public class EntityGroundShock extends ElementsNarutomodMod.ModElement {
 						double d1 = pos.getZ() - blockpos.getZ();
 						double d2 = MathHelper.sqrt(d0 * d0 + d1 * d1);
 						if ((int)d2 == i && state.isFullBlock() && this.world.isAirBlock(pos1.setPos(pos.getX(), pos.getY()+1, pos.getZ()))) {
-							for (Entity entity1 : this.world.getEntitiesWithinAABBExcludingEntity(this, new AxisAlignedBB(pos1).grow(0.1d))) {
+							for (Entity entity1 : ProcedureUtils.getEntitiesWithinAABBIncludingMultipartParts(this.world, new AxisAlignedBB(pos1).grow(0.1d), this, null)) {
 								if (!(entity1 instanceof EntityFallingBlock) && !this.entitylist.contains(entity1)) {
 									this.entitylist.add(entity1);
 									entity1.motionY += 0.9d;

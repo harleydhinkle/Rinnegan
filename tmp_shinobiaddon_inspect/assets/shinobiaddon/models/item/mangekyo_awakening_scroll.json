@@ -1,0 +1,6 @@
+{
+  "parent": "shinobiaddon:custom/scrolls",
+  "textures": {
+    "0": "shinobiaddon:items/scroll_forbidden"
+  }
+}

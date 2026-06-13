@@ -1,0 +1,6 @@
+{
+  "parent": "shinobiaddon:custom/cursemark",
+  "textures": {
+    "4": "shinobiaddon:items/cursemark_sasuke"
+  }
+}

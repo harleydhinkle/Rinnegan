@@ -1,6 +1,6 @@
 package net.narutomod.procedure;
 
-import net.narutomod.item.ItemDojutsu;
+import net.narutomod.item.ItemOcularJutsu;
 import net.narutomod.entity.EntityTailedBeast;
 import net.narutomod.entity.EntityBijuManager;
 import net.narutomod.ElementsNarutomodMod;
@@ -40,8 +40,8 @@ public class ProcedureSpecialJutsu3OnKeyPressed extends ElementsNarutomodMod.Mod
 			return;
 		}
 		helmet = ((entity instanceof EntityPlayer) ? ((EntityPlayer) entity).inventory.armorInventory.get(3) : ItemStack.EMPTY);
-		if ((helmet.getItem() instanceof ItemDojutsu.Base
-				&& ((ItemDojutsu.Base) helmet.getItem()).onJutsuKey3(is_pressed, helmet, (EntityPlayer) entity))) {
+		if ((helmet.getItem() instanceof ItemOcularJutsu.Base
+				&& ((ItemOcularJutsu.Base) helmet.getItem()).onJutsuKey3(is_pressed, helmet, (EntityPlayer) entity))) {
 			return;
 		} else if (EntityBijuManager.cloakLevel((EntityPlayer) entity) == 3) {
 			if ((!(is_pressed))) {

@@ -13,6 +13,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.EntityLivingBase;
@@ -35,6 +36,7 @@ import net.narutomod.NarutomodMod;
 import net.narutomod.ElementsNarutomodMod;
 import net.narutomod.potion.PotionParalysis;
 import net.narutomod.procedure.ProcedureSync;
+import net.narutomod.procedure.ProcedureUtils;
 
 import java.util.Random;
 import javax.annotation.Nullable;
@@ -282,6 +284,13 @@ public class EntityLightningArc extends ElementsNarutomodMod.ModElement {
 						}
 						onStruck(entity, this.damageSource, this.damageAmount, this.paralysisTicks, true);
 					}
+				}
+				RayTraceResult oneTailResult = ProcedureUtils.rayTraceOneTailParts(this.world, this.excludeEntity, this.getPositionVector(), this.ogEndVec, 0.0D);
+				if (oneTailResult != null) {
+					if (this.resetHurtResistantTime) {
+						oneTailResult.entityHit.hurtResistantTime = 10;
+					}
+					onStruck(oneTailResult.entityHit, this.damageSource, this.damageAmount, this.paralysisTicks, true);
 				}
 			}
 			if (!this.world.isRemote) {
