@@ -72,7 +72,7 @@ public class ItemSwampRelease extends ElementsNarutomodMod.ModElement {
         );
  public static final ItemJutsu.JutsuEnum SWAMPSENTRY =
         new ItemJutsu.JutsuEnum(
-            2,
+            3,
             "swamp_sentry",
             'S',
             200d,

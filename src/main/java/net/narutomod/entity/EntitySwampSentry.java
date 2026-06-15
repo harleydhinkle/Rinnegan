@@ -85,6 +85,10 @@ public class EntitySwampSentry extends ElementsNarutomodMod.ModElement {
 
         private static final DataParameter<Integer> ATTACK_TIMER =
                 EntityDataManager.createKey(EC.class, DataSerializers.VARINT);
+        private static final DataParameter<Integer> MELEE_TIMER =
+                EntityDataManager.createKey(EC.class, DataSerializers.VARINT);
+        private static final DataParameter<Float> FACE_YAW =
+                EntityDataManager.createKey(EC.class, DataSerializers.FLOAT);
 
         // Head segment — positioned at flower head for a proper hitbox there.
         private final MultiPartEntityPart headPart;
@@ -93,11 +97,16 @@ public class EntitySwampSentry extends ElementsNarutomodMod.ModElement {
         // is called, fired once at bite-snap moment. Cleared after firing.
         private EntityLivingBase pendingTarget;
         private boolean firedThisAttack;
+        private boolean dealtMeleeDamage;
+        private int meleeCooldown;
+        private EntityLivingBase meleeTarget;
 
         @Override
         public void entityInit() {
             super.entityInit();
             this.dataManager.register(ATTACK_TIMER, 0);
+            this.dataManager.register(MELEE_TIMER, 0);
+            this.dataManager.register(FACE_YAW, 0.0f);
         }
 
         public EC(World world) {
@@ -129,6 +138,11 @@ public class EntitySwampSentry extends ElementsNarutomodMod.ModElement {
             return this.dataManager.get(ATTACK_TIMER);
         }
 
+        public int getMeleeTimer() {
+            return this.dataManager.get(MELEE_TIMER);
+        }
+
+
         @Override
         public boolean attackEntityFromPart(MultiPartEntityPart part, DamageSource source, float damage) {
             return this.attackEntityFrom(source, damage);
@@ -148,11 +162,12 @@ public class EntitySwampSentry extends ElementsNarutomodMod.ModElement {
                 int timer = this.dataManager.get(ATTACK_TIMER);
                 if (timer > 0) {
                     this.dataManager.set(ATTACK_TIMER, timer - 1);
-                    // Fire the thorn exactly once at the bite-snap moment.
-                    // Timer 17 = Blockbench t=1.625s = jaws clamp shut. This
-                    // lines up particle launch with the visual snap.
-                    if (!this.firedThisAttack && timer - 1 == 17 && this.pendingTarget != null) {
-                        this.fireThorn(this.pendingTarget);
+                    // Simple spit (timer=30) fires at t=0.5s (20 ticks remaining).
+                    // Heavy spit (timer=70) fires at t=1.5s (40 ticks remaining).
+                    int fireAt = (timer > 35) ? 40 : 20;
+                    if (!this.firedThisAttack && timer - 1 == fireAt && this.pendingTarget != null) {
+                        boolean isHeavy = timer > 35;
+                        this.fireThorn(this.pendingTarget, isHeavy ? 3 : 1);
                         this.firedThisAttack = true;
                     }
                 }
@@ -161,7 +176,62 @@ public class EntitySwampSentry extends ElementsNarutomodMod.ModElement {
                     this.pendingTarget = null;
                     this.firedThisAttack = false;
                 }
+                // Melee lunge timer: counts down from 40 (2s). Damage fires at tick 25 (t=0.75s).
+                int melee = this.dataManager.get(MELEE_TIMER);
+                if (melee > 0) {
+                    this.dataManager.set(MELEE_TIMER, melee - 1);
+                    if (!this.dealtMeleeDamage && melee - 1 == 25) {
+                        this.dealMeleeDamage();
+                        this.dealtMeleeDamage = true;
+                    }
+                }
+                if (melee <= 0 && this.dealtMeleeDamage) {
+                    this.dealtMeleeDamage = false;
+                }
+                // Proximity trigger: if anything gets within threat range, lunge at it.
+                if (this.meleeCooldown > 0) this.meleeCooldown--;
+                if (this.meleeCooldown <= 0 && melee <= 0 && this.dataManager.get(ATTACK_TIMER) <= 0) {
+                    float triggerRadius = 5.0f * this.getScale() + 1.0f;
+                    java.util.List<EntityLivingBase> close = this.world.getEntitiesWithinAABB(
+                            EntityLivingBase.class,
+                            this.getEntityBoundingBox().grow(triggerRadius));
+                    EntityLivingBase summoner = this.getSummoner();
+                    for (EntityLivingBase e : close) {
+                        if (e == this || e == summoner) continue;
+                        this.dataManager.set(MELEE_TIMER, 40);
+                        this.dealtMeleeDamage = false;
+                        this.meleeCooldown = 80;
+                        this.meleeTarget = e;
+                        break;
+                    }
+                }
+                // Rotate to face the current target. Movement speed is always 0 so the
+                // navigator never updates rotationYaw — we must do it manually.
+                EntityLivingBase faceTarget = this.getAttackTarget();
+                if (faceTarget == null) faceTarget = this.meleeTarget;
+                if (faceTarget != null && !faceTarget.isDead) {
+                    double dx = faceTarget.posX - this.posX;
+                    double dz = faceTarget.posZ - this.posZ;
+                    float targetYaw = (float)(Math.atan2(dx, dz) * 180.0 / Math.PI);
+                    float diff = MathHelper.wrapDegrees(targetYaw - this.rotationYaw);
+                    this.rotationYaw += MathHelper.clamp(diff, -10.0f, 10.0f);
+                    this.rotationYaw = MathHelper.wrapDegrees(this.rotationYaw);
+                } else {
+                    this.meleeTarget = null;
+                }
+                // Push current facing yaw to clients via DataManager — Minecraft won't
+                // send rotation packets reliably for a stationary entity.
+                this.dataManager.set(FACE_YAW, this.rotationYaw);
             }
+
+            // renderYawOffset drives the body render in RenderLiving. Since the plant
+            // never moves, onLivingUpdate won't track it — force-sync it here on both sides.
+            // On the client, pull from DataManager because rotationYaw isn't reliably
+            // updated by the vanilla packet system for non-moving entities.
+            if (this.world.isRemote) {
+                this.rotationYaw = this.dataManager.get(FACE_YAW);
+            }
+            this.renderYawOffset = this.rotationYaw;
 
             // Head hitbox sits directly above the entity center, near the top.
             // The earlier yaw-based forward offset landed in the wrong place
@@ -228,9 +298,9 @@ public class EntitySwampSentry extends ElementsNarutomodMod.ModElement {
          * base scale so the magenta missing-texture cube reads as an actual
          * chunky spike instead of a pixel.
          */
-        private void fireThorn(EntityLivingBase target) {
+        private void fireThorn(EntityLivingBase target, int thornCount) {
             final float THORN_SIZE_MULTIPLIER = 2.2f;
-            final float SPREAD_DEGREES = 5.0f; // cone half-angle for extra thorns
+            final float SPREAD_DEGREES = 5.0f; // cone half-angle for burst thorns
 
             float f = this.getScale();
             double spawnX = this.posX;
@@ -241,14 +311,6 @@ public class EntitySwampSentry extends ElementsNarutomodMod.ModElement {
             double leadTx = target.posX + target.motionX * 4.0;
             double leadTy = target.posY + target.height * 0.5;
             double leadTz = target.posZ + target.motionZ * 4.0;
-
-            // Roll count: 50% → 1, 30% → 2, 15% → 3, 5% → 4
-            int thornCount;
-            float roll = this.rand.nextFloat();
-            if      (roll < 0.50f) thornCount = 1;
-            else if (roll < 0.80f) thornCount = 2;
-            else if (roll < 0.95f) thornCount = 3;
-            else                   thornCount = 4;
 
             // Base velocity — all extra thorns deviate from this
             Vec3d baseVel = solveBallistic(spawnX, spawnY, spawnZ, leadTx, leadTy, leadTz);
@@ -273,6 +335,29 @@ public class EntitySwampSentry extends ElementsNarutomodMod.ModElement {
                     1.0f + (thornCount - 1) * 0.3f, soundPitch);
         }
 
+        /** Slam damage to all entities within threat range — called at the lunge snap moment. */
+        private void dealMeleeDamage() {
+            float f = this.getScale();
+            double range = 4.5 * f;
+            EntityLivingBase summoner = this.getSummoner();
+            java.util.List<EntityLivingBase> victims = this.world.getEntitiesWithinAABB(
+                    EntityLivingBase.class,
+                    this.getEntityBoundingBox().grow(range));
+            for (EntityLivingBase v : victims) {
+                if (v == this || v == summoner) continue;
+                v.attackEntityFrom(ItemJutsu.causeJutsuDamage(this, this), 20.0f * f);
+                double dx = v.posX - this.posX;
+                double dz = v.posZ - this.posZ;
+                double len = Math.sqrt(dx * dx + dz * dz);
+                if (len > 0.01) {
+                    v.addVelocity(dx / len * 1.5, 0.5, dz / len * 1.5);
+                }
+                v.addPotionEffect(new PotionEffect(PotionCorrosion.potion, 160, 0, false, false));
+            }
+            this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP,
+                    1.5f, 0.6f + this.rand.nextFloat() * 0.2f);
+        }
+
         /** Rotate a velocity vector by small yaw/pitch jitter for shotgun spread. */
         private Vec3d rotateVelocity(Vec3d v, double yawDeg, double pitchDeg) {
             double speed = v.lengthVector();
@@ -295,7 +380,7 @@ public class EntitySwampSentry extends ElementsNarutomodMod.ModElement {
         @Override
         protected void postScaleFixup() {
             float f = this.getScale();
-            this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(80.0D * f);
+            this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(400.0D * f);
             this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(4.0D * f);
             this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
             this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(8.0D * f);
@@ -318,9 +403,14 @@ public class EntitySwampSentry extends ElementsNarutomodMod.ModElement {
         @Override
         public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
             if (!this.world.isRemote) {
-                // 50 ticks = 2.5s Blockbench attack animation length (20 ticks/s).
-                // Thorn fires once at tick 33 (timer=17) — see onUpdate().
-                this.dataManager.set(ATTACK_TIMER, 50);
+                if (this.dataManager.get(ATTACK_TIMER) > 0) return;
+                if (this.dataManager.get(MELEE_TIMER) > 0) return;
+                float minRange = 6.0f * this.getScale();
+                if (this.getDistanceSq(target) < minRange * minRange) return;
+                // Within 15 blocks → quick simple spit (30 ticks, 1 thorn).
+                // Beyond 15 blocks → charged heavy burst (70 ticks, 3 thorns).
+                boolean heavy = this.getDistanceSq(target) > 15.0 * 15.0;
+                this.dataManager.set(ATTACK_TIMER, heavy ? 70 : 30);
                 this.pendingTarget = target;
                 this.firedThisAttack = false;
             }
@@ -555,12 +645,15 @@ public class EntitySwampSentry extends ElementsNarutomodMod.ModElement {
          */
         private void detonate(@Nullable RayTraceResult hit) {
             EntityLivingBase shooter = this.getShooter();
+            // Also exclude the plant's summoner so they never take self-damage
+            EntityLivingBase summoner = (shooter instanceof EC) ? ((EC) shooter).getSummoner() : null;
             double impactX = this.posX;
             double impactY = this.posY;
             double impactZ = this.posZ;
 
             // Direct hit bonus damage
-            if (hit != null && hit.entityHit instanceof EntityLivingBase && hit.entityHit != shooter) {
+            if (hit != null && hit.entityHit instanceof EntityLivingBase
+                    && hit.entityHit != shooter && hit.entityHit != summoner) {
                 EntityLivingBase direct = (EntityLivingBase) hit.entityHit;
                 direct.attackEntityFrom(ItemJutsu.causeJutsuDamage(this, shooter), DIRECT_DAMAGE);
                 direct.addPotionEffect(new PotionEffect(PotionCorrosion.potion,
@@ -582,6 +675,7 @@ public class EntitySwampSentry extends ElementsNarutomodMod.ModElement {
                             impactX + SPLASH_RADIUS, impactY + SPLASH_RADIUS, impactZ + SPLASH_RADIUS));
             for (EntityLivingBase v : victims) {
                 if (v == shooter) continue;
+                if (v == summoner) continue;
                 // Skip the direct-hit target — already damaged above
                 if (hit != null && v == hit.entityHit) continue;
                 double dx = v.posX - impactX;
@@ -768,7 +862,8 @@ public class EntitySwampSentry extends ElementsNarutomodMod.ModElement {
         private final ModelRenderer leaf, group, group2;
 
         private float animAge     = 0.0f;
-        private int   attackTimer = 0;
+        private int attackTimer = 0;
+        private int meleeTimer  = 0;
 
         private static final float RAD = 0.017453292f;
         private static final float MN_REST_X   =  0.7854f;
@@ -997,6 +1092,7 @@ public class EntitySwampSentry extends ElementsNarutomodMod.ModElement {
             this.animAge = entityIn.ticksExisted + partialTicks;
             if (entityIn instanceof EC) {
                 this.attackTimer = ((EC) entityIn).getAttackTimer();
+                this.meleeTimer  = ((EC) entityIn).getMeleeTimer();
             }
         }
 
@@ -1039,37 +1135,52 @@ public class EntitySwampSentry extends ElementsNarutomodMod.ModElement {
             float attackBlend = 0.0f;
 
             if (isAttacking) {
-                float tAnim = (50 - this.attackTimer) / 20.0f;
-                atk_articulation_X = lerpKeyframe_articulation(tAnim) * RAD;
-                atk_art_X          = lerpKeyframe_art(tAnim) * RAD;
-                atk_art2_X         = lerpKeyframe_art2(tAnim) * RAD;
-                atk_neck_X         = lerpKeyframe_neck(tAnim) * RAD;
-                atk_head_X         = 32.0f * RAD;
-                atk_head_Y         = 0.0f;
-                atk_head_Z         = 0.0f;  // Blockbench had 10° Z but it reads as an unwanted leftward roll in-game. Zero keeps the bite symmetric.
-                atk_flower_X       = lerpKeyframe_flowerX(tAnim) * RAD;
-                atk_flower_Y       = 0.0f;
-                atk_flower_Z       = 30.45f * RAD;
-                atk_mn_X           = lerpKeyframe_mouth_north(tAnim) * RAD;
-                atk_mna_X          = lerpKeyframe_mna(tAnim) * RAD;
-                atk_mna2_X         = lerpKeyframe_mna2(tAnim) * RAD;
-                atk_mn2_X          = lerpKeyframe_mouth_north2(tAnim) * RAD;
-                atk_mna3_X         = lerpKeyframe_mna3(tAnim) * RAD;
-                atk_mna4_X         = lerpKeyframe_mna4(tAnim) * RAD;
-                atk_mw_X           = lerpKeyframe_mouth_west(tAnim) * RAD;
-                atk_mwa_X          = lerpKeyframe_mwa(tAnim) * RAD;
-                atk_mwa2_X         = lerpKeyframe_mwa2(tAnim) * RAD;
-                atk_me_X           = lerpKeyframe_mouth_east(tAnim) * RAD;
-                atk_mea_X          = lerpKeyframe_mea(tAnim) * RAD;
-                atk_mea2_X         = lerpKeyframe_mea2(tAnim) * RAD;
-                // Ease in/out blend at start/end of attack so the switch is smooth
-                // (avoids a hard pop when the timer starts or ends).
-                if (tAnim < 0.25f) {
-                    attackBlend = tAnim / 0.25f;
-                } else if (tAnim > 2.25f) {
-                    attackBlend = Math.max(0.0f, (2.5f - tAnim) / 0.25f);
+                if (this.attackTimer > 35) {
+                    // Heavy spit: 70 ticks (3.5s). Stalk winds up backward, holds flower open, snaps hard.
+                    float tAnim = (70 - this.attackTimer) / 20.0f;
+                    atk_articulation_X = heavy_articulation_X(tAnim) * RAD;
+                    atk_art_X          = heavy_art_X(tAnim)          * RAD;
+                    atk_art2_X         = heavy_art2_X(tAnim)         * RAD;
+                    atk_neck_X         = heavy_neck_X(tAnim)         * RAD;
+                    atk_head_X         = 32.0f * RAD;
+                    atk_head_Y         = 0.0f;
+                    atk_head_Z         = 0.0f;
+                    atk_flower_X       = heavy_flower_X(tAnim)       * RAD;
+                    atk_flower_Y       = 0.0f;
+                    atk_flower_Z       = 30.45f * RAD;
+                    float mX    = heavy_mouth_X(tAnim)  * RAD;
+                    float mnaX  = heavy_mna_X(tAnim)    * RAD;
+                    float mna2X = heavy_mna2_X(tAnim)   * RAD;
+                    atk_mn_X  = mX;  atk_mna_X  = mnaX;  atk_mna2_X  = mna2X;
+                    atk_mn2_X = mX;  atk_mna3_X = mnaX;  atk_mna4_X  = mna2X;
+                    atk_mw_X  = mX;  atk_mwa_X  = mnaX;  atk_mwa2_X  = mna2X;
+                    atk_me_X  = mX;  atk_mea_X  = mnaX;  atk_mea2_X  = mna2X;
+                    if (tAnim < 0.25f)       attackBlend = tAnim / 0.25f;
+                    else if (tAnim > 3.25f)  attackBlend = Math.max(0.0f, (3.5f - tAnim) / 0.25f);
+                    else                     attackBlend = 1.0f;
                 } else {
-                    attackBlend = 1.0f;
+                    // Simple spit: 30 ticks (1.5s). Small forward lean, flower snaps, single thorn.
+                    float tAnim = (30 - this.attackTimer) / 20.0f;
+                    atk_articulation_X = simple_articulation_X(tAnim) * RAD;
+                    atk_art_X          = simple_art_X(tAnim)          * RAD;
+                    atk_art2_X         = 40.0f * RAD;
+                    atk_neck_X         = simple_neck_X(tAnim)         * RAD;
+                    atk_head_X         = 32.0f * RAD;
+                    atk_head_Y         = 0.0f;
+                    atk_head_Z         = 0.0f;
+                    atk_flower_X       = simple_flower_X(tAnim)       * RAD;
+                    atk_flower_Y       = 0.0f;
+                    atk_flower_Z       = 0.0f;
+                    float mX    = simple_mouth_X(tAnim)  * RAD;
+                    float mnaX  = simple_mna_X(tAnim)    * RAD;
+                    float mna2X = simple_mna2_X(tAnim)   * RAD;
+                    atk_mn_X  = mX;  atk_mna_X  = mnaX;  atk_mna2_X  = mna2X;
+                    atk_mn2_X = mX;  atk_mna3_X = mnaX;  atk_mna4_X  = mna2X;
+                    atk_mw_X  = mX;  atk_mwa_X  = mnaX;  atk_mwa2_X  = mna2X;
+                    atk_me_X  = mX;  atk_mea_X  = mnaX;  atk_mea2_X  = mna2X;
+                    if (tAnim < 0.1f)       attackBlend = tAnim / 0.1f;
+                    else if (tAnim > 1.4f)  attackBlend = Math.max(0.0f, (1.5f - tAnim) / 0.1f);
+                    else                    attackBlend = 1.0f;
                 }
             } else {
                 atk_articulation_X = atk_art_X = atk_art2_X = atk_neck_X = 0;
@@ -1079,6 +1190,32 @@ public class EntitySwampSentry extends ElementsNarutomodMod.ModElement {
                 atk_mn2_X = atk_mna3_X = atk_mna4_X = 0;
                 atk_mw_X = atk_mwa_X = atk_mwa2_X = 0;
                 atk_me_X = atk_mea_X = atk_mea2_X = 0;
+            }
+
+            // ---- MELEE ANIMATION (overrides attack variables when active) ----
+            // Reuses the atk_ slots so the compose section below needs no changes.
+            if (this.meleeTimer > 0) {
+                float tAnim = (40 - this.meleeTimer) / 20.0f;
+                atk_articulation_X = melee_articulation_X(tAnim) * RAD;
+                atk_art_X          = melee_art_X(tAnim)          * RAD;
+                atk_art2_X         = melee_art2_X(tAnim)         * RAD;
+                atk_neck_X         = melee_neck_X(tAnim)         * RAD;
+                atk_head_X         = melee_head_X(tAnim)         * RAD;
+                atk_head_Y         = 0.0f;
+                atk_head_Z         = 0.0f;
+                atk_flower_X       = melee_flower_X(tAnim)       * RAD;
+                atk_flower_Y       = 0.0f;
+                atk_flower_Z       = 0.0f;
+                float mX    = melee_mouth_X(tAnim)  * RAD;
+                float mnaX  = melee_mna_X(tAnim)    * RAD;
+                float mna2X = melee_mna2_X(tAnim)   * RAD;
+                atk_mn_X  = mX;  atk_mna_X  = mnaX;  atk_mna2_X  = mna2X;
+                atk_mn2_X = mX;  atk_mna3_X = mnaX;  atk_mna4_X  = mna2X;
+                atk_mw_X  = mX;  atk_mwa_X  = mnaX;  atk_mwa2_X  = mna2X;
+                atk_me_X  = mX;  atk_mea_X  = mnaX;  atk_mea2_X  = mna2X;
+                if (tAnim < 0.2f)       attackBlend = tAnim / 0.2f;
+                else if (tAnim > 1.8f)  attackBlend = Math.max(0.0f, (2.0f - tAnim) / 0.2f);
+                else                    attackBlend = 1.0f;
             }
 
             // ---- COMPOSE IDLE + ATTACK via blend ----
@@ -1157,138 +1294,194 @@ public class EntitySwampSentry extends ElementsNarutomodMod.ModElement {
         // All values in degrees; times in seconds (0 to 2.5).
         // Source of truth: plant_summonAnimation.attack keyframes.
         // =====================================================================
-        private static float lerpKeyframe_articulation(float t) {
-            // 0:-30, 0.5:-60, 1.5:-65, 1.625:15, 2:-2.719, 2.5:-30
-            if (t < 0.5f)   return lerp(t, 0f, 0.5f, -30f, -60f);
-            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, -60f, -65f);
-            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, -65f, 15f);
-            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, 15f, -2.719f);
-            return lerp(t, 2.0f, 2.5f, -2.719f, -30f);
+        // =====================================================================
+        // Simple spit — 30 ticks (1.5s). Fires at t=0.5s. 1 thorn.
+        // Small forward lean, neck extends, flower opens and snaps, recoils.
+        // =====================================================================
+        private static float simple_articulation_X(float t) {
+            // 0:-30, 0.35:-44, 0.5:-46, 0.75:-35, 1.5:-30
+            if (t < 0.35f) return lerp(t, 0f, 0.35f, -30f, -44f);
+            if (t < 0.5f)  return lerp(t, 0.35f, 0.5f, -44f, -46f);
+            if (t < 0.75f) return lerp(t, 0.5f, 0.75f, -46f, -35f);
+            return lerp(t, 0.75f, 1.5f, -35f, -30f);
         }
-        private static float lerpKeyframe_art(float t) {
-            // 0:55, 0.5:45, 1.5:40, 1.625:20, 2:-2.719, 2.5:55
-            if (t < 0.5f)   return lerp(t, 0f, 0.5f, 55f, 45f);
-            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, 45f, 40f);
-            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, 40f, 20f);
-            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, 20f, -2.719f);
-            return lerp(t, 2.0f, 2.5f, -2.719f, 55f);
+        private static float simple_art_X(float t) {
+            // Upper stalk counterbalances — 0:55, 0.35:48, 0.5:46, 0.75:51, 1.5:55
+            if (t < 0.35f) return lerp(t, 0f, 0.35f, 55f, 48f);
+            if (t < 0.5f)  return lerp(t, 0.35f, 0.5f, 48f, 46f);
+            if (t < 0.75f) return lerp(t, 0.5f, 0.75f, 46f, 51f);
+            return lerp(t, 0.75f, 1.5f, 51f, 55f);
         }
-        private static float lerpKeyframe_art2(float t) {
-            // 0:40, 0.5:65, 1.5:60, 1.625:10, 2:45, 2.5:40
-            if (t < 0.5f)   return lerp(t, 0f, 0.5f, 40f, 65f);
-            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, 65f, 60f);
-            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, 60f, 10f);
-            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, 10f, 45f);
-            return lerp(t, 2.0f, 2.5f, 45f, 40f);
-        }
-        private static float lerpKeyframe_neck(float t) {
-            // 0:0, 1.0:5, 1.625:0, 2:0, 2.5:0
-            if (t < 1.0f)   return lerp(t, 0f, 1.0f, 0f, 5f);
-            if (t < 1.625f) return lerp(t, 1.0f, 1.625f, 5f, 0f);
+        private static float simple_neck_X(float t) {
+            // 0:0, 0.25:8, 0.5:0, 1.5:0
+            if (t < 0.25f) return lerp(t, 0f, 0.25f, 0f, 8f);
+            if (t < 0.5f)  return lerp(t, 0.25f, 0.5f, 8f, 0f);
             return 0f;
         }
-        private static float lerpKeyframe_flowerX(float t) {
-            // 0:0, 0.5:20, 1.625:45, 2:25, 2.5:0
-            if (t < 0.5f)   return lerp(t, 0f, 0.5f, 0f, 20f);
-            if (t < 1.625f) return lerp(t, 0.5f, 1.625f, 20f, 45f);
-            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, 45f, 25f);
-            return lerp(t, 2.0f, 2.5f, 25f, 0f);
+        private static float simple_flower_X(float t) {
+            // Opens (negative) then snaps shut (positive): 0:0, 0.25:-20, 0.5:22, 0.8:0
+            if (t < 0.25f) return lerp(t, 0f, 0.25f, 0f, -20f);
+            if (t < 0.5f)  return lerp(t, 0.25f, 0.5f, -20f, 22f);
+            if (t < 0.8f)  return lerp(t, 0.5f, 0.8f, 22f, 0f);
+            return 0f;
         }
-        private static float lerpKeyframe_mouth_north(float t) {
-            // 0:5, 0.5:5, 1.5:27.5, 1.625:-12.5, 2:0, 2.5:5
-            if (t < 0.5f)   return 5f;
-            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, 5f, 27.5f);
-            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, 27.5f, -12.5f);
-            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, -12.5f, 0f);
-            return lerp(t, 2.0f, 2.5f, 0f, 5f);
+        private static float simple_mouth_X(float t) {
+            // 0:5, 0.25:22, 0.5:-8, 0.8:5
+            if (t < 0.25f) return lerp(t, 0f, 0.25f, 5f, 22f);
+            if (t < 0.5f)  return lerp(t, 0.25f, 0.5f, 22f, -8f);
+            if (t < 0.8f)  return lerp(t, 0.5f, 0.8f, -8f, 5f);
+            return 5f;
         }
-        private static float lerpKeyframe_mna(float t) {
-            // 0:3, 0.5:3, 1.5:13, 1.625:43, 2:0, 2.5:3
-            if (t < 0.5f)   return 3f;
-            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, 3f, 13f);
-            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, 13f, 43f);
-            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, 43f, 0f);
-            return lerp(t, 2.0f, 2.5f, 0f, 3f);
+        private static float simple_mna_X(float t) {
+            // 0:3, 0.25:25, 0.5:-15, 0.8:3
+            if (t < 0.25f) return lerp(t, 0f, 0.25f, 3f, 25f);
+            if (t < 0.5f)  return lerp(t, 0.25f, 0.5f, 25f, -15f);
+            if (t < 0.8f)  return lerp(t, 0.5f, 0.8f, -15f, 3f);
+            return 3f;
         }
-        private static float lerpKeyframe_mna2(float t) {
-            // 0:3, 0.5:3, 1.5:0.5, 1.625:28, 2:0, 2.5:3
-            if (t < 0.5f)   return 3f;
-            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, 3f, 0.5f);
-            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, 0.5f, 28f);
-            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, 28f, 0f);
-            return lerp(t, 2.0f, 2.5f, 0f, 3f);
+        private static float simple_mna2_X(float t) {
+            // 0:3, 0.25:15, 0.5:-10, 0.8:3
+            if (t < 0.25f) return lerp(t, 0f, 0.25f, 3f, 15f);
+            if (t < 0.5f)  return lerp(t, 0.25f, 0.5f, 15f, -10f);
+            if (t < 0.8f)  return lerp(t, 0.5f, 0.8f, -10f, 3f);
+            return 3f;
         }
-        private static float lerpKeyframe_mouth_north2(float t) {
-            // 0:5, 0.5:5, 1.5:35, 1.625:-12.5, 2:0, 2.5:5   (note: attack defines mn2 with 35 peak)
-            if (t < 0.5f)   return 5f;
-            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, 5f, 35f);
-            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, 35f, -12.5f);
-            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, -12.5f, 0f);
-            return lerp(t, 2.0f, 2.5f, 0f, 5f);
+
+        // =====================================================================
+        // Heavy spit — 70 ticks (3.5s). Fires at t=1.5s. 3 thorns burst.
+        // Big backward wind-up, flower holds wide open, snaps hard forward.
+        // =====================================================================
+        private static float heavy_articulation_X(float t) {
+            // 0:-30, 0.5:-8 (lean back), 1.5:-8 (hold), 1.625:-55 (snap fwd), 2.0:-40, 3.5:-30
+            if (t < 0.5f)   return lerp(t, 0f, 0.5f, -30f, -8f);
+            if (t < 1.5f)   return -8f;
+            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, -8f, -55f);
+            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, -55f, -40f);
+            return lerp(t, 2.0f, 3.5f, -40f, -30f);
         }
-        private static float lerpKeyframe_mna3(float t) {
-            // mn_articulation3: 0:3, 0.5:3, 1.5:15.5, 1.625:43, 2:0, 2.5:3
-            if (t < 0.5f)   return 3f;
-            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, 3f, 15.5f);
-            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, 15.5f, 43f);
-            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, 43f, 0f);
-            return lerp(t, 2.0f, 2.5f, 0f, 3f);
+        private static float heavy_art_X(float t) {
+            // 0:55, 0.5:68, 1.5:68, 1.625:44, 2.0:50, 3.5:55
+            if (t < 0.5f)   return lerp(t, 0f, 0.5f, 55f, 68f);
+            if (t < 1.5f)   return 68f;
+            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, 68f, 44f);
+            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, 44f, 50f);
+            return lerp(t, 2.0f, 3.5f, 50f, 55f);
         }
-        private static float lerpKeyframe_mna4(float t) {
-            // mn_articulation4: 0:3, 0.5:3, 1.5:-4.5, 1.625:28, 2:0, 2.5:3
-            if (t < 0.5f)   return 3f;
-            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, 3f, -4.5f);
-            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, -4.5f, 28f);
-            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, 28f, 0f);
-            return lerp(t, 2.0f, 2.5f, 0f, 3f);
+        private static float heavy_art2_X(float t) {
+            // 0:40, 0.5:55, 1.5:55, 1.625:32, 2.0:42, 3.5:40
+            if (t < 0.5f)   return lerp(t, 0f, 0.5f, 40f, 55f);
+            if (t < 1.5f)   return 55f;
+            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, 55f, 32f);
+            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, 32f, 42f);
+            return lerp(t, 2.0f, 3.5f, 42f, 40f);
         }
-        private static float lerpKeyframe_mouth_west(float t) {
-            // 0:5, 0.5:5, 1.5:25, 1.625:-22.5, 2:0, 2.5:5
-            if (t < 0.5f)   return 5f;
-            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, 5f, 25f);
-            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, 25f, -22.5f);
-            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, -22.5f, 0f);
-            return lerp(t, 2.0f, 2.5f, 0f, 5f);
+        private static float heavy_neck_X(float t) {
+            // 0:0, 0.5:5, 1.5:8, 1.625:0, 3.5:0
+            if (t < 0.5f)   return lerp(t, 0f, 0.5f, 0f, 5f);
+            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, 5f, 8f);
+            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, 8f, 0f);
+            return 0f;
         }
-        private static float lerpKeyframe_mwa(float t) {
-            // 0:3, 0.5:3, 1.5:5.5, 1.625:53, 2:0, 2.5:3
-            if (t < 0.5f)   return 3f;
-            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, 3f, 5.5f);
-            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, 5.5f, 53f);
-            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, 53f, 0f);
-            return lerp(t, 2.0f, 2.5f, 0f, 3f);
+        private static float heavy_flower_X(float t) {
+            // Opens wide (negative) during hold, slams shut (positive) at fire.
+            // 0:0, 0.5:-15, 1.5:-48, 1.625:35, 2.0:0, 3.5:0
+            if (t < 0.5f)   return lerp(t, 0f, 0.5f, 0f, -15f);
+            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, -15f, -48f);
+            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, -48f, 35f);
+            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, 35f, 0f);
+            return 0f;
         }
-        private static float lerpKeyframe_mwa2(float t) {
-            // 0:3, 0.5:3, 1.5:-9.5, 1.625:18, 2:0, 2.5:3
-            if (t < 0.5f)   return 3f;
-            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, 3f, -9.5f);
-            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, -9.5f, 18f);
-            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, 18f, 0f);
-            return lerp(t, 2.0f, 2.5f, 0f, 3f);
+        private static float heavy_mouth_X(float t) {
+            // 0:5, 0.5:22, 1.5:38, 1.625:-18, 2.0:5
+            if (t < 0.5f)   return lerp(t, 0f, 0.5f, 5f, 22f);
+            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, 22f, 38f);
+            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, 38f, -18f);
+            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, -18f, 5f);
+            return 5f;
         }
-        private static float lerpKeyframe_mouth_east(float t) {
-            // 0:5, 0.5:5, 1.5:25, 1.625:-22.5, 2:0, 2.5:5
-            if (t < 0.5f)   return 5f;
-            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, 5f, 25f);
-            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, 25f, -22.5f);
-            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, -22.5f, 0f);
-            return lerp(t, 2.0f, 2.5f, 0f, 5f);
+        private static float heavy_mna_X(float t) {
+            // 0:3, 0.5:25, 1.5:42, 1.625:-20, 2.0:3
+            if (t < 0.5f)   return lerp(t, 0f, 0.5f, 3f, 25f);
+            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, 25f, 42f);
+            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, 42f, -20f);
+            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, -20f, 3f);
+            return 3f;
         }
-        private static float lerpKeyframe_mea(float t) {
-            // me_articulation: 0:3, 0.5:3, 1.5:9.94, 1.625:53, 2:0, 2.5:3
-            if (t < 0.5f)   return 3f;
-            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, 3f, 9.94f);
-            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, 9.94f, 53f);
-            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, 53f, 0f);
-            return lerp(t, 2.0f, 2.5f, 0f, 3f);
+        private static float heavy_mna2_X(float t) {
+            // 0:3, 0.5:15, 1.5:25, 1.625:-12, 2.0:3
+            if (t < 0.5f)   return lerp(t, 0f, 0.5f, 3f, 15f);
+            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, 15f, 25f);
+            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, 25f, -12f);
+            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, -12f, 3f);
+            return 3f;
         }
-        private static float lerpKeyframe_mea2(float t) {
-            // me_articulation2: 0:3, 0.5:3, 1.5:-9.5, 1.625:15.5, 2:0, 2.5:3
-            if (t < 0.5f)   return 3f;
-            if (t < 1.5f)   return lerp(t, 0.5f, 1.5f, 3f, -9.5f);
-            if (t < 1.625f) return lerp(t, 1.5f, 1.625f, -9.5f, 15.5f);
-            if (t < 2.0f)   return lerp(t, 1.625f, 2.0f, 15.5f, 0f);
-            return lerp(t, 2.0f, 2.5f, 0f, 3f);
+
+        // =====================================================================
+        // Melee lunge keyframes — fast territorial snap when targets get close.
+        // Timer 40→0 over 2.0s; damage fires at t=0.75s (the snap moment).
+        // Phase 1 (0–0.5s): hard lunge forward. Phase 2 (0.5–0.75s): head snaps.
+        // Phase 3 (0.75–2.0s): recoil back to idle.
+        // =====================================================================
+        private static float melee_articulation_X(float t) {
+            if (t < 0.25f) return lerp(t, 0f, 0.25f, -30f, -90f);
+            if (t < 0.5f)  return -90f;
+            if (t < 0.75f) return lerp(t, 0.5f, 0.75f, -90f, -30f);
+            return -30f;
+        }
+        private static float melee_art_X(float t) {
+            if (t < 0.25f) return lerp(t, 0f, 0.25f, 55f, 5f);
+            if (t < 0.5f)  return 5f;
+            if (t < 0.75f) return lerp(t, 0.5f, 0.75f, 5f, 65f);
+            if (t < 1.25f) return lerp(t, 0.75f, 1.25f, 65f, 55f);
+            return 55f;
+        }
+        private static float melee_art2_X(float t) {
+            if (t < 0.25f) return lerp(t, 0f, 0.25f, 40f, 10f);
+            if (t < 0.5f)  return 10f;
+            if (t < 0.75f) return lerp(t, 0.5f, 0.75f, 10f, 50f);
+            if (t < 1.25f) return lerp(t, 0.75f, 1.25f, 50f, 40f);
+            return 40f;
+        }
+        private static float melee_neck_X(float t) {
+            if (t < 0.25f) return lerp(t, 0f, 0.25f, 0f, 30f);
+            if (t < 0.5f)  return 30f;
+            if (t < 0.75f) return lerp(t, 0.5f, 0.75f, 30f, 0f);
+            return 0f;
+        }
+        private static float melee_head_X(float t) {
+            if (t < 0.25f) return lerp(t, 0f, 0.25f, 32f, -30f);
+            if (t < 0.5f)  return -30f;
+            if (t < 0.75f) return lerp(t, 0.5f, 0.75f, -30f, 55f);
+            if (t < 1.25f) return lerp(t, 0.75f, 1.25f, 55f, 32f);
+            return 32f;
+        }
+        private static float melee_flower_X(float t) {
+            if (t < 0.25f) return lerp(t, 0f, 0.25f, 0f, -40f);
+            if (t < 0.5f)  return -40f;
+            if (t < 0.75f) return lerp(t, 0.5f, 0.75f, -40f, 50f);
+            if (t < 1.25f) return lerp(t, 0.75f, 1.25f, 50f, 0f);
+            return 0f;
+        }
+        private static float melee_mouth_X(float t) {
+            if (t < 0.25f) return lerp(t, 0f, 0.25f, 5f, 40f);
+            if (t < 0.5f)  return 40f;
+            if (t < 0.75f) return lerp(t, 0.5f, 0.75f, 40f, -35f);
+            if (t < 1.25f) return lerp(t, 0.75f, 1.25f, -35f, 5f);
+            return 5f;
+        }
+        private static float melee_mna_X(float t) {
+            if (t < 0.25f) return lerp(t, 0f, 0.25f, 3f, 25f);
+            if (t < 0.5f)  return 25f;
+            if (t < 0.75f) return lerp(t, 0.5f, 0.75f, 25f, 55f);
+            if (t < 1.25f) return lerp(t, 0.75f, 1.25f, 55f, 3f);
+            return 3f;
+        }
+        private static float melee_mna2_X(float t) {
+            if (t < 0.25f) return lerp(t, 0f, 0.25f, 3f, 15f);
+            if (t < 0.5f)  return 15f;
+            if (t < 0.75f) return lerp(t, 0.5f, 0.75f, 15f, 30f);
+            if (t < 1.25f) return lerp(t, 0.75f, 1.25f, 30f, 3f);
+            return 3f;
         }
 
         private static float lerp(float t, float t0, float t1, float v0, float v1) {

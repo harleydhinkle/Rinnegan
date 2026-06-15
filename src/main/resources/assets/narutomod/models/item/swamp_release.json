@@ -1,6 +1,6 @@
 {
   "parent": "narutomod:custom/storm_release",
   "textures": {
-    "1": "narutomod:blocks/blood_release"
+    "1": "narutomod:blocks/swamp_release"
   }
 }

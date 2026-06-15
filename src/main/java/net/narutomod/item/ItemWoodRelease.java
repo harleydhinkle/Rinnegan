@@ -52,6 +52,7 @@ import net.narutomod.entity.EntityWoodGolem;
 import net.narutomod.entity.EntityWoodArm;
 import net.narutomod.entity.EntityWoodCutting;
 import net.narutomod.entity.EntityWoodForest;
+import net.narutomod.entity.EntityVineTrap;
 import net.narutomod.procedure.ProcedureUtils;
 import net.narutomod.procedure.ProcedureSync;
 import net.narutomod.creativetab.TabModTab;
